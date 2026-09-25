@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Are You Desi Enough? · Bollywood Quiz</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   Design tokens (from the party invite)
+   ============================================================ */
+/* Baloo 2 ExtraBold, bundled locally as two subsets (from Google Fonts) */
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("assets/fonts/display-latin.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("assets/fonts/display-devanagari.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC,
+                 U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
+:root {
+  --maroon:     #3D0F14;
+  --pink:       #ED5C88;
+  --pink-dark:  #D6336C;
+  --cream:      #FAF0E0;
+  --saffron:    #F5A623;
+  --saffron-dk: #E08A12;
+  --green:      #1B7A52;
+  --gold:       #F7C948;
+
+  --ground:     #F8E4C4;   /* cream warmed with saffron, under the sunburst */
+  --display: "QuizDisplay", "Baloo 2", "Segoe UI Black", "Arial Rounded MT Bold", "Nirmala UI", sans-serif;
+  --sans: -apple-system, "Segoe UI", Roboto, "Nirmala UI", sans-serif;
+  --emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+
+  --gutter: min(0.9vw, 1.4vh);
+  --lift-ms: 400ms;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  background: var(--ground);
+  color: var(--maroon);
+  font-family: var(--sans);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Full-bleed sunburst from top centre, kept faint so it never fights content */
+.sunburst {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background: repeating-conic-gradient(from 0deg at 50% 0%,
+    var(--saffron-dk) 0deg 6deg,
+    var(--saffron) 6deg 12deg);
+}
+
+/* Cream panel with the invite's double maroon frame */
+.frame {
+  position: relative;
+  background: var(--cream);
+  border: 8px solid var(--maroon);
+  border-radius: 20px;
+}
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 2.5px solid var(--maroon);
+  border-radius: 11px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.display { font-family: var(--display); font-weight: 800; }
+
+/* Cream numerals need an outline to hold contrast on pink */
+.outlined {
+  color: var(--cream);
+  text-shadow:
+     0.045em  0.045em 0 var(--maroon),
+    -0.045em  0.045em 0 var(--maroon),
+     0.045em -0.045em 0 var(--maroon),
+    -0.045em -0.045em 0 var(--maroon),
+     0       0.1em    0 var(--maroon);
+}
+
+/* ============================================================
+   Board view
+   ============================================================ */
+#board-view {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+  padding: 1.4vh 2vw 2vh;
+}
+
+.board-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2vw;
+}
+
+.board-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.7vw;
+  font-size: min(2vw, 3.4vh);
+}
+.board-name { margin-right: 0.6vw; white-space: nowrap; }
+.board-pill {
+  width: 1.9em;
+  height: 1.9em;
+  border-radius: 50%;
+  border: 3px solid var(--maroon);
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  line-height: 1;
+}
+.board-pill.active { background: var(--pink); }
+
+.title-block { text-align: center; line-height: 1; }
+.title-block .kicker {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--maroon);
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  padding: 0.15em 0.9em;
+  font-size: min(1.3vw, 2.2vh);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.5vh;
+}
+.title-block h1 {
+  margin: 0;
+  font-size: min(4.2vw, 6.6vh);
+  color: var(--maroon);
+}
+
+.board-status {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+.readout {
+  background: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  padding: 0.2em 0.8em;
+  font-size: min(2vw, 3.4vh);
+  white-space: nowrap;
+}
+.key-hint {
+  font-size: min(1.1vw, 1.9vh);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.key-hint kbd { font-family: var(--sans); font-weight: 700; }
+
+#boards { flex: 1; min-height: 0; }
+
+.board {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  padding: 16px;
+}
+
+.col-headers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.col-h {
+  margin: 0 calc(var(--gutter) / 2);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--green);
+  color: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 10px;
+  padding: 0.2em 0.5em;
+  font-size: min(1.5vw, 2.7vh);
+  line-height: 1.1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* The grid sits on the hidden photo. The photo is fixed to the grid area. */
+.grid-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  container-type: size;
+}
+.hidden-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.grid-wrap.photo-missing {
+  background: repeating-linear-gradient(45deg, #4a1a20 0 24px, var(--maroon) 24px 48px);
+}
+.grid-wrap.photo-missing .hidden-photo { display: none; }
+.grid-wrap.photo-missing::before {
+  content: "Hidden photo missing: " attr(data-src);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  font-size: 4cqh;
+  font-weight: 700;
+}
+
+.tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+/* A cell is a cream backing (covers the gutters) holding a pink tile.
+   Lifting fades the WHOLE cell to opacity 0, so the hole is a clean,
+   fully transparent rectangle that joins its lifted neighbours. */
+.cell {
+  position: relative;
+  padding: calc(var(--gutter) / 2);
+  background: var(--cream);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity var(--lift-ms) ease var(--delay, 0ms);
+}
+.tile {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  transition:
+    transform var(--lift-ms) cubic-bezier(.2, .7, .3, 1) var(--delay, 0ms),
+    background-color 120ms ease;
+}
+.tile .num {
+  font-size: min(13cqh, 8.5cqw);
+  line-height: 1;
+}
+.cell:hover .tile { background: var(--pink-dark); }
+
+.cell.is-cursor { z-index: 2; }
+.cell.is-cursor .tile {
+  background: var(--pink-dark);
+  box-shadow: 0 0 0 4px var(--gold), 0 0 28px 10px rgba(247, 201, 72, 0.85);
+  transform: scale(1.03);
+}
+
+.cell.lifted { opacity: 0; }
+.cell.lifted .tile { transform: scale(1.12); }
+
+/* Cursor over an already-lifted hole: outline only, never a fill */
+.cursor-ring {
+  z-index: 3;
+  margin: calc(var(--gutter) / 2);
+  border: 5px solid var(--gold);
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px var(--maroon), inset 0 0 0 2px var(--maroon);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.cursor-ring.show { opacity: 1; }
+
+/* ============================================================
+   Question / answer view
+   ============================================================ */
+#question-view {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  padding: 2.4vh 2.4vw;
+  background: var(--ground);
+  --fit: 1;
+}
+#question-view > .sunburst { z-index: 0; }
+
+.q-frame {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding: 3vh 3.4vw;
+}
+
+.q-head {
+  display: flex;
+  align-items: center;
+  gap: 1.2vw;
+}
+.q-cat {
+  background: var(--green);
+  color: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  padding: 0.2em 0.8em;
+  font-size: min(2.4vw, 4.2vh);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+.q-pts {
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  padding: 0.05em 0.5em;
+  font-size: min(3vw, 5.2vh);
+  line-height: 1.15;
+}
+.q-progress {
+  margin-left: auto;
+  display: flex;
+  gap: 0.6vw;
+  align-items: center;
+}
+.q-progress i {
+  width: min(1.6vw, 2.6vh);
+  height: min(1.6vw, 2.6vh);
+  border-radius: 50%;
+  border: 3px solid var(--maroon);
+  background: transparent;
+}
+.q-progress i.on { background: var(--pink); }
+.q-close {
+  margin-left: auto;
+  width: min(3.2vw, 5.4vh);
+  height: min(3.2vw, 5.4vh);
+  border-radius: 50%;
+  border: 3px solid var(--maroon);
+  display: grid;
+  place-items: center;
+  font-size: min(1.8vw, 3vh);
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.45;
+  flex: none;
+}
+.q-progress + .q-close { margin-left: 1vw; }
+.q-close:hover { opacity: 1; }
+
+.q-instruction {
+  font-size: min(2.3vw, 3.9vh);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.q-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+}
+
+/* text */
+.q-text {
+  text-align: center;
+  text-wrap: balance;
+  line-height: 1.15;
+  font-size: calc(var(--fit) * min(7vw, 12vh));
+}
+.q-text.prose {
+  font-family: var(--sans);
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 28ch;
+  font-size: calc(var(--fit) * min(4.4vw, 7.6vh));
+}
+
+/* emoji */
+.q-emoji {
+  font-family: var(--emoji);
+  font-size: calc(var(--fit) * min(10vw, 18vh));
+  letter-spacing: 0.2em;
+  margin-right: -0.2em;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* longText: capped line length, tall rather than wide */
+.q-long {
+  max-width: var(--measure, 60ch);
+  text-align: left;
+  font-size: max(var(--floor, 28px), calc(var(--fit) * min(3.2vw, 5.4vh)));
+  line-height: 1.5;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* list */
+.q-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--fit) * 2.4vh);
+  min-width: min(56vw, 100%);
+}
+.q-list li {
+  text-align: center;
+  background: #FFF8EC;
+  border: 4px solid var(--maroon);
+  border-radius: 18px;
+  box-shadow: 0 0.08em 0 var(--maroon);
+  padding: 0.15em 1em;
+  line-height: 1.2;
+  font-size: calc(var(--fit) * min(5vw, 8.6vh));
+}
+
+/* clueChain: accumulate, anchored at top so earlier clues never jump */
+.q-body.type-clueChain { justify-content: flex-start; }
+.q-clues {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: var(--measure, 60ch);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--fit) * 2.6vh);
+  font-size: max(var(--floor, 28px), calc(var(--fit) * min(2.9vw, 4.9vh)));
+}
+.q-clues li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8em;
+  align-items: start;
+  line-height: 1.45;
+  font-weight: 500;
+}
+.q-clues .n {
+  min-width: 1.7em;
+  text-align: center;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 0.35em;
+  line-height: 1.35;
+}
+.q-clues li.latest { animation: rise 380ms ease both; }
+
+/* audio */
+.audio-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--fit) * 3.4vh);
+}
+.play-btn {
+  width: calc(var(--fit) * min(24vh, 15vw));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--maroon);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1vh var(--pink), 0 0 0 1.6vh var(--maroon);
+  cursor: pointer;
+}
+.play-btn svg { width: 42%; margin-left: 9%; fill: var(--cream); }
+.eq {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--fit) * 1.1vh);
+  height: calc(var(--fit) * 11vh);
+}
+.eq i {
+  width: 2.4vh;
+  height: 18%;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 1.2vh;
+}
+.audio-state {
+  font-size: calc(var(--fit) * min(2.8vw, 4.6vh));
+  text-align: center;
+}
+.audio-state .playing-label { display: none; }
+.audio-hint {
+  font-size: max(14px, calc(var(--fit) * min(1.7vw, 2.9vh)));
+  font-weight: 600;
+  opacity: 0.75;
+}
+.audio-playing .eq i { animation: eq 0.46s ease-in-out infinite alternate; }
+.audio-playing .eq i:nth-child(2n) { animation-duration: 0.37s; }
+.audio-playing .eq i:nth-child(3n) { animation-duration: 0.55s; }
+.audio-playing .play-btn { animation: pulse 0.9s ease-in-out infinite; }
+.audio-playing .audio-state .playing-label { display: inline; }
+.audio-playing .audio-state .idle-label { display: none; }
+.audio-error .eq { display: none; }
+.audio-missing {
+  font-family: var(--sans);
+  font-size: calc(var(--fit) * min(2.2vw, 3.6vh));
+  padding: 1.6vh 2vw;
+}
+
+/* answer block */
+.q-answer {
+  display: none;
+  background: var(--maroon);
+  color: var(--cream);
+  border-radius: 16px;
+  padding: 1.8vh 2.6vw 2.2vh;
+  box-shadow: inset 0 0 0 3px var(--gold);
+}
+.show-answer .q-answer {
+  display: block;
+  animation: rise 300ms ease both;
+}
+.q-answer-label {
+  color: var(--gold);
+  font-size: min(1.5vw, 2.6vh);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.q-answer-text {
+  font-size: min(4.6vw, 7.8vh);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.q-answer-text.long { font-size: min(3.2vw, 5.4vh); }
+.q-answer-note {
+  margin-top: 0.5em;
+  font-size: min(2.1vw, 3.6vh);
+  font-weight: 500;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+/* image: full-bleed on a dark ground, nothing else */
+#question-view.image-mode { background: #1F080B; }
+#question-view.image-mode > .sunburst { display: none; }
+.q-image {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2.4vh;
+  position: relative;
+}
+.q-img-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+}
+.q-img-wrap img,
+.q-img-wrap .missing {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.q-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Optional answerImage: appears beside the question image on reveal */
+.q-img-wrap .q-answer-img { display: none; }
+.show-answer .q-img-wrap .q-answer-img { display: block; animation: rise 300ms ease both; }
+.q-image .q-answer { align-self: center; max-width: 90%; text-align: center; }
+
+/* The only mouse control that moves a question forward */
+.q-actions {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+}
+.q-image .q-actions { justify-content: center; }
+.q-action {
+  font-size: min(2.1vw, 3.6vh);
+  line-height: 1.2;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 14px;
+  padding: 0.3em 1.1em;
+  box-shadow: 0 0.12em 0 var(--maroon);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.q-action:hover { background: var(--pink-dark); }
+.q-action:active { transform: translateY(0.08em); box-shadow: 0 0.04em 0 var(--maroon); }
+.image-mode .q-action { border-color: var(--cream); box-shadow: 0 0.12em 0 var(--cream); }
+.q-image .q-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-color: var(--cream);
+  color: var(--cream);
+  opacity: 0.25;
+  z-index: 2;
+}
+
+.missing {
+  border: 4px dashed currentColor;
+  border-radius: 16px;
+  padding: 4vh 3vw;
+  text-align: center;
+  font-size: min(2.4vw, 4vh);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.missing code { font-size: 0.8em; font-weight: 500; }
+.image-mode .missing { color: var(--cream); }
+
+/* ============================================================
+   Help overlay
+   ============================================================ */
+#help {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 8, 11, 0.72);
+}
+.help-card {
+  width: min(1200px, 92vw);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 3vh 3vw;
+}
+.help-card h2 {
+  margin: 0 0 2vh;
+  font-size: min(3vw, 5vh);
+}
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4vw;
+}
+.help-grid h3 {
+  margin: 0 0 1vh;
+  background: var(--green);
+  color: var(--cream);
+  border-radius: 8px;
+  padding: 0.2em 0.6em;
+  font-size: min(1.6vw, 2.8vh);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.help-grid dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9vh 0.9vw;
+  font-size: min(1.45vw, 2.5vh);
+  line-height: 1.3;
+}
+.help-grid dt { white-space: nowrap; }
+.help-grid dd { margin: 0; }
+kbd {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85em;
+  background: #FFF8EC;
+  border: 2px solid var(--maroon);
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  padding: 0 0.4em;
+}
+.help-foot { margin-top: 2.4vh; font-size: min(1.3vw, 2.2vh); opacity: 0.75; }
+
+/* ============================================================
+   Session: confirm dialog + toast
+   ============================================================ */
+#confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 8, 11, 0.72);
+}
+.confirm-card {
+  width: min(760px, 88vw);
+  padding: 4vh 3.4vw;
+  text-align: center;
+}
+.confirm-card h2 { margin: 0 0 1.4vh; font-size: min(3.4vw, 5.6vh); }
+.confirm-card p {
+  margin: 0 0 3vh;
+  font-size: min(1.9vw, 3.2vh);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.confirm-keys { font-size: min(1.8vw, 3vh); font-weight: 700; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 3.5vh;
+  z-index: 70;
+  transform: translate(-50%, 20px);
+  max-width: 90vw;
+  background: var(--maroon);
+  color: var(--cream);
+  box-shadow: inset 0 0 0 3px var(--gold);
+  border-radius: 999px;
+  padding: 0.6em 1.4em;
+  font-size: min(1.7vw, 2.9vh);
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+#toast kbd { color: var(--maroon); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes eq {
+  from { height: 14%; }
+  to   { height: 100%; }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+</style>
+</head>
+<body>
+
+<div class="sunburst"></div>
+
+<div id="board-view">
+  <header class="board-header">
+    <div class="board-switch display">
+      <span class="board-name" id="board-name">Board One</span>
+      <div class="board-pill outlined" data-board="1">1</div>
+      <div class="board-pill outlined" data-board="2">2</div>
+      <div class="board-pill outlined" data-board="3">3</div>
+    </div>
+    <div class="title-block">
+      <div class="kicker display" id="kicker">Bollywood Quiz</div>
+      <h1 class="display" id="title">Are You Desi Enough?</h1>
+    </div>
+    <div class="board-status">
+      <span class="key-hint"><kbd>H</kbd> keys</span>
+      <span class="readout display" id="readout">0 / 25 lifted</span>
+    </div>
+  </header>
+  <div id="boards"></div>
+</div>
+
+<div id="question-view" hidden></div>
+
+<div id="help" hidden>
+  <div class="help-card frame">
+    <h2 class="display">Host keys</h2>
+    <div class="help-grid">
+      <section>
+        <h3 class="display">Board</h3>
+        <dl>
+          <dt><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd></dt><dd>Move highlight</dd>
+          <dt><kbd>Enter</kbd> / <kbd>Space</kbd></dt><dd>Open square</dd>
+          <dt><kbd>U</kbd></dt><dd>Undo last lift</dd>
+          <dt><kbd>Ctrl</kbd>+<kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></dt><dd>Switch board (plain <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> also works)</dd>
+          <dt><kbd>Shift</kbd>+<kbd>Enter</kbd></dt><dd>Lift all remaining tiles</dd>
+          <dt><kbd>S</kbd></dt><dd>Save a backup file to Downloads</dd>
+          <dt><kbd>L</kbd></dt><dd>Load a backup file</dd>
+          <dt><kbd>Shift</kbd>+<kbd>N</kbd></dt><dd>New game (asks first)</dd>
+          <dt><kbd>H</kbd></dt><dd>Toggle this help</dd>
+        </dl>
+      </section>
+      <section>
+        <h3 class="display">Question</h3>
+        <dl>
+          <dt><kbd>Space</kbd> / <kbd>Enter</kbd> / <kbd>→</kbd></dt><dd>Next clue, then answer</dd>
+          <dt><kbd>←</kbd></dt><dd>Step back one clue</dd>
+          <dt><kbd>R</kbd></dt><dd>Replay the audio clip from the start</dd>
+          <dt><kbd>Backspace</kbd> / <kbd>Esc</kbd></dt><dd>Back to board, <b>not</b> marked</dd>
+        </dl>
+      </section>
+      <section>
+        <h3 class="display">Answer</h3>
+        <dl>
+          <dt><kbd>Space</kbd> / <kbd>Enter</kbd></dt><dd>Back to board and lift the tile</dd>
+          <dt><kbd>←</kbd></dt><dd>Hide the answer again</dd>
+          <dt><kbd>Backspace</kbd> / <kbd>Esc</kbd></dt><dd>Back to board, <b>not</b> marked</dd>
+        </dl>
+      </section>
+    </div>
+    <p class="help-foot">Mouse works too: click a square to open it, use the <b>Reveal answer</b> / <b>Back to board</b> button to move on, ✕ to back out. Progress autosaves in this browser after every change, so closing or refreshing the page picks up where you left off.</p>
+  </div>
+</div>
+
+<div id="confirm" hidden>
+  <div class="confirm-card frame">
+    <h2 class="display">Start a new game?</h2>
+    <p>This puts every tile back on all three boards and reshuffles the lists. Save a backup first with <kbd>S</kbd> if you might want this session back.</p>
+    <div class="confirm-keys"><kbd>Enter</kbd> start new game &nbsp;·&nbsp; <kbd>Esc</kbd> cancel</div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<input type="file" id="load-file" accept=".json,application/json" hidden>
+
+<script>
+// ===== QUIZ DATA START — paste the contents of quiz-data.json here =====
+const QUIZ = {
+  "meta": {
+    "title": "Are You Desi Enough?",
+    "subtitle": "Bollywood Quiz",
+    "date": "19 September",
+    "format": "Individual play on buzzers. Scoring handled on paper, outside the app."
+  },
+  "boards": [
+    {
+      "id": 1,
+      "title": "Board One",
+      "hiddenImage": "assets/hidden/board1.jpg",
+      "hiddenImageAnswer": "Vedang Raina",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Bare Minimum",
+          "instruction": "Guess the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-10.jpg",
+              "answer": "PK"
+            },
+            {
+              "points": 20,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-20.jpg",
+              "answer": "Rab Ne Bana Di Jodi"
+            },
+            {
+              "points": 30,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-30.jpg",
+              "answer": "Amar Akbar Anthony"
+            },
+            {
+              "points": 40,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-40.jpg",
+              "answer": "Om Shanti Om"
+            },
+            {
+              "points": 50,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-50.jpg",
+              "answer": "Mera Naam Joker"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Emoji Kahani",
+          "instruction": "Guess the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "emoji",
+              "prompt": "👴🚽🚗",
+              "answer": "Piku"
+            },
+            {
+              "points": 20,
+              "promptType": "emoji",
+              "prompt": "👨👧👧🤼🥇",
+              "answer": "Dangal"
+            },
+            {
+              "points": 30,
+              "promptType": "emoji",
+              "prompt": "🎹🙈🐰🔪",
+              "answer": "Andhadhun"
+            },
+            {
+              "points": 40,
+              "promptType": "emoji",
+              "prompt": "👗👻🚪✍️",
+              "answer": "Stree"
+            },
+            {
+              "points": 50,
+              "promptType": "emoji",
+              "prompt": "🌧️🏚️🪙👹",
+              "answer": "Tumbbad"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Naam Toh Suna Hoga",
+          "instruction": "Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Sunehri",
+              "answer": "Dhoom 2"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Teja",
+              "answer": "Andaz Apna Apna"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Perpendicular",
+              "answer": "Gangs of Wasseypur"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Langda Tyagi",
+              "answer": "Omkara"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Murli Prasad Sharma",
+              "answer": "Munna Bhai M.B.B.S."
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Antakshari Ulta",
+          "instruction": "Name the song and the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-10.m4a",
+              "answer": "Kajra Re — Bunty Aur Babli (2005)"
+            },
+            {
+              "points": 20,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-20.m4a",
+              "answer": "Jai Jai Shiv Shankar — War"
+            },
+            {
+              "points": 30,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-30.m4a",
+              "answer": "Aashiqui Mein Teri — 36 China Town (2006)"
+            },
+            {
+              "points": 40,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-40.m4a",
+              "answer": "Heyy Babyy — title song (2007)"
+            },
+            {
+              "points": 50,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-50.m4a",
+              "answer": "Emotional Atyachar — Dev D (2009)"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Debut Ho Gaya",
+          "instruction": "Which actor debuted in this film? (First lead role)",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Band Baaja Baaraat",
+              "answer": "Ranveer Singh"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Masaan",
+              "answer": "Vicky Kaushal"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Deewana",
+              "answer": "Shah Rukh Khan"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Dum Laga Ke Haisha",
+              "answer": "Bhumi Pednekar"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Socha Na Tha",
+              "answer": "Abhay Deol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Board Two",
+      "hiddenImage": "assets/hidden/board2.jpg",
+      "hiddenImageAnswer": "Rani Mukerji",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Corporate Filmy",
+          "instruction": "The plot, in jargon. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "longText",
+              "prompt": "A technical specialist at a foreign aerospace agency took short personal leave to locate a former domestic caregiver, and did not return. During the extended stay he assessed the settlement's constraints and identified chronic power unavailability as the binding limitation on local productivity. The engagement concluded with the commissioning of a small run-of-river hydroelectric installation, financed and built entirely through community labour.",
+              "answer": "Swades"
+            },
+            {
+              "points": 20,
+              "promptType": "longText",
+              "prompt": "Three co-residents in sustained rent default shared a leased Mumbai property with a legacy telephone line whose number had previously belonged to a different subscriber. One misrouted inbound call carried a ransom demand concerning the abducted family member of a high-net-worth individual. Rather than escalating to law enforcement, they opened an independent parallel negotiation at an inflated figure, holding neither the hostage nor any contact with the actual perpetrators.",
+              "answer": "Hera Pheri"
+            },
+            {
+              "points": 30,
+              "promptType": "longText",
+              "prompt": "A four-member unit conducted unannounced compliance inspections at the premises of politically exposed persons and bullion traders, presenting credentials indicating central agency affiliation. The model relied on inspected parties declining to contest asset seizures, since any challenge would first require them to establish provenance. Field capacity was scaled through newspaper recruitment advertisements, with successful applicants deployed as uniformed support staff and kept unaware of the unit's actual status.",
+              "answer": "Special 26"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "Three participants, formerly close but subsequently divergent in professional trajectory, reactivated a dormant reciprocal agreement made during their academic years, under which each retained the right to nominate one mandatory activity for a jointly undertaken pre-marital retreat in the Iberian peninsula. The lead participant, a financial services professional, joined the itinerary while remaining under continuous obligation to an ongoing transaction and an unresolved engagement commitment. The nominated activities were selected by each participant specifically to expose a counterpart's known aversion. A secondary objective was pursued in parallel by one participant, involving the identification of a biological parent whose existence had been withheld from him and who was resident in the region. The engagement concluded with the dissolution of one betrothal and the withdrawal of another participant from a pre-agreed marital arrangement.",
+              "answer": "Zindagi Na Milegi Dobara"
+            },
+            {
+              "points": 50,
+              "promptType": "longText",
+              "prompt": "The engagement commenced when an overseas content producer initiated a casting process for a period reconstruction project, onboarding five local participants with no prior sector experience. Initial deliverables were disrupted by a critical incident involving a legacy aviation asset, resulting in a total loss event and one fatality among the extended stakeholder group. The subsequent root-cause analysis identified irregularities in the procurement chain, though the official statement attributed the failure to operator error. Following an unsuccessful attempt at formal grievance redressal at a public memorial site, which was terminated by force, the participants pivoted from advocacy to unilateral action against the responsible senior official. The exercise concluded with an unauthorised occupation of a state broadcast facility and no surviving members of the core team.",
+              "answer": "Rang De Basanti"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Lost in Translation",
+          "instruction": "The gist in English. Name the SONG (film is a bonus)",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "longText",
+              "prompt": "A stick of wood, and a horse made from that wood. The horse has a heavy behind, and when it runs, it runs on wheels.",
+              "answer": "Lakdi Ki Kaathi",
+              "answerNote": "Masoom (1983)"
+            },
+            {
+              "points": 20,
+              "promptType": "longText",
+              "prompt": "If I have loved, then why should I be afraid? I have loved, I have not stolen anything.",
+              "answer": "Pyar Kiya To Darna Kya",
+              "answerNote": "Mughal-E-Azam (1960)"
+            },
+            {
+              "points": 30,
+              "promptType": "longText",
+              "prompt": "Wherever I set my foot down, the festival breaks out there. Whatever this heart demands, that thing arrives at my door. There is nothing but delight, nothing but delight.",
+              "answer": "Mauja Hi Mauja",
+              "answerNote": "Jab We Met (2007)"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "O revered one, my revered one. You are the one who grants without being asked. I have come and stood at your threshold, having brought nothing with me.",
+              "answer": "Khwaja Mere Khwaja",
+              "answerNote": "Jodhaa Akbar (2008)"
+            },
+            {
+              "points": 50,
+              "promptType": "longText",
+              "prompt": "You are my glittering restless one. Girl who shines, girl who shines, you are the one who shines for me. Say that you will be mine.",
+              "answer": "Chammak Challo",
+              "answerNote": "Ra.One (2011)"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Frame Freeze",
+          "instruction": "No faces, no text. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-10.png",
+              "answer": "Chennai Express"
+            },
+            {
+              "points": 20,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-20.png",
+              "answer": "Black"
+            },
+            {
+              "points": 30,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-30.jpg",
+              "answer": "Gully Boy"
+            },
+            {
+              "points": 40,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-40.jpg",
+              "answer": "Barfi!",
+              "answerImage": "assets/b2/c3-40-answer.jpg"
+            },
+            {
+              "points": 50,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-50.webp",
+              "answer": "Kapoor and Sons"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Scrambled Sitaare",
+          "instruction": "Unscramble. Name the actor",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "ABUT",
+              "answer": "Tabu"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "HALT A BAIT",
+              "answer": "Alia Bhatt"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "A PLAIN ROOK",
+              "answer": "Anil Kapoor"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "LUNAR JAM PAR",
+              "answer": "Arjun Rampal"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "GREEN VARNISH",
+              "answer": "Ranveer Singh"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Chori Ka Maal",
+          "instruction": "Name the Hollywood film this is based on",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Laal Singh Chaddha",
+              "answer": "Forrest Gump"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Dhoom 3",
+              "answer": "The Prestige"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Kaante",
+              "answer": "Reservoir Dogs"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Bang Bang",
+              "answer": "Knight and Day"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Baazigar",
+              "answer": "A Kiss Before Dying (1991)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Board Three",
+      "hiddenImage": "assets/hidden/board3.jpg",
+      "hiddenImageAnswer": "Vijay Varma",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Joining the Dots",
+          "instruction": "What connects these?",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "list",
+              "prompt": [
+                "Singhania",
+                "Akash",
+                "Bhuvan"
+              ],
+              "answer": "Aamir Khan roles"
+            },
+            {
+              "points": 20,
+              "promptType": "list",
+              "prompt": [
+                "Ghanan Ghanan",
+                "Kun Faya Kun",
+                "Jai Ho",
+                "Chaiyya Chaiyya"
+              ],
+              "answer": "A.R. Rahman compositions"
+            },
+            {
+              "points": 30,
+              "promptType": "list",
+              "prompt": [
+                "Maqbool",
+                "Omkara",
+                "Haider"
+              ],
+              "answer": "Vishal Bhardwaj's Shakespeare adaptations"
+            },
+            {
+              "points": 40,
+              "promptType": "list",
+              "prompt": [
+                "Stree",
+                "Queen",
+                "Kai Po Che"
+              ],
+              "answer": "Rajkummar Rao"
+            },
+            {
+              "points": 50,
+              "promptType": "list",
+              "prompt": [
+                "Dev D",
+                "Gangs of Wasseypur",
+                "Black Friday"
+              ],
+              "answer": "Anurag Kashyap directed all three"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Jodi No. 1",
+          "instruction": "These two shared the screen exactly once. Which film?",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Vicky Kaushal + Yami Gautam",
+              "answer": "Uri: The Surgical Strike"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Farhan Akhtar + Vidya Balan",
+              "answer": "Shaadi Ke Side Effects"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Irrfan Khan + Nimrat Kaur",
+              "answer": "The Lunchbox"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Shahid Kapoor + Kangana Ranaut",
+              "answer": "Rangoon"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Amitabh Bachchan + Ayushmann Khurrana",
+              "answer": "Gulabo Sitabo"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Dialogue Flat",
+          "instruction": "Read completely deadpan. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "I am not afraid of a slap, sir. I am afraid of love.",
+              "answer": "Dabangg"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "I have my mother.",
+              "answer": "Deewaar"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "I take out eyes and play marbles with them.",
+              "answer": "Andaz Apna Apna"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "In the Solomon Islands, in the south Pacific, when the tribals need to clear a part of the forest for farming, they don't cut down the trees. They simply gather around it and hurl abuses at it. They curse it. And slowly, after a few days, the tree begins to wither. It dies on its own.",
+              "answer": "Taare Zameen Par"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Life should not be long, it should be large, Babumoshai.",
+              "answer": "Anand"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Box Office Bomb",
+          "instruction": "Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "clueChain",
+              "prompt": [
+                "The lead role required full-body VFX to alter the actor's height."
+              ],
+              "answer": "Zero"
+            },
+            {
+              "points": 20,
+              "promptType": "clueChain",
+              "prompt": [
+                "The title is lifted from a 19th-century English novel about a murderous cult, though almost nothing of that book survives in the film.",
+                "It was the first time its two male leads had ever shared the screen, which was most of the marketing.",
+                "Picture Aamir Khan in kohl and a feathered hat, Amitabh Bachchan swinging a sword on the deck of a ship, and a very large amount of ocean."
+              ],
+              "answer": "Thugs of Hindostan"
+            },
+            {
+              "points": 30,
+              "promptType": "clueChain",
+              "prompt": [
+                "The hero and the villain are named for the two halves of a single figure from the Ramayana, split so that one carries the good and the other the evil.",
+                "The star produced it himself, released it in 3D, and tied it to a merchandising push that included a tie-in video game and a promotional appearance on a cricket broadcast.",
+                "Akon sang on the soundtrack, Kareena Kapoor danced to it, and Rajinikanth appeared for one scene as a character from another film entirely."
+              ],
+              "answer": "Ra.One"
+            },
+            {
+              "points": 40,
+              "promptType": "clueChain",
+              "prompt": [
+                "It was shot simultaneously in three languages and built around an invented city, with a substantial portion of the action filmed in Abu Dhabi under a government film incentive.",
+                "The lead was coming off a two-part franchise that had made him the most recognisable face in the country, and this was the release everyone had been waiting on for two years.",
+                "The plot involves a stolen fortune, a police officer who is not what he appears, and Shraddha Kapoor."
+              ],
+              "answer": "Saaho"
+            },
+            {
+              "points": 50,
+              "promptType": "clueChain",
+              "prompt": [
+                "The project was conceived by the producer's late father more than fifteen years before it was made, with an entirely different cast attached at the time.",
+                "It is set in a fictional town in the years immediately before Partition, and it reunited two actors who had been a famous on-screen pair in the early nineties and had not worked together since.",
+                "Six leads, a bullfighting sequence, and a Dharma production that opened on Eid."
+              ],
+              "answer": "Kalank"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "साल क्या था",
+          "instruction": "Put these in release order. All three or nothing",
+          "shuffleOnLoad": true,
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "list",
+              "prompt": [
+                "Jawan",
+                "Amar Akbar Anthony",
+                "Maine Pyar Kiya"
+              ],
+              "answer": "Amar Akbar Anthony (1977) → Maine Pyar Kiya (1989) → Jawan (2023)"
+            },
+            {
+              "points": 20,
+              "promptType": "list",
+              "prompt": [
+                "Devdas",
+                "Darr",
+                "Raja Hindustani"
+              ],
+              "answer": "Darr (1993) → Raja Hindustani (1996) → Devdas (2002)"
+            },
+            {
+              "points": 30,
+              "promptType": "list",
+              "prompt": [
+                "PK",
+                "Ghajini",
+                "Talaash"
+              ],
+              "answer": "Ghajini (2008) → Talaash (2012) → PK (2014)"
+            },
+            {
+              "points": 40,
+              "promptType": "list",
+              "prompt": [
+                "Krrish",
+                "Ek Tha Tiger",
+                "Sultan"
+              ],
+              "answer": "Krrish (2006) → Ek Tha Tiger (2012) → Sultan (2016)"
+            },
+            {
+              "points": 50,
+              "promptType": "list",
+              "prompt": [
+                "Brahmastra",
+                "Kabir Singh",
+                "Tanhaji"
+              ],
+              "answer": "Kabir Singh (2019) → Tanhaji (2020) → Brahmastra (2022)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+// ===== QUIZ DATA END =====
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const COLS = 5, ROWS = 5;
+  const LIFT_STAGGER_MS = 40;
+
+  // ---------------------------------------------------------------- state
+  const state = {
+    activeBoard: 1,
+    answered: { 1: new Set(), 2: new Set(), 3: new Set() },  // ids like "c1-10"
+    view: "board",          // board | question | answer
+    current: null,          // { board, col, points, colIdx, rowIdx }
+    clueStep: 0,
+    history: [],            // [{ board, ids: [...] }]
+    cursor: { 1: { col: 0, row: 0 }, 2: { col: 0, row: 0 }, 3: { col: 0, row: 0 } },
+    help: false
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+  const esc = s => String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const boardById = id => QUIZ.boards.find(b => b.id === id);
+  const cellId = (column, cell) => `${column.id}-${cell.points}`;
+  const NAMES = { 1: "Board One", 2: "Board Two", 3: "Board Three" };
+
+  // ------------------------------------------------ one-time data prep
+  // shuffleOnLoad: shuffle once, and never leave the items in release order
+  // (or reverse release order). Release order is read from the answer string.
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  // savedOrders: { "3:c5-10": [...] } from a restored session. A saved order
+  // is reused only if it is still a permutation of the current prompt.
+  function assignShuffles(savedOrders = {}) {
+    const same = (x, y) => x.length === y.length && x.every((v, i) => v === y[i]);
+    QUIZ.boards.forEach(board => board.columns.forEach(column => column.cells.forEach(cell => {
+      cell.display = cell.prompt;
+      if (!column.shuffleOnLoad || !Array.isArray(cell.prompt)) return;
+      const saved = savedOrders[`${board.id}:${cellId(column, cell)}`];
+      if (Array.isArray(saved) && same(saved.slice().sort(), cell.prompt.slice().sort())) {
+        cell.display = saved.slice();
+        return;
+      }
+      const chrono = cell.prompt.slice().sort((a, b) => cell.answer.indexOf(a) - cell.answer.indexOf(b));
+      let order = shuffle(cell.prompt);
+      for (let tries = 0; tries < 30 && (same(order, chrono) || same(order, chrono.slice().reverse())); tries++) {
+        order = shuffle(cell.prompt);
+      }
+      cell.display = order;
+    })));
+  }
+
+  // ------------------------------------------------ session persistence
+  // Autosaves to this browser's localStorage after every change, and can be
+  // exported to / imported from a JSON backup file.
+  const STORAGE_KEY = "bollywood-quiz-session-v1";
+
+  function validIds(boardId) {
+    const board = boardById(boardId);
+    return new Set(board.columns.flatMap(column => column.cells.map(cell => cellId(column, cell))));
+  }
+
+  function snapshot() {
+    const shuffles = {};
+    QUIZ.boards.forEach(board => board.columns.forEach(column => {
+      if (column.shuffleOnLoad) column.cells.forEach(cell => {
+        shuffles[`${board.id}:${cellId(column, cell)}`] = cell.display;
+      });
+    }));
+    return {
+      app: "bollywood-quiz",
+      version: 1,
+      savedAt: new Date().toISOString(),
+      activeBoard: state.activeBoard,
+      answered: Object.fromEntries(QUIZ.boards.map(b => [b.id, [...state.answered[b.id]]])),
+      history: state.history,
+      cursor: state.cursor,
+      shuffles
+    };
+  }
+
+  let storageOk = true;
+  function persist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot()));
+      storageOk = true;
+    } catch (err) {
+      if (storageOk) toast("Autosave isn't available in this browser. Use <kbd>S</kbd> to save backups.", 6000);
+      storageOk = false;
+    }
+  }
+
+  // Returns a cleaned session, or null if the data isn't a usable session.
+  function parseSession(raw) {
+    if (!raw || raw.app !== "bollywood-quiz" || raw.version !== 1) return null;
+    const ids = Object.fromEntries(QUIZ.boards.map(b => [b.id, validIds(b.id)]));
+    const answered = {};
+    QUIZ.boards.forEach(b => {
+      const list = raw.answered && Array.isArray(raw.answered[b.id]) ? raw.answered[b.id] : [];
+      answered[b.id] = new Set(list.filter(id => ids[b.id].has(id)));
+    });
+    const history = (Array.isArray(raw.history) ? raw.history : [])
+      .filter(h => h && ids[h.board] && Array.isArray(h.ids))
+      .map(h => ({ board: h.board, ids: h.ids.filter(id => ids[h.board].has(id)) }))
+      .filter(h => h.ids.length);
+    const cursor = {};
+    QUIZ.boards.forEach(b => {
+      const c = raw.cursor && raw.cursor[b.id];
+      cursor[b.id] = {
+        col: clamp(Number.isInteger(c && c.col) ? c.col : 0, 0, COLS - 1),
+        row: clamp(Number.isInteger(c && c.row) ? c.row : 0, 0, ROWS - 1)
+      };
+    });
+    return {
+      activeBoard: boardById(raw.activeBoard) ? raw.activeBoard : 1,
+      answered, history, cursor,
+      shuffles: raw.shuffles && typeof raw.shuffles === "object" ? raw.shuffles : {},
+      savedAt: raw.savedAt
+    };
+  }
+
+  function applySession(session) {
+    state.activeBoard = session.activeBoard;
+    state.answered = session.answered;
+    state.history = session.history;
+    state.cursor = session.cursor;
+    assignShuffles(session.shuffles);
+  }
+
+  function loadStoredSession() {
+    try {
+      const text = localStorage.getItem(STORAGE_KEY);
+      return text ? parseSession(JSON.parse(text)) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  const liftedTotal = () => QUIZ.boards.reduce((n, b) => n + state.answered[b.id].size, 0);
+
+  function saveBackup() {
+    const data = snapshot();
+    const stamp = data.savedAt.slice(0, 16).replace("T", "_").replace(":", "");
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `quiz-session_${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    toast(`Backup saved to Downloads: ${esc(a.download)}`);
+  }
+
+  const fileInput = $("#load-file");
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    fileInput.value = "";
+    if (!file) return;
+    file.text().then(text => {
+      const session = parseSession(JSON.parse(text));
+      if (!session) throw new Error("not a quiz session");
+      applySession(session);
+      persist();
+      renderBoard();
+      toast(`Loaded ${esc(file.name)}: ${liftedTotal()} squares lifted`);
+    }).catch(() => toast(`Couldn't load ${esc(file.name)}. It isn't a quiz session backup.`, 5000));
+  });
+
+  function startNewGame() {
+    state.activeBoard = 1;
+    state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
+    state.history = [];
+    state.cursor = { 1: { col: 0, row: 0 }, 2: { col: 0, row: 0 }, 3: { col: 0, row: 0 } };
+    assignShuffles();
+    persist();
+    renderBoard();
+    toast("New game. All boards reset.");
+  }
+
+  let toastTimer = null;
+  function toast(html, ms = 3500) {
+    const el = $("#toast");
+    el.innerHTML = html;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), ms);
+  }
+
+  // ------------------------------------------------------- build boards
+  const boardEls = {};   // id -> { root, cells: [[el]] by row/col, ring }
+
+  function buildBoards() {
+    const host = $("#boards");
+    QUIZ.boards.forEach(board => {
+      const root = document.createElement("section");
+      root.className = "board frame";
+      root.dataset.board = board.id;
+
+      const headers = document.createElement("div");
+      headers.className = "col-headers";
+      board.columns.forEach(column => {
+        const h = document.createElement("div");
+        h.className = "col-h display";
+        h.textContent = column.title;
+        headers.appendChild(h);
+      });
+
+      const wrap = document.createElement("div");
+      wrap.className = "grid-wrap";
+      wrap.dataset.src = board.hiddenImage;
+      const img = document.createElement("img");
+      img.className = "hidden-photo";
+      img.alt = "";
+      img.draggable = false;
+      img.addEventListener("error", () => wrap.classList.add("photo-missing"));
+      img.src = board.hiddenImage;
+
+      const tiles = document.createElement("div");
+      tiles.className = "tiles";
+      const cells = [];
+      for (let row = 0; row < ROWS; row++) {
+        cells[row] = [];
+        for (let col = 0; col < COLS; col++) {
+          const data = board.columns[col].cells[row];
+          const el = document.createElement("div");
+          el.className = "cell";
+          el.style.gridRow = row + 1;
+          el.style.gridColumn = col + 1;
+          el.dataset.id = cellId(board.columns[col], data);
+          el.innerHTML = `<div class="tile"><span class="num display outlined">${data.points}</span></div>`;
+          el.addEventListener("click", () => {
+            if (state.view !== "board" || state.help) return;
+            state.cursor[board.id] = { col, row };
+            openQuestion(col, row);
+          });
+          tiles.appendChild(el);
+          cells[row][col] = el;
+        }
+      }
+      const ring = document.createElement("div");
+      ring.className = "cursor-ring";
+      tiles.appendChild(ring);
+
+      wrap.append(img, tiles);
+      root.append(headers, wrap);
+      host.appendChild(root);
+      boardEls[board.id] = { root, cells, ring };
+    });
+  }
+
+  // ------------------------------------------------------- render: board
+  // opts.delays: Map(id -> ms) for staggered lifts
+  // opts.ringDelay: ms before the cursor ring appears (after a lift)
+  function renderBoard(opts = {}) {
+    const delays = opts.delays || new Map();
+    QUIZ.boards.forEach(board => {
+      const { root, cells, ring } = boardEls[board.id];
+      root.hidden = board.id !== state.activeBoard;
+      const answered = state.answered[board.id];
+      const cur = state.cursor[board.id];
+
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const el = cells[row][col];
+          const lifted = answered.has(el.dataset.id) && `${board.id}:${el.dataset.id}` !== opts.hold;
+          if (el.classList.contains("lifted") !== lifted) {
+            el.style.setProperty("--delay", (delays.get(el.dataset.id) || 0) + "ms");
+            el.classList.toggle("lifted", lifted);
+          }
+          el.classList.toggle("is-cursor", row === cur.row && col === cur.col);
+        }
+      }
+
+      const onHole = cells[cur.row][cur.col].classList.contains("lifted");
+      ring.style.gridRow = cur.row + 1;
+      ring.style.gridColumn = cur.col + 1;
+      ring.style.transitionDelay = onHole && opts.ringDelay ? opts.ringDelay + "ms" : "0ms";
+      ring.classList.toggle("show", onHole);
+    });
+
+    $("#board-name").textContent = NAMES[state.activeBoard] || boardById(state.activeBoard).title;
+    document.querySelectorAll(".board-pill").forEach(p =>
+      p.classList.toggle("active", +p.dataset.board === state.activeBoard));
+    $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
+  }
+
+  // ---------------------------------------------------- question view
+  const qv = $("#question-view");
+
+  function currentCell() {
+    const c = state.current;
+    const column = boardById(c.board).columns[c.colIdx];
+    return { column, cell: column.cells[c.rowIdx] };
+  }
+
+  const PLAY_SVG = '<svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>';
+
+  function answerHTML(cell) {
+    const long = String(cell.answer).length > 34 ? " long" : "";
+    return `<div class="q-answer">
+      <div class="q-answer-label display">Answer</div>
+      <div class="q-answer-text display${long}">${esc(cell.answer)}</div>
+      ${cell.answerNote ? `<div class="q-answer-note">${esc(cell.answerNote)}</div>` : ""}
+    </div>`;
+  }
+
+  function bodyHTML(cell) {
+    const p = cell.display;
+    switch (cell.promptType) {
+      case "emoji":
+        return `<div class="q-emoji">${esc(p)}</div>`;
+      case "text": {
+        const short = String(p).length <= 28 && !/[.,?!]/.test(p);
+        return short
+          ? `<div class="q-text display">${esc(p)}</div>`
+          : `<div class="q-text prose">${esc(p)}</div>`;
+      }
+      case "longText":
+        return `<div class="q-long">${esc(p)}</div>`;
+      case "list":
+        return `<ul class="q-list">${p.map(item => `<li class="display">${esc(item)}</li>`).join("")}</ul>`;
+      case "clueChain":
+        return `<ol class="q-clues">${p.map((clue, i) =>
+          `<li data-i="${i}"><span class="n display outlined">${i + 1}</span><span>${esc(clue)}</span></li>`).join("")}</ol>`;
+      case "audio":
+        return `<div class="audio-ui">
+          <div class="play-btn" title="Replay from the start (R)">${PLAY_SVG}</div>
+          <div class="eq">${"<i></i>".repeat(9)}</div>
+          <div class="audio-state display">
+            <span class="playing-label">♪ Playing…</span>
+            <span class="idle-label">Listen</span>
+          </div>
+          <div class="audio-hint"><kbd>R</kbd> replay from the start</div>
+        </div>`;
+      default:
+        return `<div class="q-text prose">${esc(p)}</div>`;
+    }
+  }
+
+  const ACTIONS_HTML = '<div class="q-actions"><div class="q-action display outlined" role="button"></div></div>';
+
+  // Label follows the step: Next clue → Reveal answer → Back to board
+  function actionLabel(cell) {
+    if (state.view === "answer") return "Back to board";
+    if (cell.promptType === "clueChain" && state.clueStep < cell.prompt.length - 1) return "Next clue";
+    return "Reveal answer";
+  }
+
+  function buildQuestion() {
+    const { column, cell } = currentCell();
+    qv.className = "";
+    qv.style.setProperty("--fit", 1);
+
+    if (cell.promptType === "image") {
+      qv.classList.add("image-mode");
+      qv.innerHTML = `<div class="q-image">
+          <div class="q-close" title="Back to board (Backspace)">✕</div>
+          <div class="q-img-wrap">
+            <img class="q-question-img" alt="" draggable="false">
+            ${cell.answerImage ? '<img class="q-answer-img" alt="" draggable="false">' : ""}
+          </div>
+          ${answerHTML(cell)}
+          ${ACTIONS_HTML}
+        </div>`;
+      const load = (img, src) => {
+        img.addEventListener("error", () => {
+          const box = document.createElement("div");
+          box.className = "missing" + (img.classList.contains("q-answer-img") ? " q-answer-img" : "");
+          box.innerHTML = `Image not found<br><code>${esc(src)}</code>`;
+          img.replaceWith(box);
+        });
+        img.src = src;
+      };
+      load($(".q-question-img", qv), cell.prompt);
+      if (cell.answerImage) load($(".q-answer-img", qv), cell.answerImage);
+      return;
+    }
+
+    const steps = cell.promptType === "clueChain" && cell.prompt.length > 1
+      ? `<div class="q-progress">${cell.prompt.map(() => "<i></i>").join("")}</div>` : "";
+
+    qv.innerHTML = `<div class="sunburst"></div>
+      <div class="q-frame frame">
+        <header class="q-head">
+          <div class="q-cat display">${esc(column.title)}</div>
+          <div class="q-pts display outlined">${cell.points}</div>
+          ${steps}
+          <div class="q-close" title="Back to board (Backspace)">✕</div>
+        </header>
+        ${column.instruction ? `<div class="q-instruction">${esc(column.instruction)}</div>` : ""}
+        <div class="q-body type-${cell.promptType}">${bodyHTML(cell)}</div>
+        ${answerHTML(cell)}
+        ${ACTIONS_HTML}
+      </div>`;
+  }
+
+  function renderQuestion(opts = {}) {
+    if (state.view === "board") {
+      qv.hidden = true;
+      return;
+    }
+    qv.hidden = false;
+    const { cell } = currentCell();
+    qv.classList.toggle("show-answer", state.view === "answer");
+    const action = $(".q-action", qv);
+    if (action) action.textContent = actionLabel(cell);
+
+    if (cell.promptType === "clueChain") {
+      qv.querySelectorAll(".q-clues li").forEach(li => {
+        const i = +li.dataset.i;
+        li.hidden = i > state.clueStep;
+        li.classList.toggle("latest", opts.newClue === true && i === state.clueStep);
+      });
+      qv.querySelectorAll(".q-progress i").forEach((dot, i) =>
+        dot.classList.toggle("on", i <= state.clueStep));
+    }
+    fitQuestion();
+  }
+
+  // Shrink type (via --fit) only when content would overflow the frame.
+  // Paragraphs: prefer 60ch at >= 28px; widen the measure before going
+  // below 28px, and only drop to 18px as a last resort on a small screen.
+  function fitQuestion() {
+    const body = $(".q-body", qv);
+    if (qv.hidden || !body) return;
+    const overflowing = () =>
+      body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1;
+    const tryFit = (measure, floor) => {
+      qv.style.setProperty("--measure", measure + "ch");
+      qv.style.setProperty("--floor", floor + "px");
+      let fit = 1;
+      qv.style.setProperty("--fit", fit);
+      while (fit > 0.3 && overflowing()) {
+        fit -= 0.03;
+        qv.style.setProperty("--fit", fit.toFixed(2));
+      }
+      return !overflowing();
+    };
+    tryFit(60, 28) || tryFit(72, 28) || tryFit(84, 28) || tryFit(84, 18) || tryFit(90, 15);
+  }
+
+  // ------------------------------------------------------------- audio
+  const audio = new Audio();
+  audio.preload = "auto";
+  let audioSrc = "";
+
+  function setPlaying(on) {
+    qv.classList.toggle("audio-playing", on);
+  }
+
+  function stopAudio() {
+    audio.pause();
+    setPlaying(false);
+  }
+
+  function showAudioError(src) {
+    qv.classList.add("audio-error");
+    const ui = $(".audio-state", qv);
+    if (ui) ui.innerHTML = `<div class="missing audio-missing">Audio not found<br><code>${esc(src)}</code></div>`;
+    fitQuestion();
+  }
+
+  // Chrome refused to start playback without a key press or click.
+  function showAudioBlocked() {
+    const ui = $(".audio-state", qv);
+    if (ui) ui.innerHTML = '<span class="idle-label">Press <kbd>R</kbd> to play</span>';
+  }
+
+  // Plays the whole clip; it stops by itself at the end.
+  function playClip() {
+    if (!state.current) return;
+    const { cell } = currentCell();
+    if (cell.promptType !== "audio") return;
+    stopAudio();
+    if (audioSrc !== cell.prompt) {
+      audioSrc = cell.prompt;
+      audio.src = cell.prompt;
+    }
+    audio.currentTime = 0;
+    audio.play().then(() => {
+      setPlaying(true);
+    }).catch(err => {
+      if (err && err.name === "AbortError") return;   // interrupted by another play
+      if (err && err.name === "NotAllowedError") showAudioBlocked();
+      else showAudioError(cell.prompt);
+    });
+  }
+  audio.addEventListener("ended", () => setPlaying(false));
+  audio.addEventListener("error", () => {
+    if (state.current && currentCell().cell.promptType === "audio") showAudioError(audioSrc);
+  });
+
+  // ----------------------------------------------------------- actions
+  function openQuestion(colIdx, rowIdx) {
+    const board = boardById(state.activeBoard);
+    const column = board.columns[colIdx];
+    const cell = column.cells[rowIdx];
+    state.current = { board: board.id, col: column.id, points: cell.points, colIdx, rowIdx };
+    state.clueStep = 0;
+    state.view = "question";
+    buildQuestion();
+    renderBoard();
+    renderQuestion();
+    if (cell.promptType === "audio") playClip();
+  }
+
+  function advance() {
+    if (state.view === "question") {
+      const { cell } = currentCell();
+      if (cell.promptType === "clueChain" && state.clueStep < cell.prompt.length - 1) {
+        state.clueStep++;
+        renderQuestion({ newClue: true });
+        return;
+      }
+      state.view = "answer";
+      renderQuestion();
+    } else if (state.view === "answer") {
+      closeQuestion(true);
+    }
+  }
+
+  function stepBack() {
+    if (state.view === "answer") {
+      state.view = "question";
+      renderQuestion();
+    } else if (state.view === "question" && state.clueStep > 0) {
+      state.clueStep--;
+      renderQuestion();
+    }
+  }
+
+  function closeQuestion(mark) {
+    stopAudio();
+    const cur = state.current;
+    const { column, cell } = currentCell();
+    const id = cellId(column, cell);
+    state.view = "board";
+    state.current = null;
+    state.clueStep = 0;
+    const lifting = mark && !state.answered[cur.board].has(id);
+    if (lifting) {
+      // Record and save straight away; only the animation waits.
+      state.answered[cur.board].add(id);
+      state.history.push({ board: cur.board, ids: [id] });
+    }
+    persist();
+    renderQuestion();
+    renderBoard({ hold: lifting ? `${cur.board}:${id}` : null });
+
+    if (lifting) {
+      // Flush styles with the tile still in place, so the lift animates in view.
+      void document.body.offsetHeight;
+      renderBoard({ ringDelay: 420 });
+    }
+  }
+
+  function liftAll() {
+    const board = boardById(state.activeBoard);
+    const answered = state.answered[board.id];
+    const ids = [];
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = 0; col < COLS; col++) {
+        const id = cellId(board.columns[col], board.columns[col].cells[row]);
+        if (!answered.has(id)) ids.push(id);
+      }
+    }
+    if (!ids.length) return;
+    const delays = new Map(ids.map((id, i) => [id, i * LIFT_STAGGER_MS]));
+    ids.forEach(id => answered.add(id));
+    state.history.push({ board: board.id, ids });
+    persist();
+    renderBoard({ delays, ringDelay: ids.length * LIFT_STAGGER_MS + 400 });
+  }
+
+  function undo() {
+    const entry = state.history.pop();
+    if (!entry) return;
+    state.activeBoard = entry.board;
+    entry.ids.forEach(id => state.answered[entry.board].delete(id));
+    persist();
+    renderBoard();
+  }
+
+  function switchBoard(id) {
+    if (!boardById(id) || id === state.activeBoard) return;
+    state.activeBoard = id;
+    persist();
+    renderBoard();
+  }
+
+  function moveCursor(dc, dr) {
+    const cur = state.cursor[state.activeBoard];
+    cur.col = clamp(cur.col + dc, 0, COLS - 1);
+    cur.row = clamp(cur.row + dr, 0, ROWS - 1);
+    persist();
+    renderBoard();
+  }
+
+  let confirmOpen = false;
+  function toggleConfirm(open) {
+    confirmOpen = open;
+    $("#confirm").hidden = !open;
+  }
+
+  function toggleHelp(force) {
+    state.help = typeof force === "boolean" ? force : !state.help;
+    $("#help").hidden = !state.help;
+  }
+
+  // ---------------------------------------------------------- keyboard
+  const DIGIT = { Digit1: 1, Digit2: 2, Digit3: 3, Numpad1: 1, Numpad2: 2, Numpad3: 3 };
+
+  document.addEventListener("keydown", e => {
+    if (e.altKey || e.metaKey) return;
+    const key = e.key;
+
+    if (confirmOpen) {
+      e.preventDefault();
+      if (e.repeat) return;
+      if (key === "Enter") { toggleConfirm(false); startNewGame(); }
+      else if (key === "Escape" || key === "Backspace") toggleConfirm(false);
+      return;
+    }
+
+    if (e.code === "KeyH" && !e.ctrlKey) {
+      e.preventDefault();
+      if (!e.repeat) toggleHelp();
+      return;
+    }
+    if (state.help) {
+      if (key === "Escape" || key === "Backspace" || key === "Enter" || key === " ") {
+        e.preventDefault();
+        toggleHelp(false);
+      }
+      return;
+    }
+
+    if (state.view === "board") {
+      if (DIGIT[e.code] && !e.shiftKey) {
+        e.preventDefault();
+        switchBoard(DIGIT[e.code]);
+        return;
+      }
+      if (e.ctrlKey) return;
+      switch (key) {
+        case "ArrowLeft":  e.preventDefault(); moveCursor(-1, 0); return;
+        case "ArrowRight": e.preventDefault(); moveCursor(1, 0); return;
+        case "ArrowUp":    e.preventDefault(); moveCursor(0, -1); return;
+        case "ArrowDown":  e.preventDefault(); moveCursor(0, 1); return;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          if (e.repeat) return;
+          if (key === "Enter" && e.shiftKey) liftAll();
+          else {
+            const cur = state.cursor[state.activeBoard];
+            openQuestion(cur.col, cur.row);
+          }
+          return;
+        case "Backspace":
+          e.preventDefault();
+          return;
+      }
+      if (e.repeat) return;
+      if (e.code === "KeyU") { e.preventDefault(); undo(); }
+      else if (e.code === "KeyS" && !e.shiftKey) { e.preventDefault(); saveBackup(); }
+      else if (e.code === "KeyL" && !e.shiftKey) { e.preventDefault(); fileInput.click(); }
+      else if (e.code === "KeyN" && e.shiftKey) { e.preventDefault(); toggleConfirm(true); }
+      return;
+    }
+
+    // question / answer
+    if (e.ctrlKey) return;
+    switch (key) {
+      case " ":
+      case "Enter":
+      case "ArrowRight":
+        e.preventDefault();
+        if (!e.repeat) advance();
+        return;
+      case "ArrowLeft":
+        e.preventDefault();
+        if (!e.repeat) stepBack();
+        return;
+      case "Backspace":
+      case "Escape":
+        e.preventDefault();
+        if (!e.repeat) closeQuestion(false);
+        return;
+    }
+    if (e.code === "KeyR" && !e.repeat) {
+      e.preventDefault();
+      playClip();
+    }
+  });
+
+  // ------------------------------------------------------------- mouse
+  qv.addEventListener("click", e => {
+    if (state.help) return;
+    if (e.target.closest(".q-close")) { closeQuestion(false); return; }
+    if (e.target.closest(".play-btn")) { playClip(); return; }
+    if (e.target.closest(".q-action")) advance();
+  });
+  document.querySelectorAll(".board-pill").forEach(p =>
+    p.addEventListener("click", () => { if (state.view === "board") switchBoard(+p.dataset.board); }));
+  $("#help").addEventListener("click", () => toggleHelp(false));
+  $("#confirm").addEventListener("click", () => toggleConfirm(false));
+
+  window.addEventListener("resize", fitQuestion);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitQuestion);
+
+  // -------------------------------------------------------------- init
+  if (QUIZ.meta) {
+    if (QUIZ.meta.title) $("#title").textContent = QUIZ.meta.title;
+    if (QUIZ.meta.subtitle) $("#kicker").textContent = QUIZ.meta.subtitle;
+    document.title = `${QUIZ.meta.title || "Quiz"} · ${QUIZ.meta.subtitle || ""}`;
+  }
+  const restored = loadStoredSession();
+  if (restored) applySession(restored);
+  else assignShuffles();
+
+  buildBoards();
+  renderBoard();
+  persist();
+
+  if (restored && liftedTotal() > 0) {
+    const when = restored.savedAt ? new Date(restored.savedAt)
+      .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
+    toast(`Picked up where you left off${when ? ` (saved ${when})` : ""}: ${liftedTotal()} squares lifted. <kbd>Shift</kbd>+<kbd>N</kbd> for a new game.`, 7000);
+  }
+})();
+</script>
+</body>
+</html>

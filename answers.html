@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Host Answer Sheet · Bollywood Quiz</title>
+<style>
+/* Baloo 2 ExtraBold, the same local files the quiz uses */
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("assets/fonts/display-latin.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("assets/fonts/display-devanagari.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC,
+                 U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
+:root {
+  --maroon: #3D0F14;
+  --pink:   #ED5C88;
+  --cream:  #FAF0E0;
+  --green:  #1B7A52;
+  --ground: #F8E4C4;
+  --muted:  #7A5A5E;
+  --rule:   #E6D2B5;
+  --display: "QuizDisplay", "Baloo 2", "Segoe UI Black", "Arial Rounded MT Bold", "Nirmala UI", sans-serif;
+  --sans: -apple-system, "Segoe UI", Roboto, "Nirmala UI", sans-serif;
+  --emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--maroon);
+  font: 16px/1.45 var(--sans);
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.display { font-family: var(--display); font-weight: 800; }
+
+header h1 { margin: 0; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; }
+header .kicker { margin: 0 0 4px; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--green); font-weight: 700; }
+
+.warning {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--pink);
+  color: var(--cream);
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+.toolbar a, .toolbar button {
+  font: 600 15px var(--sans);
+  color: var(--maroon);
+  background: var(--cream);
+  border: 2px solid var(--maroon);
+  border-radius: 999px;
+  padding: 6px 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.board {
+  margin-top: 32px;
+  background: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 14px;
+  padding: 20px 16px;
+}
+.board > h2 { margin: 0; font-size: 30px; }
+
+.hidden-photo {
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  border-left: 5px solid var(--green);
+  background: #fff8ec;
+}
+.hidden-photo b { color: var(--green); }
+.hidden-photo .unset { color: var(--muted); font-style: italic; }
+
+.category { margin-top: 22px; break-inside: avoid; }
+.category h3 {
+  margin: 0;
+  display: inline-block;
+  padding: 2px 12px;
+  background: var(--green);
+  color: var(--cream);
+  border-radius: 6px;
+  font-size: 18px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.category .instruction { margin: 4px 0 6px; color: var(--muted); font-size: 14px; }
+
+table { width: 100%; border-collapse: collapse; }
+td { padding: 8px 6px; vertical-align: top; border-top: 1px solid var(--rule); }
+td.pts { width: 44px; font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--pink); }
+td.q { width: 45%; color: var(--muted); font-size: 14px; }
+td.a { font-weight: 700; font-size: 17px; }
+td.a .note { display: block; font-weight: 400; font-size: 14px; color: var(--muted); }
+td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
+.emoji { font-family: var(--emoji); font-size: 22px; letter-spacing: .1em; color: var(--maroon); }
+
+@media (max-width: 560px) {
+  td.q { width: 40%; }
+  td.q img { width: 72px; height: 48px; }
+}
+
+@media print {
+  body { background: #fff; font-size: 12px; }
+  main { max-width: none; padding: 0; }
+  .toolbar, .warning { display: none; }
+  .board { border-width: 2px; padding: 12px; margin-top: 0; break-before: page; }
+  .board:first-of-type { break-before: auto; }
+  td { padding: 4px; }
+  td.a { font-size: 13px; }
+  td.q img { width: 64px; height: 42px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Host only</p>
+    <h1 class="display" id="title">Answer Sheet</h1>
+    <p class="warning">Spoilers! Keep this off the TV. Open it on your phone, or print it before guests arrive.</p>
+    <div class="toolbar">
+      <button type="button" onclick="window.print()">Print</button>
+      <a href="index.html">Back to the quiz</a>
+    </div>
+  </header>
+  <div id="sheet"></div>
+</main>
+
+<script>
+// ===== QUIZ DATA START — paste the contents of quiz-data.json here =====
+const QUIZ = {
+  "meta": {
+    "title": "Are You Desi Enough?",
+    "subtitle": "Bollywood Quiz",
+    "date": "19 September",
+    "format": "Individual play on buzzers. Scoring handled on paper, outside the app."
+  },
+  "boards": [
+    {
+      "id": 1,
+      "title": "Board One",
+      "hiddenImage": "assets/hidden/board1.jpg",
+      "hiddenImageAnswer": "Vedang Raina",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Bare Minimum",
+          "instruction": "Guess the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-10.jpg",
+              "answer": "PK"
+            },
+            {
+              "points": 20,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-20.jpg",
+              "answer": "Rab Ne Bana Di Jodi"
+            },
+            {
+              "points": 30,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-30.jpg",
+              "answer": "Amar Akbar Anthony"
+            },
+            {
+              "points": 40,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-40.jpg",
+              "answer": "Om Shanti Om"
+            },
+            {
+              "points": 50,
+              "promptType": "image",
+              "prompt": "assets/b1/c1-50.jpg",
+              "answer": "Mera Naam Joker"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Emoji Kahani",
+          "instruction": "Guess the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "emoji",
+              "prompt": "👴🚽🚗",
+              "answer": "Piku"
+            },
+            {
+              "points": 20,
+              "promptType": "emoji",
+              "prompt": "👨👧👧🤼🥇",
+              "answer": "Dangal"
+            },
+            {
+              "points": 30,
+              "promptType": "emoji",
+              "prompt": "🎹🙈🐰🔪",
+              "answer": "Andhadhun"
+            },
+            {
+              "points": 40,
+              "promptType": "emoji",
+              "prompt": "👗👻🚪✍️",
+              "answer": "Stree"
+            },
+            {
+              "points": 50,
+              "promptType": "emoji",
+              "prompt": "🌧️🏚️🪙👹",
+              "answer": "Tumbbad"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Naam Toh Suna Hoga",
+          "instruction": "Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Sunehri",
+              "answer": "Dhoom 2"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Teja",
+              "answer": "Andaz Apna Apna"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Perpendicular",
+              "answer": "Gangs of Wasseypur"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Langda Tyagi",
+              "answer": "Omkara"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Murli Prasad Sharma",
+              "answer": "Munna Bhai M.B.B.S."
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Antakshari Ulta",
+          "instruction": "Name the song and the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-10.m4a",
+              "answer": "Kajra Re — Bunty Aur Babli (2005)"
+            },
+            {
+              "points": 20,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-20.m4a",
+              "answer": "Jai Jai Shiv Shankar — War"
+            },
+            {
+              "points": 30,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-30.m4a",
+              "answer": "Aashiqui Mein Teri — 36 China Town (2006)"
+            },
+            {
+              "points": 40,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-40.m4a",
+              "answer": "Heyy Babyy — title song (2007)"
+            },
+            {
+              "points": 50,
+              "promptType": "audio",
+              "prompt": "assets/audio/b1-c4-50.m4a",
+              "answer": "Emotional Atyachar — Dev D (2009)"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Debut Ho Gaya",
+          "instruction": "Which actor debuted in this film? (First lead role)",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Band Baaja Baaraat",
+              "answer": "Ranveer Singh"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Masaan",
+              "answer": "Vicky Kaushal"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Deewana",
+              "answer": "Shah Rukh Khan"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Dum Laga Ke Haisha",
+              "answer": "Bhumi Pednekar"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Socha Na Tha",
+              "answer": "Abhay Deol"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Board Two",
+      "hiddenImage": "assets/hidden/board2.jpg",
+      "hiddenImageAnswer": "Rani Mukerji",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Corporate Filmy",
+          "instruction": "The plot, in jargon. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "longText",
+              "prompt": "A technical specialist at a foreign aerospace agency took short personal leave to locate a former domestic caregiver, and did not return. During the extended stay he assessed the settlement's constraints and identified chronic power unavailability as the binding limitation on local productivity. The engagement concluded with the commissioning of a small run-of-river hydroelectric installation, financed and built entirely through community labour.",
+              "answer": "Swades"
+            },
+            {
+              "points": 20,
+              "promptType": "longText",
+              "prompt": "Three co-residents in sustained rent default shared a leased Mumbai property with a legacy telephone line whose number had previously belonged to a different subscriber. One misrouted inbound call carried a ransom demand concerning the abducted family member of a high-net-worth individual. Rather than escalating to law enforcement, they opened an independent parallel negotiation at an inflated figure, holding neither the hostage nor any contact with the actual perpetrators.",
+              "answer": "Hera Pheri"
+            },
+            {
+              "points": 30,
+              "promptType": "longText",
+              "prompt": "A four-member unit conducted unannounced compliance inspections at the premises of politically exposed persons and bullion traders, presenting credentials indicating central agency affiliation. The model relied on inspected parties declining to contest asset seizures, since any challenge would first require them to establish provenance. Field capacity was scaled through newspaper recruitment advertisements, with successful applicants deployed as uniformed support staff and kept unaware of the unit's actual status.",
+              "answer": "Special 26"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "Three participants, formerly close but subsequently divergent in professional trajectory, reactivated a dormant reciprocal agreement made during their academic years, under which each retained the right to nominate one mandatory activity for a jointly undertaken pre-marital retreat in the Iberian peninsula. The lead participant, a financial services professional, joined the itinerary while remaining under continuous obligation to an ongoing transaction and an unresolved engagement commitment. The nominated activities were selected by each participant specifically to expose a counterpart's known aversion. A secondary objective was pursued in parallel by one participant, involving the identification of a biological parent whose existence had been withheld from him and who was resident in the region. The engagement concluded with the dissolution of one betrothal and the withdrawal of another participant from a pre-agreed marital arrangement.",
+              "answer": "Zindagi Na Milegi Dobara"
+            },
+            {
+              "points": 50,
+              "promptType": "longText",
+              "prompt": "The engagement commenced when an overseas content producer initiated a casting process for a period reconstruction project, onboarding five local participants with no prior sector experience. Initial deliverables were disrupted by a critical incident involving a legacy aviation asset, resulting in a total loss event and one fatality among the extended stakeholder group. The subsequent root-cause analysis identified irregularities in the procurement chain, though the official statement attributed the failure to operator error. Following an unsuccessful attempt at formal grievance redressal at a public memorial site, which was terminated by force, the participants pivoted from advocacy to unilateral action against the responsible senior official. The exercise concluded with an unauthorised occupation of a state broadcast facility and no surviving members of the core team.",
+              "answer": "Rang De Basanti"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Lost in Translation",
+          "instruction": "The gist in English. Name the SONG (film is a bonus)",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "longText",
+              "prompt": "A stick of wood, and a horse made from that wood. The horse has a heavy behind, and when it runs, it runs on wheels.",
+              "answer": "Lakdi Ki Kaathi",
+              "answerNote": "Masoom (1983)"
+            },
+            {
+              "points": 20,
+              "promptType": "longText",
+              "prompt": "If I have loved, then why should I be afraid? I have loved, I have not stolen anything.",
+              "answer": "Pyar Kiya To Darna Kya",
+              "answerNote": "Mughal-E-Azam (1960)"
+            },
+            {
+              "points": 30,
+              "promptType": "longText",
+              "prompt": "Wherever I set my foot down, the festival breaks out there. Whatever this heart demands, that thing arrives at my door. There is nothing but delight, nothing but delight.",
+              "answer": "Mauja Hi Mauja",
+              "answerNote": "Jab We Met (2007)"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "O revered one, my revered one. You are the one who grants without being asked. I have come and stood at your threshold, having brought nothing with me.",
+              "answer": "Khwaja Mere Khwaja",
+              "answerNote": "Jodhaa Akbar (2008)"
+            },
+            {
+              "points": 50,
+              "promptType": "longText",
+              "prompt": "You are my glittering restless one. Girl who shines, girl who shines, you are the one who shines for me. Say that you will be mine.",
+              "answer": "Chammak Challo",
+              "answerNote": "Ra.One (2011)"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Frame Freeze",
+          "instruction": "No faces, no text. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-10.png",
+              "answer": "Chennai Express"
+            },
+            {
+              "points": 20,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-20.png",
+              "answer": "Black"
+            },
+            {
+              "points": 30,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-30.jpg",
+              "answer": "Gully Boy"
+            },
+            {
+              "points": 40,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-40.jpg",
+              "answer": "Barfi!",
+              "answerImage": "assets/b2/c3-40-answer.jpg"
+            },
+            {
+              "points": 50,
+              "promptType": "image",
+              "prompt": "assets/b2/c3-50.webp",
+              "answer": "Kapoor and Sons"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Scrambled Sitaare",
+          "instruction": "Unscramble. Name the actor",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "ABUT",
+              "answer": "Tabu"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "HALT A BAIT",
+              "answer": "Alia Bhatt"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "A PLAIN ROOK",
+              "answer": "Anil Kapoor"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "LUNAR JAM PAR",
+              "answer": "Arjun Rampal"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "GREEN VARNISH",
+              "answer": "Ranveer Singh"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Chori Ka Maal",
+          "instruction": "Name the Hollywood film this is based on",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Laal Singh Chaddha",
+              "answer": "Forrest Gump"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Dhoom 3",
+              "answer": "The Prestige"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Kaante",
+              "answer": "Reservoir Dogs"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Bang Bang",
+              "answer": "Knight and Day"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Baazigar",
+              "answer": "A Kiss Before Dying (1991)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Board Three",
+      "hiddenImage": "assets/hidden/board3.jpg",
+      "hiddenImageAnswer": "Vijay Varma",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Joining the Dots",
+          "instruction": "What connects these?",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "list",
+              "prompt": [
+                "Singhania",
+                "Akash",
+                "Bhuvan"
+              ],
+              "answer": "Aamir Khan roles"
+            },
+            {
+              "points": 20,
+              "promptType": "list",
+              "prompt": [
+                "Ghanan Ghanan",
+                "Kun Faya Kun",
+                "Jai Ho",
+                "Chaiyya Chaiyya"
+              ],
+              "answer": "A.R. Rahman compositions"
+            },
+            {
+              "points": 30,
+              "promptType": "list",
+              "prompt": [
+                "Maqbool",
+                "Omkara",
+                "Haider"
+              ],
+              "answer": "Vishal Bhardwaj's Shakespeare adaptations"
+            },
+            {
+              "points": 40,
+              "promptType": "list",
+              "prompt": [
+                "Stree",
+                "Queen",
+                "Kai Po Che"
+              ],
+              "answer": "Rajkummar Rao"
+            },
+            {
+              "points": 50,
+              "promptType": "list",
+              "prompt": [
+                "Dev D",
+                "Gangs of Wasseypur",
+                "Black Friday"
+              ],
+              "answer": "Anurag Kashyap directed all three"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Jodi No. 1",
+          "instruction": "These two shared the screen exactly once. Which film?",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "Vicky Kaushal + Yami Gautam",
+              "answer": "Uri: The Surgical Strike"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "Farhan Akhtar + Vidya Balan",
+              "answer": "Shaadi Ke Side Effects"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "Irrfan Khan + Nimrat Kaur",
+              "answer": "The Lunchbox"
+            },
+            {
+              "points": 40,
+              "promptType": "text",
+              "prompt": "Shahid Kapoor + Kangana Ranaut",
+              "answer": "Rangoon"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Amitabh Bachchan + Ayushmann Khurrana",
+              "answer": "Gulabo Sitabo"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Dialogue Flat",
+          "instruction": "Read completely deadpan. Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "text",
+              "prompt": "I am not afraid of a slap, sir. I am afraid of love.",
+              "answer": "Dabangg"
+            },
+            {
+              "points": 20,
+              "promptType": "text",
+              "prompt": "I have my mother.",
+              "answer": "Deewaar"
+            },
+            {
+              "points": 30,
+              "promptType": "text",
+              "prompt": "I take out eyes and play marbles with them.",
+              "answer": "Andaz Apna Apna"
+            },
+            {
+              "points": 40,
+              "promptType": "longText",
+              "prompt": "In the Solomon Islands, in the south Pacific, when the tribals need to clear a part of the forest for farming, they don't cut down the trees. They simply gather around it and hurl abuses at it. They curse it. And slowly, after a few days, the tree begins to wither. It dies on its own.",
+              "answer": "Taare Zameen Par"
+            },
+            {
+              "points": 50,
+              "promptType": "text",
+              "prompt": "Life should not be long, it should be large, Babumoshai.",
+              "answer": "Anand"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Box Office Bomb",
+          "instruction": "Name the film",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "clueChain",
+              "prompt": [
+                "The lead role required full-body VFX to alter the actor's height."
+              ],
+              "answer": "Zero"
+            },
+            {
+              "points": 20,
+              "promptType": "clueChain",
+              "prompt": [
+                "The title is lifted from a 19th-century English novel about a murderous cult, though almost nothing of that book survives in the film.",
+                "It was the first time its two male leads had ever shared the screen, which was most of the marketing.",
+                "Picture Aamir Khan in kohl and a feathered hat, Amitabh Bachchan swinging a sword on the deck of a ship, and a very large amount of ocean."
+              ],
+              "answer": "Thugs of Hindostan"
+            },
+            {
+              "points": 30,
+              "promptType": "clueChain",
+              "prompt": [
+                "The hero and the villain are named for the two halves of a single figure from the Ramayana, split so that one carries the good and the other the evil.",
+                "The star produced it himself, released it in 3D, and tied it to a merchandising push that included a tie-in video game and a promotional appearance on a cricket broadcast.",
+                "Akon sang on the soundtrack, Kareena Kapoor danced to it, and Rajinikanth appeared for one scene as a character from another film entirely."
+              ],
+              "answer": "Ra.One"
+            },
+            {
+              "points": 40,
+              "promptType": "clueChain",
+              "prompt": [
+                "It was shot simultaneously in three languages and built around an invented city, with a substantial portion of the action filmed in Abu Dhabi under a government film incentive.",
+                "The lead was coming off a two-part franchise that had made him the most recognisable face in the country, and this was the release everyone had been waiting on for two years.",
+                "The plot involves a stolen fortune, a police officer who is not what he appears, and Shraddha Kapoor."
+              ],
+              "answer": "Saaho"
+            },
+            {
+              "points": 50,
+              "promptType": "clueChain",
+              "prompt": [
+                "The project was conceived by the producer's late father more than fifteen years before it was made, with an entirely different cast attached at the time.",
+                "It is set in a fictional town in the years immediately before Partition, and it reunited two actors who had been a famous on-screen pair in the early nineties and had not worked together since.",
+                "Six leads, a bullfighting sequence, and a Dharma production that opened on Eid."
+              ],
+              "answer": "Kalank"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "साल क्या था",
+          "instruction": "Put these in release order. All three or nothing",
+          "shuffleOnLoad": true,
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "list",
+              "prompt": [
+                "Jawan",
+                "Amar Akbar Anthony",
+                "Maine Pyar Kiya"
+              ],
+              "answer": "Amar Akbar Anthony (1977) → Maine Pyar Kiya (1989) → Jawan (2023)"
+            },
+            {
+              "points": 20,
+              "promptType": "list",
+              "prompt": [
+                "Devdas",
+                "Darr",
+                "Raja Hindustani"
+              ],
+              "answer": "Darr (1993) → Raja Hindustani (1996) → Devdas (2002)"
+            },
+            {
+              "points": 30,
+              "promptType": "list",
+              "prompt": [
+                "PK",
+                "Ghajini",
+                "Talaash"
+              ],
+              "answer": "Ghajini (2008) → Talaash (2012) → PK (2014)"
+            },
+            {
+              "points": 40,
+              "promptType": "list",
+              "prompt": [
+                "Krrish",
+                "Ek Tha Tiger",
+                "Sultan"
+              ],
+              "answer": "Krrish (2006) → Ek Tha Tiger (2012) → Sultan (2016)"
+            },
+            {
+              "points": 50,
+              "promptType": "list",
+              "prompt": [
+                "Brahmastra",
+                "Kabir Singh",
+                "Tanhaji"
+              ],
+              "answer": "Kabir Singh (2019) → Tanhaji (2020) → Brahmastra (2022)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+// ===== QUIZ DATA END =====
+
+(function () {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const clip = (s, n) => s.length > n ? s.slice(0, n).replace(/\s+\S*$/, "") + "…" : s;
+
+  // A short reminder of the question, so the host can match the answer to the screen.
+  function questionHint(cell) {
+    const p = cell.prompt;
+    switch (cell.promptType) {
+      case "image":     return `<img src="${esc(p)}" alt="">`;
+      case "audio":     return "🎵 Audio clip";
+      case "emoji":     return `<span class="emoji">${esc(p)}</span>`;
+      case "longText":  return esc(clip(p, 90));
+      case "clueChain": return `Clue 1: ${esc(clip(p[0], 80))}`;
+      case "list":      return esc(p.join(" · "));
+      default:          return esc(p);
+    }
+  }
+
+  function hiddenAnswer(board) {
+    const a = (board.hiddenImageAnswer || "").trim();
+    if (!a || /^TBD/i.test(a)) return `<span class="unset">Not set yet</span>`;
+    return esc(a);
+  }
+
+  const title = [QUIZ.meta.title, "Answer Sheet"].filter(Boolean).join(" · ");
+  document.getElementById("title").textContent = title;
+
+  document.getElementById("sheet").innerHTML = QUIZ.boards.map(board => `
+    <section class="board">
+      <h2 class="display">${esc(board.title)}</h2>
+      <p class="hidden-photo"><b>Hidden photo:</b> ${hiddenAnswer(board)}</p>
+      ${board.columns.map(col => `
+        <div class="category">
+          <h3 class="display">${esc(col.title)}</h3>
+          <p class="instruction">${esc(col.instruction || "")}</p>
+          <table>
+            ${col.cells.map(cell => `
+              <tr>
+                <td class="pts">${cell.points}</td>
+                <td class="q">${questionHint(cell)}</td>
+                <td class="a">${esc(cell.answer)}${cell.answerNote ? `<span class="note">${esc(cell.answerNote)}</span>` : ""}</td>
+              </tr>`).join("")}
+          </table>
+        </div>`).join("")}
+    </section>`).join("");
+})();
+</script>
+</body>
+</html>
