@@ -7,6 +7,8 @@
 <meta name="description" content="Play Are You Desi Enough?, a free Jeopardy-style Bollywood quiz with three boards and 75 questions. Open it on a laptop or TV, pick a host and play.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://bollyquiz.com/quiz-1/">
+<!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
 
 <!-- Share previews -->
 <meta property="og:type" content="website">
@@ -820,7 +822,7 @@ kbd {
     </div>
     <div class="board-status">
       <span class="key-hint"><kbd>H</kbd> keys</span>
-      <a class="key-hint answers-link" href="answers/" target="_blank" rel="noopener">Answer sheet</a>
+      <a class="key-hint answers-link" href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="board">Answer sheet</a>
       <span class="readout display" id="readout">0 / 25 lifted</span>
     </div>
   </header>
@@ -866,7 +868,7 @@ kbd {
       </section>
     </div>
     <p class="help-foot">Mouse works too: click a square to open it, use the <b>Reveal answer</b> / <b>Back to board</b> button to move on, ✕ to back out. Progress autosaves in this browser after every change, so closing or refreshing the page picks up where you left off.</p>
-    <p class="help-foot">Hosting? Open the <a href="answers/" target="_blank" rel="noopener">answer sheet</a> on your phone at <b>bollyquiz.com/quiz-1/answers</b> so you can judge without turning round to the TV.</p>
+    <p class="help-foot">Hosting? Open the <a href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="help">answer sheet</a> on your phone at <b>bollyquiz.com/quiz-1/answers</b> so you can judge without turning round to the TV.</p>
   </div>
 </div>
 
@@ -1562,6 +1564,10 @@ const QUIZ = {
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+
+  // Umami event, if the script loaded. Ad blockers or localhost just skip it.
+  const track = (name, data) => { try { if (window.umami) window.umami.track(name, data); } catch (e) {} };
+  let gameStartTracked = false;
   const esc = s => String(s).replace(/[&<>"']/g, c =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -1726,6 +1732,8 @@ const QUIZ = {
     assignShuffles();
     persist();
     renderBoard();
+    track("new-game");
+    gameStartTracked = false; // the first square of the new game counts as a new game-start
     toast("New game. All boards reset.");
   }
 
@@ -2048,6 +2056,8 @@ const QUIZ = {
     const column = board.columns[colIdx];
     const cell = column.cells[rowIdx];
     state.current = { board: board.id, col: column.id, points: cell.points, colIdx, rowIdx };
+    if (!gameStartTracked && liftedTotal() === 0) { gameStartTracked = true; track("game-start"); }
+    track("square-open", { board: board.id, category: column.title, points: cell.points });
     state.clueStep = 0;
     state.view = "question";
     buildQuestion();
@@ -2094,6 +2104,7 @@ const QUIZ = {
       // Record and save straight away; only the animation waits.
       state.answered[cur.board].add(id);
       state.history.push({ board: cur.board, ids: [id] });
+      if (state.answered[cur.board].size === ROWS * COLS) track("board-finished", { board: cur.board, via: "play" });
     }
     persist();
     renderQuestion();
@@ -2120,6 +2131,7 @@ const QUIZ = {
     const delays = new Map(ids.map((id, i) => [id, i * LIFT_STAGGER_MS]));
     ids.forEach(id => answered.add(id));
     state.history.push({ board: board.id, ids });
+    track("board-finished", { board: board.id, via: "lift-all", remaining: ids.length });
     persist();
     renderBoard({ delays, ringDelay: ids.length * LIFT_STAGGER_MS + 400 });
   }
