@@ -3,7 +3,7 @@
 A Jeopardy-style Bollywood quiz for a room full of friends. One host runs it on
 a laptop or TV, and everyone else shouts, buzzes and argues.
 
-**Play it here:** https://kavyaj.github.io/bollywood-quiz/
+**Play it here:** https://bollyquiz.com/quiz-1/ (host answer sheet: https://bollyquiz.com/quiz-1/answers/)
 
 There's nothing to install and no sign-up. Open the link and the first board is
 ready.
