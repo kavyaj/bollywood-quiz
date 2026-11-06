@@ -3,7 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Are You Desi Enough? · Bollywood Quiz</title>
+<title>Are You Desi Enough? Free Bollywood Quiz | BollyQuiz</title>
+<meta name="description" content="Play Are You Desi Enough?, a free Jeopardy-style Bollywood quiz with three boards and 75 questions. Open it on a laptop or TV, pick a host and play.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://bollyquiz.com/quiz-1/">
+
+<!-- Share previews -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BollyQuiz">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bollyquiz.com/quiz-1/">
+<meta property="og:title" content="Are You Desi Enough? A Bollywood quiz for game night">
+<meta property="og:description" content="Three boards, 75 questions and a hidden photo on every board. Open this on the laptop, put it on the TV and start shouting.">
+<meta property="og:image" content="https://bollyquiz.com/assets/og-image.jpg">
+<meta property="og:image:secure_url" content="https://bollyquiz.com/assets/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A pink quiz board with gold tiles reading 10 to 50 and the title Are You Desi Enough? in the middle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Are You Desi Enough? A Bollywood quiz for game night">
+<meta name="twitter:description" content="Three boards, 75 questions and a hidden photo on every board. Put it on the TV and start shouting.">
+<meta name="twitter:image" content="https://bollyquiz.com/assets/og-image.jpg">
+<meta name="twitter:image:alt" content="A pink quiz board with gold tiles reading 10 to 50 and the title Are You Desi Enough? in the middle">
+<meta name="theme-color" content="#3D0F14">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
@@ -2241,7 +2265,8 @@ const QUIZ = {
   if (QUIZ.meta) {
     if (QUIZ.meta.title) $("#title").textContent = QUIZ.meta.title;
     if (QUIZ.meta.subtitle) $("#kicker").textContent = QUIZ.meta.subtitle;
-    document.title = `${QUIZ.meta.title || "Quiz"} · ${QUIZ.meta.subtitle || ""}`;
+    // Keep the SEO <title> from the HTML head; only fall back if it's missing.
+    if (!document.title) document.title = `${QUIZ.meta.title || "Quiz"} · ${QUIZ.meta.subtitle || ""}`;
   }
   const restored = loadStoredSession();
   if (restored) applySession(restored);
