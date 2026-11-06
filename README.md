@@ -41,8 +41,8 @@ tile lifts and a bit more of the photo shows through.
 2. **The host opens it.** Everyone sees the question at the same time.
 3. **Buzz to answer.** The fastest buzzer gets the first guess.
 4. **Right answer:** that player scores the square's points.
-5. **Wrong answer:** the question passes to the next-fastest buzzer. Each
-   player gets one guess per question.
+5. **Wrong answer:** that player loses half the square's points (−15 on a 30),
+   then the question passes to the next-fastest buzzer.
 6. **Nobody gets it:** the host reveals the answer, no one scores, and the tile
    still lifts.
 7. **The host reveals the answer** so the whole room can see it, then goes back
@@ -50,11 +50,11 @@ tile lifts and a bit more of the photo shows through.
 
 ### The hidden photo
 
-At any point during a board, a player can use their buzz to **guess the hidden
-photo** instead of answering the question. A right guess earns a **bonus of 100
-points**. A wrong guess costs **50 points**, and that player can't guess the
-photo again on that board. When all 25 squares are gone, the host lifts
-whatever's left so everyone can see the photo.
+Only the player who just answered a question correctly can guess the hidden
+photo, and only right then, before the next square is picked. Nobody can guess
+out of turn or after a wrong answer. A right guess earns a **bonus of 100
+points**. A wrong guess costs **50 points**. When all 25 squares are gone, the
+host lifts whatever's left so everyone can see the photo.
 
 ### Judging
 

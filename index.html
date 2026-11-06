@@ -671,8 +671,8 @@ kbd {
           <ol class="turn hidden" id="turn">
             <li style="--i:0"><strong>Pick a square</strong>The number on each square is how many points it's worth. 10 is the easiest, 50 the hardest. Whoever got the last one right picks next. For the first pick, the host chooses someone.</li>
             <li style="--i:1"><strong>The host opens it</strong>Everyone sees the question at the same time.</li>
-            <li style="--i:2"><strong>Buzz to answer</strong>The fastest buzzer gets the first guess. Wrong? It passes to the next fastest. Everyone gets one guess per question.</li>
-            <li style="--i:3"><strong>Score it</strong>A right answer wins the square's points. If nobody gets it, nobody scores.</li>
+            <li style="--i:2"><strong>Buzz to answer</strong>The fastest buzzer gets the first guess. Wrong? You lose half the square's points, and it passes to the next fastest. Everyone gets one guess per question.</li>
+            <li style="--i:3"><strong>Score it</strong>A right answer wins the square's points, plus one shot at guessing the hidden photo. If nobody gets it, nobody scores.</li>
             <li style="--i:4"><strong>The tile lifts</strong>The host shows the answer, goes back to the board, and a bit more of the hidden photo shows through.</li>
           </ol>
         </div>
@@ -683,7 +683,7 @@ kbd {
           <h3>Scoring</h3>
           <table>
             <tr><th scope="row">Right answer</th><td>The square's points, from 10 to 50</td></tr>
-            <tr><th scope="row">Wrong answer</th><td>No penalty. It passes to the next buzzer</td></tr>
+            <tr><th scope="row">Wrong answer</th><td class="minus">Lose half the square's points (&minus;15 on a 30). Then it passes to the next buzzer</td></tr>
             <tr><th scope="row">Nobody gets it</th><td>No one scores. The tile still lifts</td></tr>
             <tr><th scope="row">Photo guessed right</th><td class="plus">+100</td></tr>
             <tr><th scope="row">Photo guessed wrong</th><td class="minus">&minus;50, and no more photo guesses on that board</td></tr>
@@ -692,7 +692,8 @@ kbd {
         </div>
         <div class="photo-rule">
           <h3>The hidden photo</h3>
-          <p>There's a photo under every board. Buzz in and guess it any time.</p>
+          <p>There's a photo under every board. Answer a question right, and you get one guess at it before the next square.</p>
+          <p>No guessing out of turn, and none after a wrong answer.</p>
           <p>Right: +100. Wrong: &minus;50, and no more photo guesses on that board.</p>
         </div>
       </div>
