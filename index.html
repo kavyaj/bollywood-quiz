@@ -201,24 +201,38 @@ p { margin: 0 0 1em; }
   gap: clamp(4px, .7vw, 8px); padding: clamp(4px, .7vw, 8px);
   perspective: 900px;
 }
+/* The button is the fixed click target for its grid square and never moves.
+   Only the inner .face lifts, so a lifted tile can't catch clicks meant for
+   the square above it. preserve-3d keeps the face in the grid's perspective. */
 .tile {
   appearance: none; margin: 0; padding: 0;
-  border: 3px solid var(--maroon);
+  border: 0;
+  background: none;
   border-radius: clamp(8px, 1.1vw, 14px);
-  background: var(--saffron);
-  box-shadow: inset 0 -6px 0 var(--saffron-dk);
   color: var(--maroon);
   font: 400 clamp(1rem, 2.6vw, 2.1rem)/1 var(--display);
   cursor: pointer;
+  transform-style: preserve-3d;
+}
+.tile .face {
+  display: grid; place-items: center;
+  width: 100%; height: 100%;
+  box-sizing: border-box;
+  border: 3px solid var(--maroon);
+  border-radius: inherit;
+  background: var(--saffron);
+  box-shadow: inset 0 -6px 0 var(--saffron-dk);
   transform-origin: 50% 0%;
   transition: transform .55s var(--spring), opacity .4s ease .1s;
+  pointer-events: none;
 }
-.tile:hover { transform: translateY(-3px); }
-.tile.up {
+.tile:hover .face { transform: translateY(-3px); }
+.tile.up .face {
   transform: translateY(-70%) rotateX(55deg) rotate(var(--tilt, 3deg)) scale(1.05);
   opacity: 0;
 }
-.tile:focus-visible { outline-offset: -4px; opacity: 1; }
+.tile:focus-visible { outline-offset: -4px; }
+.tile:focus-visible .face { opacity: 1; }
 #confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
 
 .board-hint { margin: .9rem 0 0; font-size: .95rem; opacity: .65; text-align: center; }
@@ -507,8 +521,8 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; }
-  .tile, .turn li::before, .btn, .projects a { transition: opacity .2s ease !important; }
-  .tile.up { transform: none; }
+  .tile .face, .turn li::before, .btn, .projects a { transition: opacity .2s ease !important; }
+  .tile.up .face { transform: none; }
   .turn.hidden li::before { transform: none; }
   .bulb { background: var(--bulb); box-shadow: 0 0 6px 2px rgba(255,220,130,.7); }
   .steam path { opacity: .7; }
@@ -812,7 +826,10 @@ kbd {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'tile';
-      b.textContent = pts[r];
+      var face = document.createElement('span');
+      face.className = 'face';
+      face.textContent = pts[r];
+      b.appendChild(face);
       b.setAttribute('aria-label', pts[r] + ' point square');
       b.setAttribute('aria-pressed', 'false');
       b.style.setProperty('--tilt', ((Math.random() * 10) - 5).toFixed(1) + 'deg');
