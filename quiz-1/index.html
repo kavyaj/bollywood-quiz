@@ -149,25 +149,68 @@ body {
   gap: 2vw;
 }
 
+/* Board tabs: one segmented control so it's obvious there are three boards,
+   with a progress bar per board and a tick when a board is finished. */
 .board-switch {
-  display: flex;
-  align-items: center;
-  gap: 0.7vw;
-  font-size: min(2vw, 3.4vh);
-}
-.board-name { margin-right: 0.6vw; white-space: nowrap; }
-.board-pill {
-  width: 1.9em;
-  height: 1.9em;
-  border-radius: 50%;
-  border: 3px solid var(--maroon);
+  justify-self: start;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;   /* equal tabs, so the tick on a finished board doesn't shift the others */
+  gap: 0.25em;
+  padding: 0.25em;
   background: var(--cream);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  line-height: 1;
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  font-size: min(1.65vw, 2.8vh);
 }
-.board-pill.active { background: var(--pink); }
+.board-tab {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--maroon);
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0.4em 0.9em 0.45em;
+  display: grid;
+  justify-items: center;
+  gap: 0.3em;
+  cursor: pointer;
+  transition: background-color .15s;
+}
+.board-tab:hover { background: rgba(237, 92, 136, .2); }
+.board-tab[aria-selected="true"] { background: var(--pink); box-shadow: inset 0 0 0 2px var(--maroon); }
+.bt-bar {
+  width: 100%;
+  min-width: 3em;
+  height: 0.3em;
+  border-radius: 999px;
+  background: rgba(61, 15, 20, .15);
+  overflow: hidden;
+}
+.bt-bar i {
+  display: block;
+  height: 100%;
+  width: calc(var(--p, 0) * 100%);
+  background: var(--maroon);
+  border-radius: inherit;
+  transition: width .5s ease;
+}
+.bt-label { position: relative; }
+/* The tick sits in the tab's right padding, so a finished tab keeps its width */
+.board-tab.done .bt-label::after { content: "\2713"; position: absolute; left: 100%; margin-left: 0.2em; }
+.board-tab.done .bt-bar i { background: var(--green); }
+/* Pulses the next unfinished board once the current one is done */
+.board-tab.nudge { animation: tab-nudge 1.4s ease-in-out infinite; }
+@keyframes tab-nudge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 201, 72, 0); }
+  50%      { box-shadow: 0 0 0 0.3em var(--gold); background: rgba(247, 201, 72, .35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .board-tab.nudge { animation: none; box-shadow: 0 0 0 0.3em var(--gold); }
+}
 
 .title-block { text-align: center; line-height: 1; }
 .title-block .kicker {
@@ -810,12 +853,11 @@ kbd {
 
 <div id="board-view">
   <header class="board-header">
-    <div class="board-switch display">
-      <span class="board-name" id="board-name">Board One</span>
-      <div class="board-pill outlined" data-board="1">1</div>
-      <div class="board-pill outlined" data-board="2">2</div>
-      <div class="board-pill outlined" data-board="3">3</div>
-    </div>
+    <nav class="board-switch display" role="tablist" aria-label="Boards">
+      <button class="board-tab" role="tab" tabindex="-1" data-board="1"><span class="bt-label">Board 1</span><span class="bt-bar"><i></i></span></button>
+      <button class="board-tab" role="tab" tabindex="-1" data-board="2"><span class="bt-label">Board 2</span><span class="bt-bar"><i></i></span></button>
+      <button class="board-tab" role="tab" tabindex="-1" data-board="3"><span class="bt-label">Board 3</span><span class="bt-bar"><i></i></span></button>
+    </nav>
     <div class="title-block">
       <div class="kicker display" id="kicker">Bollywood Quiz</div>
       <h1 class="display" id="title">Are You Desi Enough?</h1>
@@ -1568,6 +1610,8 @@ const QUIZ = {
   // Umami event, if the script loaded. Ad blockers or localhost just skip it.
   const track = (name, data) => { try { if (window.umami) window.umami.track(name, data); } catch (e) {} };
   let gameStartTracked = false;
+  let nudgeBoard = null, nudgeTimer = null;   // board tab pulsing after the current board is finished
+  const clearNudge = () => { clearTimeout(nudgeTimer); nudgeBoard = null; };
   const esc = s => String(s).replace(/[&<>"']/g, c =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -1725,6 +1769,7 @@ const QUIZ = {
   });
 
   function startNewGame() {
+    clearNudge();
     state.activeBoard = 1;
     state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
     state.history = [];
@@ -1838,9 +1883,14 @@ const QUIZ = {
       ring.classList.toggle("show", onHole);
     });
 
-    $("#board-name").textContent = NAMES[state.activeBoard] || boardById(state.activeBoard).title;
-    document.querySelectorAll(".board-pill").forEach(p =>
-      p.classList.toggle("active", +p.dataset.board === state.activeBoard));
+    document.querySelectorAll(".board-tab").forEach(t => {
+      const id = +t.dataset.board, size = state.answered[id] ? state.answered[id].size : 0;
+      t.setAttribute("aria-selected", id === state.activeBoard);
+      t.classList.toggle("done", size === ROWS * COLS);
+      t.classList.toggle("nudge", id === nudgeBoard);
+      t.querySelector(".bt-bar i").style.setProperty("--p", size / (ROWS * COLS));
+      t.title = `${NAMES[id] || "Board " + id}: ${size} / ${ROWS * COLS} lifted (press ${id})`;
+    });
     $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
   }
 
@@ -2104,7 +2154,10 @@ const QUIZ = {
       // Record and save straight away; only the animation waits.
       state.answered[cur.board].add(id);
       state.history.push({ board: cur.board, ids: [id] });
-      if (state.answered[cur.board].size === ROWS * COLS) track("board-finished", { board: cur.board, via: "play" });
+      if (state.answered[cur.board].size === ROWS * COLS) {
+        track("board-finished", { board: cur.board, via: "play" });
+        nudgeNextBoard(cur.board, 1800);
+      }
     }
     persist();
     renderQuestion();
@@ -2134,19 +2187,39 @@ const QUIZ = {
     track("board-finished", { board: board.id, via: "lift-all", remaining: ids.length });
     persist();
     renderBoard({ delays, ringDelay: ids.length * LIFT_STAGGER_MS + 400 });
+    nudgeNextBoard(board.id, ids.length * LIFT_STAGGER_MS + 1800);
   }
 
   function undo() {
     const entry = state.history.pop();
     if (!entry) return;
+    clearNudge();
     state.activeBoard = entry.board;
     entry.ids.forEach(id => state.answered[entry.board].delete(id));
     persist();
     renderBoard();
   }
 
+  // After a board is finished, point the host at the next unfinished one.
+  function nudgeNextBoard(doneId, waitMs) {
+    const ids = QUIZ.boards.map(b => b.id);
+    const start = ids.indexOf(doneId);
+    const next = [...ids.slice(start + 1), ...ids.slice(0, start)]
+      .find(id => state.answered[id].size < ROWS * COLS);
+    if (next == null) return;
+    clearNudge();
+    nudgeTimer = setTimeout(() => {
+      // Skip if the host has moved on, undone a lift or opened a square meanwhile.
+      if (state.view !== "board" || state.activeBoard !== doneId || state.answered[doneId].size < ROWS * COLS) return;
+      nudgeBoard = next;
+      renderBoard();
+      toast(`${NAMES[doneId] || "Board " + doneId} done! Next up: <b>${NAMES[next] || "Board " + next}</b>. Press <kbd>${next}</kbd> or click its tab.`, 6000);
+    }, waitMs);
+  }
+
   function switchBoard(id) {
     if (!boardById(id) || id === state.activeBoard) return;
+    if (id === nudgeBoard) nudgeBoard = null;
     state.activeBoard = id;
     persist();
     renderBoard();
@@ -2265,8 +2338,11 @@ const QUIZ = {
     if (e.target.closest(".play-btn")) { playClip(); return; }
     if (e.target.closest(".q-action")) advance();
   });
-  document.querySelectorAll(".board-pill").forEach(p =>
-    p.addEventListener("click", () => { if (state.view === "board") switchBoard(+p.dataset.board); }));
+  document.querySelectorAll(".board-tab").forEach(t => {
+    // Keep focus off the tab, so Space/Enter afterwards still open a square instead of re-clicking it.
+    t.addEventListener("mousedown", e => e.preventDefault());
+    t.addEventListener("click", () => { if (state.view === "board") switchBoard(+t.dataset.board); });
+  });
   $("#help").addEventListener("click", () => toggleHelp(false));
   $("#confirm").addEventListener("click", () => toggleConfirm(false));
 
