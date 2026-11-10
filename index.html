@@ -496,6 +496,9 @@ kbd {
 .host-card h3 { font: 400 1.8rem/1.1 var(--display); color: var(--gold); margin-bottom: .6rem; }
 .host-card p { margin: 0; }
 .host-card .btn-maroon { background: var(--cream); color: var(--maroon); border-color: var(--cream); }
+.host-steps { margin: 0; padding-left: 1.3rem; display: grid; gap: .6rem; }
+.host-steps li::marker { color: var(--gold); font-weight: 700; }
+.host-steps strong { color: var(--gold); font-weight: 600; }
 .host-action [hidden] { display: none !important; }
 .host-action { display: grid; gap: 1rem; justify-items: start; }
 .host-warn { display: grid; gap: .9rem; justify-items: start; font-weight: 600; color: var(--gold); }
@@ -743,6 +746,18 @@ kbd {
           <li><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Switch board</li>
           <li><kbd>S</kbd> Save a backup of the game</li>
         </ul>
+      </div>
+
+      <div class="host-card" id="answer-sheet">
+        <div>
+          <h3>Hosting? Keep the answers on your phone</h3>
+          <p>To judge a guess, you need the right answer before the room sees it. The answer sheet lists every answer by board, category and points, plus the person in each hidden photo.</p>
+        </div>
+        <ol class="host-steps">
+          <li>On your phone, go to <strong>Answer sheet</strong> at the top right of the quiz board.</li>
+          <li>When a player answers, find the square on the sheet and check their guess. Then reveal the answer on the TV.</li>
+          <li>Keep it off the big screen, or everyone sees the answers. You can also print it before guests arrive.</li>
+        </ol>
       </div>
     </div>
   </section>

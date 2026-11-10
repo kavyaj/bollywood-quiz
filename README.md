@@ -62,6 +62,18 @@ The host has the final say. Near misses ("Om Shanti" for *Om Shanti Om*) are
 the host's call, so agree before you start how strict to be. For **साल क्या था**
 it's all three in the right order or nothing.
 
+### The answer sheet
+
+To judge a guess, the host needs the right answer before the room sees it. Open
+the answer sheet on your phone at https://bollyquiz.com/quiz-1/answers/ (it's
+also linked as **Answer sheet** at the top right of the quiz board). It lists
+every answer by board, category and points, plus the person in each hidden
+photo. When a player answers, find the square on the sheet and check their
+guess, then reveal the answer on the TV.
+
+Keep it off the big screen, or everyone sees the answers. You can also print it
+before guests arrive.
+
 ---
 
 ## The categories
