@@ -64,15 +64,15 @@ it's all three in the right order or nothing.
 
 ### The answer sheet
 
-To judge a guess, the host needs the right answer before the room sees it. Open
-the answer sheet on your phone at https://bollyquiz.com/quiz-1/answers/ (it's
-also linked as **Answer sheet** at the top right of the quiz board). It lists
-every answer by board, category and points, plus the person in each hidden
-photo. When a player answers, find the square on the sheet and check their
-guess, then reveal the answer on the TV.
+To judge a guess, the host needs the right answer before the room sees it. The
+answer sheet lists every answer by board, category and points, plus the person
+in each hidden photo.
 
-Keep it off the big screen, or everyone sees the answers. You can also print it
-before guests arrive.
+1. On your phone, go to **Answer sheet** at the top right of the quiz board.
+2. When a player answers, find the square on the sheet and check their guess.
+   Then reveal the answer on the TV.
+3. Keep it off the big screen, or everyone sees the answers. You can also print
+   it before guests arrive.
 
 ---
 
