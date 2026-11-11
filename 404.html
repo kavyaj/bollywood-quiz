@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | BollyQuiz</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#3D0F14">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/shrikhand.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
+<style>
+/* Every path on this page starts with "/": GitHub Pages serves it at any broken URL, at any depth. */
+@font-face { font-family: "Shrikhand"; src: url("/assets/fonts/shrikhand.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-800.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+:root {
+  --maroon: #3D0F14;
+  --pink: #ED5C88;
+  --pink-dark: #D6336C;
+  --gold: #F7C948;
+  --cream: #FAF0E0;
+  --muted: rgba(250, 240, 224, .68);
+  --line: rgba(250, 240, 224, .16);
+  --display: "Shrikhand", "Cooper Black", Georgia, serif;
+  --sans: "Mukta", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(237, 92, 136, .16), transparent 70%),
+    var(--maroon);
+  color: var(--cream);
+  font: 400 1.0625rem/1.55 var(--sans);
+  text-align: center;
+}
+main { width: 100%; max-width: 560px; }
+
+.logo { display: inline-block; margin-bottom: 28px; line-height: 0; }
+.logo img { width: 150px; height: auto; }
+.logo:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 6px; }
+
+/* 404 where the 0 is a film reel */
+.code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: clamp(5.5rem, 22vw, 9rem);
+  line-height: 1;
+  color: var(--gold);
+}
+.reel { width: .82em; height: .82em; animation: spin 6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.eyebrow {
+  margin: 22px 0 8px;
+  font: 800 .8rem/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+h1 {
+  margin: 0 0 14px;
+  font: 400 clamp(1.7rem, 6vw, 2.3rem)/1.15 var(--display);
+  color: var(--pink);
+}
+.lede { margin: 0 auto 26px; max-width: 440px; font-size: 1.08rem; color: var(--muted); }
+
+/* The site's chunky button */
+.actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 800 1.1rem/1 var(--sans);
+  padding: .95em 1.5em .85em;
+  border-radius: 16px;
+  border: 3px solid var(--maroon);
+  text-decoration: none;
+  transition: transform .25s var(--spring), box-shadow .2s ease;
+}
+.btn-primary { background: var(--pink); color: var(--maroon); box-shadow: 0 6px 0 var(--pink-dark); }
+.btn:hover { transform: translateY(-3px) rotate(-1.5deg); box-shadow: 0 9px 0 var(--pink-dark); }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--pink-dark); transition-duration: .05s; }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+/* One-question emoji quiz */
+.bonus {
+  margin: 40px auto 0;
+  max-width: 380px;
+  padding: 22px 22px 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(250, 240, 224, .04);
+}
+.bonus-label { margin: 0 0 10px; font-size: .95rem; color: var(--muted); }
+.emoji { margin: 0 0 14px; font: 2.1rem/1.2 var(--emoji); letter-spacing: .12em; }
+.bonus button {
+  font: 600 .95rem/1 var(--sans);
+  padding: 10px 18px 9px;
+  border-radius: 999px;
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+}
+.bonus button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.answer { margin: 4px 0 10px; font: 400 1.3rem/1.2 var(--display); color: var(--gold); }
+.next { margin-left: 6px; border-color: var(--line) !important; color: var(--cream) !important; }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reel { animation: none; }
+  .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <a class="logo" href="/"><img src="/assets/logo.svg" alt="BollyQuiz" width="680" height="142"></a>
+
+  <div class="code" aria-hidden="true">
+    <span>4</span>
+    <svg class="reel" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="8"/>
+      <circle cx="50" cy="50" r="7" fill="currentColor"/>
+      <circle cx="50" cy="24" r="11" fill="currentColor"/>
+      <circle cx="50" cy="76" r="11" fill="currentColor"/>
+      <circle cx="24" cy="50" r="11" fill="currentColor"/>
+      <circle cx="76" cy="50" r="11" fill="currentColor"/>
+    </svg>
+    <span>4</span>
+  </div>
+
+  <p class="eyebrow">Page not found</p>
+  <h1>This page got lost at the Kumbh Mela</h1>
+  <p class="lede">It happens. In Bollywood, everyone finds their way back by the climax. You can skip straight to that part.</p>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="/" data-umami-event="404-home-click">Take me home</a>
+  </div>
+
+  <section class="bonus" aria-labelledby="bonus-label">
+    <p class="bonus-label" id="bonus-label">While you're here, guess the film</p>
+    <p class="emoji" id="emoji"></p>
+    <p class="answer" id="answer" aria-live="polite" hidden></p>
+    <button type="button" id="reveal">Reveal</button>
+    <button type="button" class="next" id="next" hidden>Another one</button>
+  </section>
+</main>
+
+<script>
+  // Log the broken URL to Umami, so broken links show up in the dashboard.
+  // Umami loads with "defer", so wait for the page to finish loading first.
+  window.addEventListener("load", () => {
+    try {
+      if (window.umami) window.umami.track("404", { path: location.pathname + location.search });
+    } catch (e) {}
+  });
+
+  // Keep these different from the questions on the real boards
+  const puzzles = [
+    ["🎓🔧👨‍🎓👨‍🎓👨‍🎓", "3 Idiots"],
+    ["🏏🌧️👑🇮🇳", "Lagaan"],
+    ["🚂🌻💛👫", "Dilwale Dulhania Le Jayenge"],
+    ["🏍️👬🐎🔥", "Sholay"],
+    ["🏑🧔‍♂️🇮🇳🥇", "Chak De! India"],
+    ["🙏🐒👧🇵🇰", "Bajrangi Bhaijaan"]
+  ];
+  const emoji = document.getElementById("emoji");
+  const answer = document.getElementById("answer");
+  const reveal = document.getElementById("reveal");
+  const next = document.getElementById("next");
+  let i = Math.floor(Math.random() * puzzles.length);
+
+  function show() {
+    emoji.textContent = puzzles[i][0];
+    emoji.setAttribute("aria-label", "Emoji clue");
+    answer.hidden = true;
+    reveal.hidden = false;
+    next.hidden = true;
+  }
+  reveal.addEventListener("click", () => {
+    answer.textContent = puzzles[i][1];
+    answer.hidden = false;
+    reveal.hidden = true;
+    next.hidden = false;
+    next.focus();
+  });
+  next.addEventListener("click", () => {
+    i = (i + 1) % puzzles.length;
+    show();
+    reveal.focus();
+  });
+  show();
+</script>
+</body>
+</html>
