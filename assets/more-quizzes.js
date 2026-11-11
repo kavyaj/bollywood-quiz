@@ -4,7 +4,8 @@
 (function () {
   var PAGES = [
     { href: "/", label: "BollyQuiz home" },
-    { href: "/quiz-1/", label: "First Day First Show" }
+    { href: "/quiz-1/", label: "First Day First Show" },
+    { href: "/bollywood-quiz-questions/", label: "50 Bollywood quiz questions" }
   ];
 
   var here = location.pathname.replace(/index\.html$/, "");
