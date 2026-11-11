@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Are You Desi Enough? Free Bollywood Quiz | BollyQuiz</title>
-<meta name="description" content="Play Are You Desi Enough?, a free Jeopardy-style Bollywood quiz with three boards and 75 questions. Open it on a laptop or TV, pick a host and play.">
+<title>First Day First Show: 75-Question Bollywood Quiz | BollyQuiz</title>
+<meta name="description" content="Three boards, 75 questions: emoji plots, posters, songs and dialogues. A free Bollywood quiz for game night, made for the TV. No sign-up.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://bollyquiz.com/quiz-1/">
 <!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
@@ -15,8 +15,8 @@
 <meta property="og:site_name" content="BollyQuiz">
 <meta property="og:locale" content="en_IN">
 <meta property="og:url" content="https://bollyquiz.com/quiz-1/">
-<meta property="og:title" content="Are You Desi Enough? A Bollywood quiz for game night">
-<meta property="og:description" content="Three boards, 75 questions and a hidden photo on every board. Open this on the laptop, put it on the TV and start shouting.">
+<meta property="og:title" content="First Day First Show: a Bollywood quiz for game night">
+<meta property="og:description" content="Three boards, 75 questions: emoji plots, posters, songs and dialogues. A free Bollywood quiz for game night, made for the TV. No sign-up.">
 <meta property="og:image" content="https://bollyquiz.com/assets/og-image.jpg">
 <meta property="og:image:secure_url" content="https://bollyquiz.com/assets/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -24,12 +24,13 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A pink quiz board with gold tiles reading 10 to 50 and the title Are You Desi Enough? in the middle">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Are You Desi Enough? A Bollywood quiz for game night">
-<meta name="twitter:description" content="Three boards, 75 questions and a hidden photo on every board. Put it on the TV and start shouting.">
+<meta name="twitter:title" content="First Day First Show: a Bollywood quiz for game night">
+<meta name="twitter:description" content="Three boards, 75 questions: emoji plots, posters, songs and dialogues. A free Bollywood quiz for game night, made for the TV. No sign-up.">
 <meta name="twitter:image" content="https://bollyquiz.com/assets/og-image.jpg">
 <meta name="twitter:image:alt" content="A pink quiz board with gold tiles reading 10 to 50 and the title Are You Desi Enough? in the middle">
 <meta name="theme-color" content="#3D0F14">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<script defer src="/assets/more-quizzes.js"></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
@@ -784,6 +785,15 @@ kbd {
   padding: 0 0.4em;
 }
 .help-foot { margin-top: 2.4vh; font-size: min(1.3vw, 2.2vh); opacity: 0.75; }
+.help-more { margin-top: 2.4vh; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6vh 1.6vw; font-size: min(1.3vw, 2.2vh); }
+.help-more h3 { margin: 0; font-size: 1em; }
+.help-more ul { display: flex; flex-wrap: wrap; gap: 0.6vh 1.6vw; margin: 0; padding: 0; list-style: none; }
+.help-more a { color: inherit; font-weight: 700; }
+.help-more a[aria-current="page"] { text-decoration: none; opacity: 0.6; }
+
+/* Small line under the board once every board is finished. Not a pop-up. */
+.end-tip { margin: 0; text-align: center; font-size: min(1.5vw, 2.5vh); font-weight: 600; color: var(--maroon); }
+.end-tip a { color: var(--pink-dark); text-underline-offset: 0.2em; }
 
 /* ============================================================
    Session: confirm dialog + toast
@@ -860,7 +870,7 @@ kbd {
     </nav>
     <div class="title-block">
       <div class="kicker display" id="kicker">Bollywood Quiz</div>
-      <h1 class="display" id="title">Are You Desi Enough?</h1>
+      <h1 class="display" id="title">First Day First Show</h1>
     </div>
     <div class="board-status">
       <span class="key-hint"><kbd>H</kbd> keys</span>
@@ -869,6 +879,7 @@ kbd {
     </div>
   </header>
   <div id="boards"></div>
+  <p class="end-tip" id="end-tip" hidden>Had fun? <a href="https://ko-fi.com/kavyaj?ref=bollyquiz-endscreen" target="_blank" rel="noopener" data-umami-event="tip-jar-click" data-umami-event-location="endscreen">The tip jar keeps the next quiz coming.</a></p>
 </div>
 
 <div id="question-view" hidden></div>
@@ -911,6 +922,10 @@ kbd {
     </div>
     <p class="help-foot">Mouse works too: click a square to open it, use the <b>Reveal answer</b> / <b>Back to board</b> button to move on, ✕ to back out. Progress autosaves in this browser after every change, so closing or refreshing the page picks up where you left off.</p>
     <p class="help-foot">Hosting? Open the <a href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="help">answer sheet</a> on your phone at <b>bollyquiz.com/quiz-1/answers</b> so you can judge without turning round to the TV.</p>
+    <nav class="help-more" aria-labelledby="help-more-title">
+      <h3 class="display" id="help-more-title">More Bollywood quizzes and games</h3>
+      <ul data-more-quizzes></ul>
+    </nav>
   </div>
 </div>
 
@@ -929,7 +944,7 @@ kbd {
 // ===== QUIZ DATA START — paste the contents of quiz-data.json here =====
 const QUIZ = {
   "meta": {
-    "title": "Are You Desi Enough?",
+    "title": "First Day First Show",
     "subtitle": "Bollywood Quiz",
     "date": "19 September",
     "format": "Individual play on buzzers. Scoring handled on paper, outside the app."
@@ -1892,6 +1907,7 @@ const QUIZ = {
       t.title = `${NAMES[id] || "Board " + id}: ${size} / ${ROWS * COLS} lifted (press ${id})`;
     });
     $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
+    $("#end-tip").hidden = liftedTotal() < QUIZ.boards.length * ROWS * COLS;
   }
 
   // ---------------------------------------------------- question view
@@ -2338,6 +2354,8 @@ const QUIZ = {
     if (e.target.closest(".play-btn")) { playClip(); return; }
     if (e.target.closest(".q-action")) advance();
   });
+  // Keep focus off the end-of-quiz link too, so Space/Enter keep driving the board.
+  $("#end-tip a").addEventListener("mousedown", e => e.preventDefault());
   document.querySelectorAll(".board-tab").forEach(t => {
     // Keep focus off the tab, so Space/Enter afterwards still open a square instead of re-clicking it.
     t.addEventListener("mousedown", e => e.preventDefault());

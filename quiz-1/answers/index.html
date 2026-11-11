@@ -8,6 +8,7 @@
 <!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
 <title>Host Answer Sheet · BollyQuiz</title>
+<script defer src="/assets/more-quizzes.js"></script>
 <style>
 /* Baloo 2 ExtraBold, the same local files the quiz uses */
 @font-face {
@@ -123,6 +124,12 @@ td.a .note { display: block; font-weight: 400; font-size: 14px; color: var(--mut
 td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid var(--rule); }
 .emoji { font-family: var(--emoji); font-size: 22px; letter-spacing: .1em; color: var(--maroon); }
 
+.site-footer { background: var(--maroon); color: var(--cream); padding: 24px 16px 32px; }
+.more-quizzes { max-width: 900px; margin: 0 auto; }
+.more-quizzes h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #F7C948; }
+.more-quizzes ul { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0; padding: 0; list-style: none; }
+.more-quizzes a { color: var(--cream); font-weight: 700; }
+
 @media (max-width: 560px) {
   td.q { width: 40%; }
   td.q img { width: 72px; height: 48px; }
@@ -131,7 +138,7 @@ td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-
 @media print {
   body { background: #fff; font-size: 12px; }
   main { max-width: none; padding: 0; }
-  .toolbar, .warning { display: none; }
+  .toolbar, .warning, .site-footer { display: none; }
   .board { border-width: 2px; padding: 12px; margin-top: 0; break-before: page; }
   .board:first-of-type { break-before: auto; }
   td { padding: 4px; }
@@ -154,11 +161,18 @@ td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-
   <div id="sheet"></div>
 </main>
 
+<footer class="site-footer">
+  <nav class="more-quizzes" aria-labelledby="more-quizzes-title">
+    <h2 id="more-quizzes-title">More Bollywood quizzes and games</h2>
+    <ul data-more-quizzes></ul>
+  </nav>
+</footer>
+
 <script>
 // ===== QUIZ DATA START — paste the contents of quiz-data.json here =====
 const QUIZ = {
   "meta": {
-    "title": "Are You Desi Enough?",
+    "title": "First Day First Show",
     "subtitle": "Bollywood Quiz",
     "date": "19 September",
     "format": "Individual play on buzzers. Scoring handled on paper, outside the app."
