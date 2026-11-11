@@ -1,0 +1,58 @@
+/* Shared by the light-theme landing pages (/bollywood-quiz-questions/, /bollywood-quiz-ppt/).
+   Each page loads this first, then its own CSS file for everything page-specific. */
+
+/* The site's self-hosted fonts */
+@font-face { font-family: "Shrikhand"; src: url("/assets/fonts/shrikhand.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-800.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Mukta"; src: url("/assets/fonts/mukta-deva-600.woff2") format("woff2"); font-weight: 600; font-display: swap; unicode-range: U+0900-097F, U+200C-200D, U+25CC; }
+
+:root {
+  --bg: #F6EFE2;
+  --card: #FFFCF6;
+  --ink: #2A1D17;
+  --muted: #6F5E52;
+  --line: #E7DCCB;
+  --marigold: #E9A23B;
+  --marigold-soft: #FBE6BF;
+  --rani: #D6457A;
+  --terracotta: #D2603F;
+  --green: #2E8B57;
+  --green-soft: #DCF0E3;
+  --coral: #C9583A;
+  --coral-soft: #F8E2D9;
+  --shadow: 0 1px 2px rgba(42,29,23,.05), 0 6px 18px rgba(42,29,23,.06);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Mukta", system-ui, sans-serif;
+  font-size: 1.06rem;
+  line-height: 1.55;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; border-radius: 8px; }
+.site-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
+.logo { display: inline-block; line-height: 0; }
+.logo img { width: 132px; height: auto; }
+.tip-link { font-weight: 600; font-size: .95rem; text-decoration: none; padding: 7px 14px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow); }
+.eyebrow { margin: 0 0 6px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--terracotta); }
+.faq { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.faq summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--terracotta); font-size: 1.3rem; line-height: 1; transition: transform .2s; }
+.faq[open] summary::after { transform: rotate(45deg); }
+.faq p { margin: 8px 0 0; color: var(--muted); }
+footer h2 { font-size: 1.05rem; color: var(--ink); }
+footer ul { list-style: none; padding: 0; margin: 8px 0 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+.twinkle { transform-box: fill-box; transform-origin: center; animation: twinkle 2.2s ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { transform: scale(.6); opacity: .5; } 50% { transform: scale(1.1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+footer a[aria-current="page"] { text-decoration: none; opacity: .65; }
