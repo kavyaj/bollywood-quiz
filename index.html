@@ -451,8 +451,9 @@ section { padding: clamp(4.5rem, 9vw, 7rem) 0; }
 }
 
 /* About */
-.about { padding-top: 0; }
-.about-card { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; border-top: 3px solid var(--maroon); padding-top: 3.5rem; }
+.about { border-top: 3px solid var(--maroon); }
+.about-card { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; }
+.about-card .projects-eyebrow { margin: 0 0 .9rem; max-width: none; font: 800 .8rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--pink-dark); }
 .about-card > div p { margin-top: 1rem; font-size: 1.2rem; max-width: 40ch; }
 .projects { list-style: none; margin: 0; padding: 0; }
 .projects li + li { margin-top: 1rem; }
@@ -752,7 +753,7 @@ kbd {
     <div class="wrap">
       <div class="section-head">
         <h2>The quiz</h2>
-        <p>Three boards, played in order. Each one takes about an hour with a full room.</p>
+        <p>Three boards, played in order. Each one takes about an hour with a full room. Short on time? Play these <a href="/bollywood-quiz-questions/">50 Bollywood quiz questions with answers</a> on your phone instead.</p>
       </div>
 
       <article class="ticket">
@@ -937,19 +938,6 @@ kbd {
     </div>
   </section>
 
-  <section class="about" id="about">
-    <div class="wrap about-card">
-      <div>
-        <h2>Made with love</h2>
-        <p>Hi, I'm Kavya. I live in Singapore and I make small things on the internet, some for work and some just because they're fun to make!</p>
-      </div>
-      <ul class="projects">
-        <li><a href="https://pokeandsee.com" target="_blank" rel="noopener" data-umami-event="outbound-click" data-umami-event-target="poke-and-see"><strong>Poke &amp; See</strong><span>Tiny interactive science toys for 3 to 5 year olds.</span><em>pokeandsee.com</em></a></li>
-        <li><a href="https://kavyaj.github.io/mrt-announcements/" target="_blank" rel="noopener" data-umami-event="outbound-click" data-umami-event-target="mrt-announcements"><strong>MRT Announcements</strong><span>Tap any of 143 stations on the Singapore MRT map and hear its announcement.</span><em>For train fans</em></a></li>
-      </ul>
-    </div>
-  </section>
-
   <section class="tipjar-section" id="tip-jar" aria-labelledby="tipjar-title">
     <div class="wrap">
       <div class="tipjar">
@@ -1031,6 +1019,22 @@ kbd {
           <summary>Do I need a buzzer?</summary>
           <p>Any free buzzer app works (we use <a href="https://www.multibuzz.app/" target="_blank" rel="noopener" data-umami-event="outbound-click" data-umami-event-target="multibuzz">MultiBuzz</a>). Raised hands work too, if your friends are honest.</p>
         </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap about-card">
+      <div>
+        <h2>Made with love</h2>
+        <p>Hi, I'm Kavya. I live in Singapore and I make small things on the internet, some for work and some just because they're fun to make!</p>
+      </div>
+      <div>
+        <p class="projects-eyebrow">My other projects</p>
+        <ul class="projects">
+          <li><a href="https://pokeandsee.com?ref=bollyquiz" target="_blank" rel="noopener" data-umami-event="outbound-click" data-umami-event-target="poke-and-see"><strong>Poke &amp; See</strong><span>Tiny interactive science toys for 3 to 5 year olds.</span><em>pokeandsee.com</em></a></li>
+          <li><a href="https://kavyaj.github.io/mrt-announcements/?ref=bollyquiz" target="_blank" rel="noopener" data-umami-event="outbound-click" data-umami-event-target="mrt-announcements"><strong>MRT Announcements</strong><span>Tap any of 143 stations on the Singapore MRT map and hear its announcement.</span><em>For train fans</em></a></li>
+        </ul>
       </div>
     </div>
   </section>
