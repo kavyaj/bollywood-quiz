@@ -6,7 +6,8 @@
     { href: "/", label: "BollyQuiz home" },
     { href: "/quiz-1/", label: "First Day First Show" },
     { href: "/bollywood-quiz-questions/", label: "50 Bollywood quiz questions" },
-    { href: "/bollywood-quiz-ppt/", label: "Bollywood quiz PPT" }
+    { href: "/bollywood-quiz-ppt/", label: "Bollywood quiz PPT" },
+    { href: "/bollywood-emoji-quiz/", label: "Bollywood emoji quiz" }
   ];
 
   var here = location.pathname.replace(/index\.html$/, "");

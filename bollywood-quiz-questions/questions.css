@@ -118,6 +118,8 @@ h2 { margin: 0; font-family: "Shrikhand", cursive; font-weight: 400; font-size: 
 .cta svg { width: 92px; height: auto; }
 .cta h2 { font-size: 1.4rem; }
 .cta p { margin: 4px 0 14px; color: var(--muted); }
+.cta .small { margin: 10px 0 0; font-size: .9rem; }
+.cta .small a { text-underline-offset: 3px; }
 .btn { display: inline-block; padding: 11px 20px; border-radius: 999px; background: var(--ink); color: var(--card); font-weight: 600; text-decoration: none; }
 .faqs { margin: 40px 0 0; }
 .faqs h2 { font-size: 1.35rem; margin-bottom: 6px; }
