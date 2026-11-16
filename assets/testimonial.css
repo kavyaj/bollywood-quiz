@@ -95,6 +95,8 @@
   box-shadow: 0 14px 34px rgba(0,0,0,.35);
 }
 .bq-testimonial--dark figcaption { border-top-color: rgba(255,243,227,.18); }
+/* No marker highlight on the dark card: the gold wash made the bold sentence hard to read */
+.bq-testimonial--dark blockquote strong { background: none; }
 .bq-testimonial--dark .bq-testimonial__stub span { color: #2A1D17; }
 .bq-testimonial--dark .bq-testimonial__stub span + span { color: #fff; }
 .bq-testimonial--dark .bq-testimonial__place { color: var(--t-gold); }
