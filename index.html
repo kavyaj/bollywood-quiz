@@ -120,7 +120,6 @@
 }
 </script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<script defer src="/assets/more-quizzes.js"></script>
 <link rel="preload" href="assets/fonts/shrikhand.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face { font-family: "Shrikhand"; src: url("assets/fonts/shrikhand.woff2") format("woff2"); font-weight: 400; font-display: swap; }
@@ -754,7 +753,7 @@ kbd {
     <div class="wrap">
       <div class="section-head">
         <h2>The quiz</h2>
-        <p>Three boards, played in order. Each one takes about an hour with a full room. Short on time? Play these <a href="/bollywood-quiz-questions/">50 Bollywood quiz questions with answers</a> on your phone instead.</p>
+        <p>Three boards, played in order. Each one takes about an hour with a full room, so that's your Bollywood quiz night sorted. It runs online in any browser, with nothing to install. Short on time? Play these <a href="/bollywood-quiz-questions/">50 Bollywood quiz questions with answers</a> on your phone instead.</p>
       </div>
 
       <article class="ticket">
@@ -1072,7 +1071,14 @@ kbd {
   <div class="wrap footer-top">
     <nav class="more-quizzes" aria-labelledby="more-quizzes-title">
       <h2 id="more-quizzes-title">More Bollywood quizzes and games</h2>
-      <ul data-more-quizzes></ul>
+      <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+      <ul>
+        <li><a href="/" aria-current="page">BollyQuiz home</a></li>
+        <li><a href="/quiz-1/">First Day First Show</a></li>
+        <li><a href="/bollywood-quiz-questions/">50 Bollywood quiz questions</a></li>
+        <li><a href="/bollywood-quiz-ppt/">Bollywood quiz PPT</a></li>
+        <li><a href="/bollywood-emoji-quiz/">Bollywood emoji quiz</a></li>
+      </ul>
     </nav>
     <a class="btn btn-ghost" href="https://ko-fi.com/kavyaj?ref=bollyquiz" target="_blank" rel="noopener" data-umami-event="tip-jar-click" data-umami-event-location="footer">Tip jar</a>
   </div>

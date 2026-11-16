@@ -12,7 +12,6 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
-<script defer src="/assets/more-quizzes.js"></script>
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="BollyQuiz">
 <meta property="og:locale" content="en_IN">
@@ -824,7 +823,7 @@
 
     <section class="about" aria-labelledby="about-h">
       <h2 id="about-h">What's a Bollywood emoji quiz?</h2>
-      <p>A Bollywood emoji quiz tells a film in a handful of emojis, and you guess which one it is. Sometimes the emojis spell out the title word for word. Sometimes they sum up the plot (🌧️☂️👫 could be half the romances of the 90s, which is what makes it fun).</p>
+      <p>A Bollywood emoji quiz is an emoji movie quiz for Hindi films: each one is told in a handful of emojis, and you guess which film it is. Sometimes the emojis spell out the title word for word. Sometimes they sum up the plot (🌧️☂️👫 could be half the romances of the 90s, which is what makes it fun).</p>
       <p>Guessing the Bollywood movie by emoji is a good warm-up at a party, a decent way to pass a long commute, and a reliable way to start an argument in the family WhatsApp group.</p>
       <p>The puzzles here run from blockbusters to films your parents will get before you do. Every one has a hint and an answer with a line explaining the emojis, so it's a Bollywood emoji quiz with answers, not just a list of riddles.</p>
     </section>
@@ -865,7 +864,14 @@
 
   <footer>
     <h2>More Bollywood quizzes and games</h2>
-    <ul data-more-quizzes></ul>
+    <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+    <ul>
+      <li><a href="/">BollyQuiz home</a></li>
+      <li><a href="/quiz-1/">First Day First Show</a></li>
+      <li><a href="/bollywood-quiz-questions/">50 Bollywood quiz questions</a></li>
+      <li><a href="/bollywood-quiz-ppt/">Bollywood quiz PPT</a></li>
+      <li><a href="/bollywood-emoji-quiz/" aria-current="page">Bollywood emoji quiz</a></li>
+    </ul>
     <p>A non-commercial fan quiz. Films and songs belong to their creators and rights holders. Made by Kavya. <a href="#tip-jar">Tip jar</a></p>
   </footer>
 </div>

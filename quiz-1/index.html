@@ -30,7 +30,6 @@
 <meta name="twitter:image:alt" content="A pink quiz board with gold tiles reading 10 to 50 and the title Are You Desi Enough? in the middle">
 <meta name="theme-color" content="#3D0F14">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<script defer src="/assets/more-quizzes.js"></script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
 <style>
 /* ============================================================
@@ -924,7 +923,14 @@ kbd {
     <p class="help-foot">Hosting? Open the <a href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="help">answer sheet</a> on your phone at <b>bollyquiz.com/quiz-1/answers</b> so you can judge without turning round to the TV.</p>
     <nav class="help-more" aria-labelledby="help-more-title">
       <h3 class="display" id="help-more-title">More Bollywood quizzes and games</h3>
-      <ul data-more-quizzes></ul>
+      <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+      <ul>
+        <li><a href="/">BollyQuiz home</a></li>
+        <li><a href="/quiz-1/" aria-current="page">First Day First Show</a></li>
+        <li><a href="/bollywood-quiz-questions/">50 Bollywood quiz questions</a></li>
+        <li><a href="/bollywood-quiz-ppt/">Bollywood quiz PPT</a></li>
+        <li><a href="/bollywood-emoji-quiz/">Bollywood emoji quiz</a></li>
+      </ul>
     </nav>
   </div>
 </div>

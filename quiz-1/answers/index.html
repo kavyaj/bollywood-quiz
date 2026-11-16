@@ -8,7 +8,6 @@
 <!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
 <title>Host Answer Sheet · BollyQuiz</title>
-<script defer src="/assets/more-quizzes.js"></script>
 <style>
 /* Baloo 2 ExtraBold, the same local files the quiz uses */
 @font-face {
@@ -164,7 +163,14 @@ td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-
 <footer class="site-footer">
   <nav class="more-quizzes" aria-labelledby="more-quizzes-title">
     <h2 id="more-quizzes-title">More Bollywood quizzes and games</h2>
-    <ul data-more-quizzes></ul>
+    <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+    <ul>
+      <li><a href="/">BollyQuiz home</a></li>
+      <li><a href="/quiz-1/">First Day First Show</a></li>
+      <li><a href="/bollywood-quiz-questions/">50 Bollywood quiz questions</a></li>
+      <li><a href="/bollywood-quiz-ppt/">Bollywood quiz PPT</a></li>
+      <li><a href="/bollywood-emoji-quiz/">Bollywood emoji quiz</a></li>
+    </ul>
   </nav>
 </footer>
 
