@@ -1,0 +1,119 @@
+/* BollyQuiz testimonial component. Shared by every page. */
+.bq-testimonial {
+  --t-bg: #FFFCF6;
+  --t-ink: #2A1D17;
+  --t-muted: #6F5E52;
+  --t-accent: #D6457A;
+  --t-gold: #E9A23B;
+  --t-stub: #FBE6BF;
+  --t-page: #F6EFE2;           /* colour of the page behind the card, for the notches */
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--t-bg);
+  color: var(--t-ink);
+  border-radius: 22px;
+  box-shadow: 0 2px 4px rgba(42,29,23,.06), 0 14px 32px rgba(42,29,23,.10);
+  font-family: "Mukta", system-ui, sans-serif;
+  transform: rotate(-1deg);
+  transition: transform .3s cubic-bezier(.2,1.4,.4,1);
+}
+.bq-testimonial:hover { transform: rotate(0) translateY(-2px); }
+
+.bq-testimonial__body { position: relative; padding: 34px 32px 26px 36px; }
+.bq-testimonial__mark {
+  position: absolute; top: -22px; left: 24px;
+  font-family: "Shrikhand", cursive; font-size: 5.2rem; line-height: 1;
+  color: var(--t-gold);
+}
+.bq-testimonial blockquote { margin: 0; }
+.bq-testimonial blockquote p {
+  margin: 0;
+  font-size: 1.22rem; line-height: 1.55; font-weight: 500;
+}
+.bq-testimonial blockquote strong {
+  font-weight: 700;
+  background: linear-gradient(transparent 62%, rgba(233,162,59,.38) 62%);
+}
+
+.bq-testimonial figcaption {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 22px; padding-top: 18px;
+  border-top: 2px dashed #E7DCCB;
+}
+.bq-testimonial__avatar {
+  flex: none; display: grid; place-items: center;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--t-accent); color: #fff;
+  font-family: "Shrikhand", cursive; font-size: 1.15rem;
+  overflow: hidden;
+}
+.bq-testimonial__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.bq-testimonial__name { display: block; font-weight: 700; font-size: 1.08rem; line-height: 1.2; }
+.bq-testimonial__tagline { display: block; color: var(--t-muted); font-size: .98rem; line-height: 1.35; }
+.bq-testimonial__place { display: block; margin-top: 2px; color: var(--t-accent); font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+/* the ticket stub */
+.bq-testimonial__stub {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  width: 86px;
+  background: var(--t-stub);
+  border-radius: 0 22px 22px 0;
+  border-left: 3px dashed rgba(42,29,23,.18);
+}
+.bq-testimonial__stub::before, .bq-testimonial__stub::after {
+  content: ""; position: absolute; left: -14px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--t-page);
+}
+.bq-testimonial__stub::before { top: -13px; }
+.bq-testimonial__stub::after { bottom: -13px; }
+.bq-testimonial__stub span {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: .74rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--t-ink); white-space: nowrap;
+}
+.bq-testimonial__stub span + span { color: var(--t-accent); }
+
+/* compact variant: pull quote only, for under CTAs and in footers */
+.bq-testimonial--compact { max-width: 520px; transform: none; }
+.bq-testimonial--compact:hover { transform: translateY(-2px); }
+.bq-testimonial--compact .bq-testimonial__body { padding: 24px 24px 20px 28px; }
+.bq-testimonial--compact .bq-testimonial__mark { font-size: 3.8rem; top: -16px; left: 18px; }
+.bq-testimonial--compact blockquote p { font-size: 1.05rem; }
+.bq-testimonial--compact figcaption { margin-top: 14px; padding-top: 12px; }
+.bq-testimonial--compact .bq-testimonial__avatar { width: 40px; height: 40px; font-size: .95rem; }
+.bq-testimonial--compact .bq-testimonial__stub { width: 58px; }
+
+/* dark variant: for the maroon homepage */
+.bq-testimonial--dark {
+  --t-bg: #521820; --t-ink: #FFF3E3; --t-muted: #E9CFC4;
+  --t-stub: #E9A23B; --t-page: #3D0F14;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+}
+.bq-testimonial--dark figcaption { border-top-color: rgba(255,243,227,.18); }
+.bq-testimonial--dark .bq-testimonial__stub span { color: #2A1D17; }
+.bq-testimonial--dark .bq-testimonial__stub span + span { color: #fff; }
+.bq-testimonial--dark .bq-testimonial__place { color: var(--t-gold); }
+
+@media (max-width: 560px) {
+  .bq-testimonial { grid-template-columns: 1fr; transform: none; }
+  .bq-testimonial__stub {
+    width: auto; flex-direction: row; padding: 10px 16px;
+    border-radius: 0 0 22px 22px; border-left: 0; border-top: 3px dashed rgba(42,29,23,.18);
+  }
+  .bq-testimonial__stub::before { top: -14px; left: -13px; }
+  .bq-testimonial__stub::after { top: -14px; bottom: auto; left: auto; right: -13px; }
+  .bq-testimonial__stub span { writing-mode: horizontal-tb; transform: none; }
+  .bq-testimonial blockquote p { font-size: 1.1rem; }
+  .bq-testimonial__body { padding: 30px 22px 22px 24px; }
+  .bq-testimonial--compact .bq-testimonial__stub { width: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bq-testimonial, .bq-testimonial:hover { transition: none; }
+}
+
+.bq-testimonial-wrap { margin: 56px auto; padding: 0 4px; }
