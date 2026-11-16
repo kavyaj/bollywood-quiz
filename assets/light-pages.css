@@ -1,5 +1,7 @@
-/* Shared by the light-theme landing pages (/bollywood-quiz-questions/, /bollywood-quiz-ppt/).
-   Each page loads this first, then its own CSS file for everything page-specific. */
+/* Shared by the light-theme pages: /bollywood-quiz-questions/, /bollywood-quiz-ppt/, /bollywood-emoji-quiz/,
+   /hindi-movie-quiz/, /bollywood-dumb-charades/, /diwali-games/, /holi-games/ and the /quiz-2/answers/ title list.
+   Each page loads this first, then (for the four newest landing pages) /assets/landing.css and
+   /assets/testimonial.css, then its own CSS file for everything page-specific. */
 
 /* The site's self-hosted fonts */
 @font-face { font-family: "Shrikhand"; src: url("/assets/fonts/shrikhand.woff2") format("woff2"); font-weight: 400; font-display: swap; }

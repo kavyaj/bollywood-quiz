@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Housefull: Bollywood Dumb Charades Board | BollyQuiz</title>
+<meta name="description" content="Bollywood dumb charades on the big screen: 75 film and song titles on three boards. Hold to peek, 60 seconds to act it out. Free, no sign-up.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://bollyquiz.com/quiz-2/">
+<!-- Umami analytics: cookie-free, no personal data. Only counts on bollyquiz.com, not localhost. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="9bbb40c6-c1a8-4f52-ab2f-97fe47a3473e" data-domains="bollyquiz.com"></script>
+
+<!-- Share previews -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BollyQuiz">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bollyquiz.com/quiz-2/">
+<meta property="og:title" content="Housefull: Bollywood dumb charades for game night">
+<meta property="og:description" content="Bollywood dumb charades on the big screen: 75 film and song titles on three boards. Hold to peek, 60 seconds to act it out. Free, no sign-up.">
+<meta property="og:image" content="https://bollyquiz.com/assets/og-quiz-2.png">
+<meta property="og:image:secure_url" content="https://bollyquiz.com/assets/og-quiz-2.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A pink quiz board with squares worth 10 to 50 and the title Housefull: dumb charades">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Housefull: Bollywood dumb charades for game night">
+<meta name="twitter:description" content="Bollywood dumb charades on the big screen: 75 film and song titles on three boards. Hold to peek, 60 seconds to act it out. Free, no sign-up.">
+<meta name="twitter:image" content="https://bollyquiz.com/assets/og-quiz-2.png">
+<meta name="twitter:image:alt" content="A pink quiz board with squares worth 10 to 50 and the title Housefull: dumb charades">
+<meta name="theme-color" content="#3D0F14">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   Design tokens (from the party invite)
+   ============================================================ */
+/* Baloo 2 ExtraBold, bundled locally as two subsets (from Google Fonts) */
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("/quiz-1/assets/fonts/display-latin.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+                 U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+                 U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "QuizDisplay";
+  src: url("/quiz-1/assets/fonts/display-devanagari.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC,
+                 U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
+:root {
+  --maroon:     #3D0F14;
+  --pink:       #ED5C88;
+  --pink-dark:  #D6336C;
+  --cream:      #FAF0E0;
+  --saffron:    #F5A623;
+  --saffron-dk: #E08A12;
+  --green:      #1B7A52;
+  --gold:       #F7C948;
+
+  --ground:     #F8E4C4;   /* cream warmed with saffron, under the sunburst */
+  --display: "QuizDisplay", "Baloo 2", "Segoe UI Black", "Arial Rounded MT Bold", "Nirmala UI", sans-serif;
+  --sans: -apple-system, "Segoe UI", Roboto, "Nirmala UI", sans-serif;
+  --emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+
+  --gutter: min(0.9vw, 1.4vh);
+  --lift-ms: 400ms;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  background: var(--ground);
+  color: var(--maroon);
+  font-family: var(--sans);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Full-bleed sunburst from top centre, kept faint so it never fights content */
+.sunburst {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background: repeating-conic-gradient(from 0deg at 50% 0%,
+    var(--saffron-dk) 0deg 6deg,
+    var(--saffron) 6deg 12deg);
+}
+
+/* Cream panel with the invite's double maroon frame */
+.frame {
+  position: relative;
+  background: var(--cream);
+  border: 8px solid var(--maroon);
+  border-radius: 20px;
+}
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 2.5px solid var(--maroon);
+  border-radius: 11px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.display { font-family: var(--display); font-weight: 800; }
+
+/* Cream numerals need an outline to hold contrast on pink */
+.outlined {
+  color: var(--cream);
+  text-shadow:
+     0.045em  0.045em 0 var(--maroon),
+    -0.045em  0.045em 0 var(--maroon),
+     0.045em -0.045em 0 var(--maroon),
+    -0.045em -0.045em 0 var(--maroon),
+     0       0.1em    0 var(--maroon);
+}
+
+/* ============================================================
+   Board view
+   ============================================================ */
+#board-view {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+  padding: 1.4vh 2vw 2vh;
+}
+
+.board-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2vw;
+}
+
+/* Board tabs: one segmented control so it's obvious there are three boards,
+   with a progress bar per board and a tick when a board is finished. */
+.board-switch {
+  justify-self: start;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;   /* equal tabs, so the tick on a finished board doesn't shift the others */
+  gap: 0.25em;
+  padding: 0.25em;
+  background: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  font-size: min(1.65vw, 2.8vh);
+}
+.board-tab {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--maroon);
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0.4em 0.9em 0.45em;
+  display: grid;
+  justify-items: center;
+  gap: 0.3em;
+  cursor: pointer;
+  transition: background-color .15s;
+}
+.board-tab:hover { background: rgba(237, 92, 136, .2); }
+.board-tab[aria-selected="true"] { background: var(--pink); box-shadow: inset 0 0 0 2px var(--maroon); }
+.bt-bar {
+  width: 100%;
+  min-width: 3em;
+  height: 0.3em;
+  border-radius: 999px;
+  background: rgba(61, 15, 20, .15);
+  overflow: hidden;
+}
+.bt-bar i {
+  display: block;
+  height: 100%;
+  width: calc(var(--p, 0) * 100%);
+  background: var(--maroon);
+  border-radius: inherit;
+  transition: width .5s ease;
+}
+.bt-label { position: relative; }
+/* The tick sits in the tab's right padding, so a finished tab keeps its width */
+.board-tab.done .bt-label::after { content: "\2713"; position: absolute; left: 100%; margin-left: 0.2em; }
+.board-tab.done .bt-bar i { background: var(--green); }
+/* Pulses the next unfinished board once the current one is done */
+.board-tab.nudge { animation: tab-nudge 1.4s ease-in-out infinite; }
+@keyframes tab-nudge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(247, 201, 72, 0); }
+  50%      { box-shadow: 0 0 0 0.3em var(--gold); background: rgba(247, 201, 72, .35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .board-tab.nudge { animation: none; box-shadow: 0 0 0 0.3em var(--gold); }
+}
+
+.title-block { text-align: center; line-height: 1; }
+.title-block .kicker {
+  display: inline-block;
+  background: var(--pink);
+  color: var(--maroon);
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  padding: 0.15em 0.9em;
+  font-size: min(1.3vw, 2.2vh);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.5vh;
+}
+.title-block h1 {
+  margin: 0;
+  font-size: min(4.2vw, 6.6vh);
+  color: var(--maroon);
+}
+
+.board-status {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+.readout {
+  background: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 999px;
+  padding: 0.2em 0.8em;
+  font-size: min(2vw, 3.4vh);
+  white-space: nowrap;
+}
+.key-hint {
+  font-size: min(1.1vw, 1.9vh);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.key-hint kbd { font-family: var(--sans); font-weight: 700; }
+
+#boards { flex: 1; min-height: 0; }
+
+.board {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  padding: 16px;
+}
+
+.col-headers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.col-h {
+  margin: 0 calc(var(--gutter) / 2);
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--green);
+  color: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 10px;
+  padding: 0.2em 0.5em;
+  font-size: min(1.5vw, 2.7vh);
+  line-height: 1.1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* The grid sits on the hidden photo. The photo is fixed to the grid area. */
+.grid-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  container-type: size;
+}
+.hidden-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.grid-wrap.photo-missing {
+  background: repeating-linear-gradient(45deg, #4a1a20 0 24px, var(--maroon) 24px 48px);
+}
+.grid-wrap.photo-missing .hidden-photo { display: none; }
+.grid-wrap.photo-missing::before {
+  content: "Hidden photo missing: " attr(data-src);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  font-size: 4cqh;
+  font-weight: 700;
+}
+
+.tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+/* A cell is a cream backing (covers the gutters) holding a pink tile.
+   Lifting fades the WHOLE cell to opacity 0, so the hole is a clean,
+   fully transparent rectangle that joins its lifted neighbours. */
+.cell {
+  position: relative;
+  padding: calc(var(--gutter) / 2);
+  background: var(--cream);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity var(--lift-ms) ease var(--delay, 0ms);
+}
+.tile {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  transition:
+    transform var(--lift-ms) cubic-bezier(.2, .7, .3, 1) var(--delay, 0ms),
+    background-color 120ms ease;
+}
+.tile .num {
+  font-size: min(13cqh, 8.5cqw);
+  line-height: 1;
+}
+.cell:hover .tile { background: var(--pink-dark); }
+
+.cell.is-cursor { z-index: 2; }
+.cell.is-cursor .tile {
+  background: var(--pink-dark);
+  box-shadow: 0 0 0 4px var(--gold), 0 0 28px 10px rgba(247, 201, 72, 0.85);
+  transform: scale(1.03);
+}
+
+.cell.lifted { opacity: 0; }
+.cell.lifted .tile { transform: scale(1.12); }
+
+/* Cursor over an already-lifted hole: outline only, never a fill */
+.cursor-ring {
+  z-index: 3;
+  margin: calc(var(--gutter) / 2);
+  border: 5px solid var(--gold);
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px var(--maroon), inset 0 0 0 2px var(--maroon);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.cursor-ring.show { opacity: 1; }
+
+/* ============================================================
+   Question / answer view
+   ============================================================ */
+#question-view {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  padding: 2.4vh 2.4vw;
+  background: var(--ground);
+  --fit: 1;
+}
+#question-view > .sunburst { z-index: 0; }
+
+.q-frame {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding: 3vh 3.4vw;
+}
+
+.q-head {
+  display: flex;
+  align-items: center;
+  gap: 1.2vw;
+}
+.q-cat {
+  background: var(--green);
+  color: var(--cream);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  padding: 0.2em 0.8em;
+  font-size: min(2.4vw, 4.2vh);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+.q-pts {
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 12px;
+  padding: 0.05em 0.5em;
+  font-size: min(3vw, 5.2vh);
+  line-height: 1.15;
+}
+.q-progress {
+  margin-left: auto;
+  display: flex;
+  gap: 0.6vw;
+  align-items: center;
+}
+.q-progress i {
+  width: min(1.6vw, 2.6vh);
+  height: min(1.6vw, 2.6vh);
+  border-radius: 50%;
+  border: 3px solid var(--maroon);
+  background: transparent;
+}
+.q-progress i.on { background: var(--pink); }
+.q-close {
+  margin-left: auto;
+  width: min(3.2vw, 5.4vh);
+  height: min(3.2vw, 5.4vh);
+  border-radius: 50%;
+  border: 3px solid var(--maroon);
+  display: grid;
+  place-items: center;
+  font-size: min(1.8vw, 3vh);
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.45;
+  flex: none;
+}
+.q-progress + .q-close { margin-left: 1vw; }
+.q-close:hover { opacity: 1; }
+
+.q-instruction {
+  font-size: min(2.3vw, 3.9vh);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.q-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+}
+
+/* text */
+.q-text {
+  text-align: center;
+  text-wrap: balance;
+  line-height: 1.15;
+  font-size: calc(var(--fit) * min(7vw, 12vh));
+}
+.q-text.prose {
+  font-family: var(--sans);
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 28ch;
+  font-size: calc(var(--fit) * min(4.4vw, 7.6vh));
+}
+
+/* emoji */
+.q-emoji {
+  font-family: var(--emoji);
+  font-size: calc(var(--fit) * min(10vw, 18vh));
+  letter-spacing: 0.2em;
+  margin-right: -0.2em;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* longText: capped line length, tall rather than wide */
+.q-long {
+  max-width: var(--measure, 60ch);
+  text-align: left;
+  font-size: max(var(--floor, 28px), calc(var(--fit) * min(3.2vw, 5.4vh)));
+  line-height: 1.5;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* list */
+.q-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--fit) * 2.4vh);
+  min-width: min(56vw, 100%);
+}
+.q-list li {
+  text-align: center;
+  background: #FFF8EC;
+  border: 4px solid var(--maroon);
+  border-radius: 18px;
+  box-shadow: 0 0.08em 0 var(--maroon);
+  padding: 0.15em 1em;
+  line-height: 1.2;
+  font-size: calc(var(--fit) * min(5vw, 8.6vh));
+}
+
+/* clueChain: accumulate, anchored at top so earlier clues never jump */
+.q-body.type-clueChain { justify-content: flex-start; }
+.q-clues {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: var(--measure, 60ch);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--fit) * 2.6vh);
+  font-size: max(var(--floor, 28px), calc(var(--fit) * min(2.9vw, 4.9vh)));
+}
+.q-clues li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8em;
+  align-items: start;
+  line-height: 1.45;
+  font-weight: 500;
+}
+.q-clues .n {
+  min-width: 1.7em;
+  text-align: center;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 0.35em;
+  line-height: 1.35;
+}
+.q-clues li.latest { animation: rise 380ms ease both; }
+
+/* audio */
+.audio-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--fit) * 3.4vh);
+}
+.play-btn {
+  width: calc(var(--fit) * min(24vh, 15vw));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--maroon);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1vh var(--pink), 0 0 0 1.6vh var(--maroon);
+  cursor: pointer;
+}
+.play-btn svg { width: 42%; margin-left: 9%; fill: var(--cream); }
+.eq {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--fit) * 1.1vh);
+  height: calc(var(--fit) * 11vh);
+}
+.eq i {
+  width: 2.4vh;
+  height: 18%;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 1.2vh;
+}
+.audio-state {
+  font-size: calc(var(--fit) * min(2.8vw, 4.6vh));
+  text-align: center;
+}
+.audio-state .playing-label { display: none; }
+.audio-hint {
+  font-size: max(14px, calc(var(--fit) * min(1.7vw, 2.9vh)));
+  font-weight: 600;
+  opacity: 0.75;
+}
+.audio-playing .eq i { animation: eq 0.46s ease-in-out infinite alternate; }
+.audio-playing .eq i:nth-child(2n) { animation-duration: 0.37s; }
+.audio-playing .eq i:nth-child(3n) { animation-duration: 0.55s; }
+.audio-playing .play-btn { animation: pulse 0.9s ease-in-out infinite; }
+.audio-playing .audio-state .playing-label { display: inline; }
+.audio-playing .audio-state .idle-label { display: none; }
+.audio-error .eq { display: none; }
+.audio-missing {
+  font-family: var(--sans);
+  font-size: calc(var(--fit) * min(2.2vw, 3.6vh));
+  padding: 1.6vh 2vw;
+}
+
+/* answer block */
+.q-answer {
+  display: none;
+  background: var(--maroon);
+  color: var(--cream);
+  border-radius: 16px;
+  padding: 1.8vh 2.6vw 2.2vh;
+  box-shadow: inset 0 0 0 3px var(--gold);
+}
+.show-answer .q-answer {
+  display: block;
+  animation: rise 300ms ease both;
+}
+.q-answer-label {
+  color: var(--gold);
+  font-size: min(1.5vw, 2.6vh);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.q-answer-text {
+  font-size: min(4.6vw, 7.8vh);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.q-answer-text.long { font-size: min(3.2vw, 5.4vh); }
+.q-answer-note {
+  margin-top: 0.5em;
+  font-size: min(2.1vw, 3.6vh);
+  font-weight: 500;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+/* image: full-bleed on a dark ground, nothing else */
+#question-view.image-mode { background: #1F080B; }
+#question-view.image-mode > .sunburst { display: none; }
+.q-image {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2.4vh;
+  position: relative;
+}
+.q-img-wrap {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+}
+.q-img-wrap img,
+.q-img-wrap .missing {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.q-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Optional answerImage: appears beside the question image on reveal */
+.q-img-wrap .q-answer-img { display: none; }
+.show-answer .q-img-wrap .q-answer-img { display: block; animation: rise 300ms ease both; }
+.q-image .q-answer { align-self: center; max-width: 90%; text-align: center; }
+
+/* The only mouse control that moves a question forward */
+.q-actions {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+}
+.q-image .q-actions { justify-content: center; }
+.q-action {
+  font-size: min(2.1vw, 3.6vh);
+  line-height: 1.2;
+  background: var(--pink);
+  border: 3px solid var(--maroon);
+  border-radius: 14px;
+  padding: 0.3em 1.1em;
+  box-shadow: 0 0.12em 0 var(--maroon);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.q-action:hover { background: var(--pink-dark); }
+.q-action:active { transform: translateY(0.08em); box-shadow: 0 0.04em 0 var(--maroon); }
+.image-mode .q-action { border-color: var(--cream); box-shadow: 0 0.12em 0 var(--cream); }
+.q-image .q-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-color: var(--cream);
+  color: var(--cream);
+  opacity: 0.25;
+  z-index: 2;
+}
+
+.missing {
+  border: 4px dashed currentColor;
+  border-radius: 16px;
+  padding: 4vh 3vw;
+  text-align: center;
+  font-size: min(2.4vw, 4vh);
+  font-weight: 700;
+  line-height: 1.4;
+}
+.missing code { font-size: 0.8em; font-weight: 500; }
+.image-mode .missing { color: var(--cream); }
+
+/* ============================================================
+   Help overlay
+   ============================================================ */
+#help {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 8, 11, 0.72);
+}
+.help-card {
+  width: min(1200px, 92vw);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 3vh 3vw;
+}
+.help-card h2 {
+  margin: 0 0 2vh;
+  font-size: min(3vw, 5vh);
+}
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4vw;
+}
+.help-grid h3 {
+  margin: 0 0 1vh;
+  background: var(--green);
+  color: var(--cream);
+  border-radius: 8px;
+  padding: 0.2em 0.6em;
+  font-size: min(1.6vw, 2.8vh);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.help-grid dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9vh 0.9vw;
+  font-size: min(1.45vw, 2.5vh);
+  line-height: 1.3;
+}
+.help-grid dt { white-space: nowrap; }
+.help-grid dd { margin: 0; }
+kbd {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85em;
+  background: #FFF8EC;
+  border: 2px solid var(--maroon);
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  padding: 0 0.4em;
+}
+.help-foot { margin-top: 2.4vh; font-size: min(1.3vw, 2.2vh); opacity: 0.75; }
+.help-more { margin-top: 2.4vh; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6vh 1.6vw; font-size: min(1.3vw, 2.2vh); }
+.help-more h3 { margin: 0; font-size: 1em; }
+.help-more ul { display: flex; flex-wrap: wrap; gap: 0.6vh 1.6vw; margin: 0; padding: 0; list-style: none; }
+.help-more a { color: inherit; font-weight: 700; }
+.help-more a[aria-current="page"] { text-decoration: none; opacity: 0.6; }
+
+/* Small line under the board once every board is finished. Not a pop-up. */
+.end-tip { margin: 0; text-align: center; font-size: min(1.5vw, 2.5vh); font-weight: 600; color: var(--maroon); }
+.end-tip a { color: var(--pink-dark); text-underline-offset: 0.2em; }
+
+/* ============================================================
+   Session: confirm dialog + toast
+   ============================================================ */
+#confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 8, 11, 0.72);
+}
+.confirm-card {
+  width: min(760px, 88vw);
+  padding: 4vh 3.4vw;
+  text-align: center;
+}
+.confirm-card h2 { margin: 0 0 1.4vh; font-size: min(3.4vw, 5.6vh); }
+.confirm-card p {
+  margin: 0 0 3vh;
+  font-size: min(1.9vw, 3.2vh);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.confirm-keys { font-size: min(1.8vw, 3vh); font-weight: 700; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 3.5vh;
+  z-index: 70;
+  transform: translate(-50%, 20px);
+  max-width: 90vw;
+  background: var(--maroon);
+  color: var(--cream);
+  box-shadow: inset 0 0 0 3px var(--gold);
+  border-radius: 999px;
+  padding: 0.6em 1.4em;
+  font-size: min(1.7vw, 2.9vh);
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+#toast kbd { color: var(--maroon); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes eq {
+  from { height: 14%; }
+  to   { height: 100%; }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+.answers-link { color: inherit; text-decoration: underline; text-underline-offset: 3px; margin-right: .75rem; }
+
+/* ============================================================
+   Charade square: hold to peek, then a 60-second clock
+   ============================================================ */
+.ch { width: 100%; display: flex; flex-direction: column; align-items: center; gap: calc(var(--fit) * 2.6vh); text-align: center; }
+.ch-eyes { font-size: calc(var(--fit) * min(4.2vw, 7.2vh)); line-height: 1.1; text-wrap: balance; }
+.ch-card {
+  position: relative; width: min(74vw, 100%); min-height: calc(var(--fit) * 26vh);
+  display: grid; place-items: center; padding: 2vh 3vw;
+  background: #FFF8EC; border: 4px dashed var(--maroon); border-radius: 22px;
+}
+.ch-title { visibility: hidden; font-size: calc(var(--fit) * min(6vw, 10vh)); line-height: 1.1; text-wrap: balance; }
+.ch-cover { position: absolute; inset: 0; display: grid; place-items: center; font-size: calc(var(--fit) * min(9vw, 15vh)); color: var(--pink); letter-spacing: .2em; }
+.ch.peeking .ch-card { border-style: solid; background: var(--gold); }
+.ch.peeking .ch-title { visibility: visible; }
+.ch.peeking .ch-cover { display: none; }
+.ch-hold {
+  font-size: calc(var(--fit) * min(3vw, 5vh)); line-height: 1.2;
+  background: var(--saffron); border: 4px solid var(--maroon); border-radius: 999px;
+  padding: .35em 1.4em; box-shadow: 0 .14em 0 var(--maroon); cursor: pointer;
+  touch-action: none; -webkit-user-select: none; user-select: none;
+}
+.ch.peeking .ch-hold { transform: translateY(.1em); box-shadow: 0 .04em 0 var(--maroon); background: var(--saffron-dk); }
+.ch-hint { font-size: max(14px, calc(var(--fit) * min(1.7vw, 2.9vh))); font-weight: 600; opacity: .75; }
+.ch-clock { display: none; flex-direction: column; align-items: center; gap: calc(var(--fit) * 2vh); width: 100%; }
+.ch-words { background: var(--green); color: var(--cream); border: 3px solid var(--maroon); border-radius: 999px; padding: .15em 1em; font-size: calc(var(--fit) * min(2.6vw, 4.4vh)); letter-spacing: .06em; }
+.ch-time { font-size: calc(var(--fit) * min(20vw, 34vh)); line-height: 1; font-variant-numeric: tabular-nums; }
+.ch-bar { width: min(60vw, 100%); height: 2.2vh; border: 3px solid var(--maroon); border-radius: 999px; background: #FFF8EC; overflow: hidden; }
+.ch-bar i { display: block; height: 100%; width: calc(var(--p, 1) * 100%); background: var(--pink); transition: width 1s linear; }
+.ch-msg { min-height: 1.3em; font-size: calc(var(--fit) * min(2.6vw, 4.4vh)); line-height: 1.2; color: var(--pink-dark); text-wrap: balance; }
+.ch[data-phase="act"] .ch-eyes, .ch[data-phase="act"] .ch-card, .ch[data-phase="act"] .ch-hold, .ch[data-phase="act"] .ch-hint { display: none; }
+.ch[data-phase="act"] .ch-clock { display: flex; }
+.ch.low .ch-time { color: var(--gold); animation: ch-pulse 1s ease-in-out infinite; }
+.ch.low .ch-bar i { background: var(--pink-dark); }
+.ch.over .ch-time { animation: none; }
+.ch.paused .ch-time { opacity: .45; }
+.show-answer .ch-msg { visibility: hidden; }
+@keyframes ch-pulse { 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .ch.low .ch-time { animation: none; } .ch-bar i { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="sunburst"></div>
+
+<div id="board-view">
+  <header class="board-header">
+    <nav class="board-switch display" role="tablist" aria-label="Boards">
+      <button class="board-tab" role="tab" tabindex="-1" data-board="1"><span class="bt-label">Board 1</span><span class="bt-bar"><i></i></span></button>
+      <button class="board-tab" role="tab" tabindex="-1" data-board="2"><span class="bt-label">Board 2</span><span class="bt-bar"><i></i></span></button>
+      <button class="board-tab" role="tab" tabindex="-1" data-board="3"><span class="bt-label">Board 3</span><span class="bt-bar"><i></i></span></button>
+    </nav>
+    <div class="title-block">
+      <div class="kicker display" id="kicker">Dumb Charades</div>
+      <h1 class="display" id="title">Housefull</h1>
+    </div>
+    <div class="board-status">
+      <span class="key-hint"><kbd>H</kbd> keys</span>
+      <a class="key-hint answers-link" href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="board">Title list</a>
+      <span class="readout display" id="readout">0 / 25 lifted</span>
+    </div>
+  </header>
+  <div id="boards"></div>
+  <p class="end-tip" id="end-tip" hidden>Had fun? <a href="https://ko-fi.com/kavyaj?ref=bollyquiz-housefull" target="_blank" rel="noopener" data-umami-event="tip-jar-click" data-umami-event-location="endscreen">The tip jar keeps the next quiz coming.</a></p>
+</div>
+
+<div id="question-view" hidden></div>
+
+<div id="help" hidden>
+  <div class="help-card frame">
+    <h2 class="display">Host keys</h2>
+    <div class="help-grid">
+      <section>
+        <h3 class="display">Board</h3>
+        <dl>
+          <dt><kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd></dt><dd>Move highlight</dd>
+          <dt><kbd>Enter</kbd> / <kbd>Space</kbd></dt><dd>Open square</dd>
+          <dt><kbd>U</kbd></dt><dd>Undo last lift</dd>
+          <dt><kbd>Ctrl</kbd>+<kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></dt><dd>Switch board (plain <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> also works)</dd>
+          <dt><kbd>Shift</kbd>+<kbd>Enter</kbd></dt><dd>Lift all remaining tiles</dd>
+          <dt><kbd>S</kbd></dt><dd>Save a backup file to Downloads</dd>
+          <dt><kbd>L</kbd></dt><dd>Load a backup file</dd>
+          <dt><kbd>Shift</kbd>+<kbd>N</kbd></dt><dd>New game (asks first)</dd>
+          <dt><kbd>H</kbd></dt><dd>Toggle this help</dd>
+        </dl>
+      </section>
+      <section>
+        <h3 class="display">Peek</h3>
+        <dl>
+          <dt>Hold <kbd>Space</kbd></dt><dd>Actor peeks at the title. Let go and it hides</dd>
+          <dt><kbd>Enter</kbd> / <kbd>→</kbd></dt><dd>Start the 60-second clock</dd>
+          <dt><kbd>Backspace</kbd> / <kbd>Esc</kbd></dt><dd>Back to board, <b>not</b> marked</dd>
+        </dl>
+      </section>
+      <section>
+        <h3 class="display">Acting</h3>
+        <dl>
+          <dt><kbd>Space</kbd> / <kbd>Enter</kbd></dt><dd>Stop the clock and show the title</dd>
+          <dt><kbd>P</kbd></dt><dd>Pause or resume the clock</dd>
+          <dt><kbd>R</kbd></dt><dd>Restart the clock</dd>
+          <dt><kbd>←</kbd></dt><dd>Back to the peek screen</dd>
+          <dt>Then <kbd>Space</kbd></dt><dd>Back to board and lift the tile</dd>
+        </dl>
+      </section>
+    </div>
+    <p class="help-foot"><b>How a turn goes:</b> a team picks a square. Everyone except the actor shuts their eyes while the actor holds to peek. Start the clock, and the actor's team gets 60 seconds to guess. If they miss, the other team gets one guess for half the points. Keep score on paper. Mouse works too: click a square, press and hold <b>Hold to peek</b>, and use the button at the bottom right to move on. Progress autosaves in this browser after every change, so closing or refreshing the page picks up where you left off.</p>
+    <p class="help-foot">A room full of peekers? Open the <a href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="help">title list</a> on a phone at <b>bollyquiz.com/quiz-2/answers</b> and show the actor their title there.</p>
+    <nav class="help-more" aria-labelledby="help-more-title">
+      <h3 class="display" id="help-more-title">More Bollywood quizzes and games</h3>
+      <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+      <ul>
+        <li><a href="/">BollyQuiz home</a></li>
+        <li><a href="/quiz-1/">First Day First Show</a></li>
+        <li><a href="/quiz-2/" aria-current="page">Housefull: dumb charades</a></li>
+        <li><a href="/bollywood-quiz-questions/">50 Bollywood quiz questions</a></li>
+        <li><a href="/bollywood-quiz-ppt/">Bollywood quiz PPT</a></li>
+        <li><a href="/bollywood-emoji-quiz/">Bollywood emoji quiz</a></li>
+        <li><a href="/hindi-movie-quiz/">Hindi movie quiz</a></li>
+        <li><a href="/bollywood-dumb-charades/">Bollywood dumb charades</a></li>
+        <li><a href="/diwali-games/">Diwali games</a></li>
+        <li><a href="/holi-games/">Holi games</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div id="confirm" hidden>
+  <div class="confirm-card frame">
+    <h2 class="display">Start a new game?</h2>
+    <p>This puts every tile back on all three boards and clears the game. Save a backup first with <kbd>S</kbd> if you might want this session back.</p>
+    <div class="confirm-keys"><kbd>Enter</kbd> start new game &nbsp;·&nbsp; <kbd>Esc</kbd> cancel</div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<input type="file" id="load-file" accept=".json,application/json" hidden>
+
+<script>
+// ===== QUIZ DATA START — paste the contents of quiz-data.json here =====
+const QUIZ = {
+  "meta": {
+    "title": "Housefull",
+    "subtitle": "Dumb Charades",
+    "format": "Two teams. One actor at a time. Scoring handled on paper, outside the app.",
+    "seconds": 60
+  },
+  "boards": [
+    {
+      "id": 1,
+      "title": "Board One",
+      "hiddenImage": "assets/hidden/board1.jpg",
+      "hiddenImageAnswer": "Interval",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Ek Shabd",
+          "instruction": "One-word titles. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Border",
+              "answer": "Border"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Dhoom",
+              "answer": "Dhoom"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Baazigar",
+              "answer": "Baazigar"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Swades",
+              "answer": "Swades"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Lootera",
+              "answer": "Lootera"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Do Lafz",
+          "instruction": "Two-word titles. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Gully Boy",
+              "answer": "Gully Boy"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Dear Zindagi",
+              "answer": "Dear Zindagi"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Udta Punjab",
+              "answer": "Udta Punjab"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Vicky Donor",
+              "answer": "Vicky Donor"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "English Vinglish",
+              "answer": "English Vinglish"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Lambi Kahani",
+          "instruction": "Long titles. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Kuch Kuch Hota Hai",
+              "answer": "Kuch Kuch Hota Hai"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Hum Dil De Chuke Sanam",
+              "answer": "Hum Dil De Chuke Sanam"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Dilwale Dulhania Le Jayenge",
+              "answer": "Dilwale Dulhania Le Jayenge"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Jaane Tu... Ya Jaane Na",
+              "answer": "Jaane Tu... Ya Jaane Na"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Ajab Prem Ki Ghazab Kahani",
+              "answer": "Ajab Prem Ki Ghazab Kahani"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Numbers Game",
+          "instruction": "There's a number in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "3 Idiots",
+              "answer": "3 Idiots"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Dus",
+              "answer": "Dus"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Satte Pe Satta",
+              "answer": "Satte Pe Satta"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "7 Khoon Maaf",
+              "answer": "7 Khoon Maaf"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Do Aur Do Paanch",
+              "answer": "Do Aur Do Paanch"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Purana Classic",
+          "instruction": "Made before 1990. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Mother India",
+              "answer": "Mother India"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Bobby",
+              "answer": "Bobby"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Amar Akbar Anthony",
+              "answer": "Amar Akbar Anthony"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Kaagaz Ke Phool",
+              "answer": "Kaagaz Ke Phool"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Chalti Ka Naam Gaadi",
+              "answer": "Chalti Ka Naam Gaadi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Board Two",
+      "hiddenImage": "assets/hidden/board2.jpg",
+      "hiddenImageAnswer": "Interval, again",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Naam Wale",
+          "instruction": "There's a name in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Bunty Aur Babli",
+              "answer": "Bunty Aur Babli"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Karan Arjun",
+              "answer": "Karan Arjun"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Jodhaa Akbar",
+              "answer": "Jodhaa Akbar"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Bajirao Mastani",
+              "answer": "Bajirao Mastani"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Tanu Weds Manu",
+              "answer": "Tanu Weds Manu"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Angrezi Medium",
+          "instruction": "Titles in English. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "No Entry",
+              "answer": "No Entry"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Wake Up Sid",
+              "answer": "Wake Up Sid"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "My Name Is Khan",
+              "answer": "My Name Is Khan"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Luck by Chance",
+              "answer": "Luck by Chance"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "A Wednesday!",
+              "answer": "A Wednesday!"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Rishtey",
+          "instruction": "Somebody's relative is in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Biwi No.1",
+              "answer": "Biwi No.1"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Chachi 420",
+              "answer": "Chachi 420"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Mere Brother Ki Dulhan",
+              "answer": "Mere Brother Ki Dulhan"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Pati Patni Aur Woh",
+              "answer": "Pati Patni Aur Woh"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Bade Miyan Chote Miyan",
+              "answer": "Bade Miyan Chote Miyan"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Jaanwar",
+          "instruction": "There's an animal in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Tiger Zinda Hai",
+              "answer": "Tiger Zinda Hai"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Sherni",
+              "answer": "Sherni"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Bhediya",
+              "answer": "Bhediya"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Makdee",
+              "answer": "Makdee"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Titli",
+              "answer": "Titli"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Gaana Bajao",
+          "instruction": "Act out the song title. Humming is cheating.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Kala Chashma",
+              "answer": "Kala Chashma"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Lungi Dance",
+              "answer": "Lungi Dance"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Munni Badnaam Hui",
+              "answer": "Munni Badnaam Hui"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Mehndi Laga Ke Rakhna",
+              "answer": "Mehndi Laga Ke Rakhna"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Ek Ladki Ko Dekha Toh Aisa Laga",
+              "answer": "Ek Ladki Ko Dekha Toh Aisa Laga"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Board Three",
+      "hiddenImage": "assets/hidden/board3.jpg",
+      "hiddenImageAnswer": "The End",
+      "columns": [
+        {
+          "id": "c1",
+          "title": "Shaadi Mubarak",
+          "instruction": "Wedding films. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Vivah",
+              "answer": "Vivah"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Monsoon Wedding",
+              "answer": "Monsoon Wedding"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Veere Di Wedding",
+              "answer": "Veere Di Wedding"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Shaadi Ke Side Effects",
+              "answer": "Shaadi Ke Side Effects"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Dulhan Hum Le Jayenge",
+              "answer": "Dulhan Hum Le Jayenge"
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "title": "Sheher Sheher",
+          "instruction": "There's a place in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Bombay",
+              "answer": "Bombay"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Namastey London",
+              "answer": "Namastey London"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Go Goa Gone",
+              "answer": "Go Goa Gone"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Chandni Chowk to China",
+              "answer": "Chandni Chowk to China"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Once Upon a Time in Mumbaai",
+              "answer": "Once Upon a Time in Mumbaai"
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "title": "Khaana Peena",
+          "instruction": "Food and drink. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Cocktail",
+              "answer": "Cocktail"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Cheeni Kum",
+              "answer": "Cheeni Kum"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Stanley Ka Dabba",
+              "answer": "Stanley Ka Dabba"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Daawat-e-Ishq",
+              "answer": "Daawat-e-Ishq"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Luv Shuv Tey Chicken Khurana",
+              "answer": "Luv Shuv Tey Chicken Khurana"
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "title": "Rang Birangi",
+          "instruction": "There's a colour in it. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Black",
+              "answer": "Black"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Gulaal",
+              "answer": "Gulaal"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "Laal Singh Chaddha",
+              "answer": "Laal Singh Chaddha"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Kaala Patthar",
+              "answer": "Kaala Patthar"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "The Blue Umbrella",
+              "answer": "The Blue Umbrella"
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "title": "Sawaal Jawaab",
+          "instruction": "The title is a question. Act out the film. No talking, no lip-syncing.",
+          "cells": [
+            {
+              "points": 10,
+              "promptType": "charade",
+              "prompt": "Mujhse Shaadi Karogi",
+              "answer": "Mujhse Shaadi Karogi"
+            },
+            {
+              "points": 20,
+              "promptType": "charade",
+              "prompt": "Hum Aapke Hain Koun..!",
+              "answer": "Hum Aapke Hain Koun..!"
+            },
+            {
+              "points": 30,
+              "promptType": "charade",
+              "prompt": "What's Your Raashee?",
+              "answer": "What's Your Raashee?"
+            },
+            {
+              "points": 40,
+              "promptType": "charade",
+              "prompt": "Dil Kya Kare",
+              "answer": "Dil Kya Kare"
+            },
+            {
+              "points": 50,
+              "promptType": "charade",
+              "prompt": "Albert Pinto Ko Gussa Kyoon Aata Hai",
+              "answer": "Albert Pinto Ko Gussa Kyoon Aata Hai"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+// ===== QUIZ DATA END =====
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const COLS = 5, ROWS = 5;
+  const LIFT_STAGGER_MS = 40;
+
+  // ---------------------------------------------------------------- state
+  const state = {
+    activeBoard: 1,
+    answered: { 1: new Set(), 2: new Set(), 3: new Set() },  // ids like "c1-10"
+    view: "board",          // board | question | answer
+    current: null,          // { board, col, points, colIdx, rowIdx }
+    clueStep: 0,
+    history: [],            // [{ board, ids: [...] }]
+    cursor: { 1: { col: 0, row: 0 }, 2: { col: 0, row: 0 }, 3: { col: 0, row: 0 } },
+    help: false
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+
+  // Umami event, if the script loaded. Ad blockers or localhost just skip it.
+  const track = (name, data) => { try { if (window.umami) window.umami.track(name, data); } catch (e) {} };
+  let gameStartTracked = false;
+  let nudgeBoard = null, nudgeTimer = null;   // board tab pulsing after the current board is finished
+  const clearNudge = () => { clearTimeout(nudgeTimer); nudgeBoard = null; };
+  const esc = s => String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const boardById = id => QUIZ.boards.find(b => b.id === id);
+  const cellId = (column, cell) => `${column.id}-${cell.points}`;
+  const NAMES = { 1: "Board One", 2: "Board Two", 3: "Board Three" };
+
+  // ------------------------------------------------ one-time data prep
+  // shuffleOnLoad: shuffle once, and never leave the items in release order
+  // (or reverse release order). Release order is read from the answer string.
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  // savedOrders: { "3:c5-10": [...] } from a restored session. A saved order
+  // is reused only if it is still a permutation of the current prompt.
+  function assignShuffles(savedOrders = {}) {
+    const same = (x, y) => x.length === y.length && x.every((v, i) => v === y[i]);
+    QUIZ.boards.forEach(board => board.columns.forEach(column => column.cells.forEach(cell => {
+      cell.display = cell.prompt;
+      if (!column.shuffleOnLoad || !Array.isArray(cell.prompt)) return;
+      const saved = savedOrders[`${board.id}:${cellId(column, cell)}`];
+      if (Array.isArray(saved) && same(saved.slice().sort(), cell.prompt.slice().sort())) {
+        cell.display = saved.slice();
+        return;
+      }
+      const chrono = cell.prompt.slice().sort((a, b) => cell.answer.indexOf(a) - cell.answer.indexOf(b));
+      let order = shuffle(cell.prompt);
+      for (let tries = 0; tries < 30 && (same(order, chrono) || same(order, chrono.slice().reverse())); tries++) {
+        order = shuffle(cell.prompt);
+      }
+      cell.display = order;
+    })));
+  }
+
+  // ------------------------------------------------ session persistence
+  // Autosaves to this browser's localStorage after every change, and can be
+  // exported to / imported from a JSON backup file.
+  const STORAGE_KEY = "bollyquiz-housefull-session-v1";
+
+  function validIds(boardId) {
+    const board = boardById(boardId);
+    return new Set(board.columns.flatMap(column => column.cells.map(cell => cellId(column, cell))));
+  }
+
+  function snapshot() {
+    const shuffles = {};
+    QUIZ.boards.forEach(board => board.columns.forEach(column => {
+      if (column.shuffleOnLoad) column.cells.forEach(cell => {
+        shuffles[`${board.id}:${cellId(column, cell)}`] = cell.display;
+      });
+    }));
+    return {
+      app: "bollyquiz-housefull",
+      version: 1,
+      savedAt: new Date().toISOString(),
+      activeBoard: state.activeBoard,
+      answered: Object.fromEntries(QUIZ.boards.map(b => [b.id, [...state.answered[b.id]]])),
+      history: state.history,
+      cursor: state.cursor,
+      shuffles
+    };
+  }
+
+  let storageOk = true;
+  function persist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot()));
+      storageOk = true;
+    } catch (err) {
+      if (storageOk) toast("Autosave isn't available in this browser. Use <kbd>S</kbd> to save backups.", 6000);
+      storageOk = false;
+    }
+  }
+
+  // Returns a cleaned session, or null if the data isn't a usable session.
+  function parseSession(raw) {
+    if (!raw || raw.app !== "bollyquiz-housefull" || raw.version !== 1) return null;
+    const ids = Object.fromEntries(QUIZ.boards.map(b => [b.id, validIds(b.id)]));
+    const answered = {};
+    QUIZ.boards.forEach(b => {
+      const list = raw.answered && Array.isArray(raw.answered[b.id]) ? raw.answered[b.id] : [];
+      answered[b.id] = new Set(list.filter(id => ids[b.id].has(id)));
+    });
+    const history = (Array.isArray(raw.history) ? raw.history : [])
+      .filter(h => h && ids[h.board] && Array.isArray(h.ids))
+      .map(h => ({ board: h.board, ids: h.ids.filter(id => ids[h.board].has(id)) }))
+      .filter(h => h.ids.length);
+    const cursor = {};
+    QUIZ.boards.forEach(b => {
+      const c = raw.cursor && raw.cursor[b.id];
+      cursor[b.id] = {
+        col: clamp(Number.isInteger(c && c.col) ? c.col : 0, 0, COLS - 1),
+        row: clamp(Number.isInteger(c && c.row) ? c.row : 0, 0, ROWS - 1)
+      };
+    });
+    return {
+      activeBoard: boardById(raw.activeBoard) ? raw.activeBoard : 1,
+      answered, history, cursor,
+      shuffles: raw.shuffles && typeof raw.shuffles === "object" ? raw.shuffles : {},
+      savedAt: raw.savedAt
+    };
+  }
+
+  function applySession(session) {
+    state.activeBoard = session.activeBoard;
+    state.answered = session.answered;
+    state.history = session.history;
+    state.cursor = session.cursor;
+    assignShuffles(session.shuffles);
+  }
+
+  function loadStoredSession() {
+    try {
+      const text = localStorage.getItem(STORAGE_KEY);
+      return text ? parseSession(JSON.parse(text)) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  const liftedTotal = () => QUIZ.boards.reduce((n, b) => n + state.answered[b.id].size, 0);
+
+  function saveBackup() {
+    const data = snapshot();
+    const stamp = data.savedAt.slice(0, 16).replace("T", "_").replace(":", "");
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `housefull-session_${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    toast(`Backup saved to Downloads: ${esc(a.download)}`);
+  }
+
+  const fileInput = $("#load-file");
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    fileInput.value = "";
+    if (!file) return;
+    file.text().then(text => {
+      const session = parseSession(JSON.parse(text));
+      if (!session) throw new Error("not a quiz session");
+      applySession(session);
+      persist();
+      renderBoard();
+      toast(`Loaded ${esc(file.name)}: ${liftedTotal()} squares lifted`);
+    }).catch(() => toast(`Couldn't load ${esc(file.name)}. It isn't a quiz session backup.`, 5000));
+  });
+
+  function startNewGame() {
+    clearNudge();
+    state.activeBoard = 1;
+    state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
+    state.history = [];
+    state.cursor = { 1: { col: 0, row: 0 }, 2: { col: 0, row: 0 }, 3: { col: 0, row: 0 } };
+    assignShuffles();
+    persist();
+    renderBoard();
+    track("new-game");
+    gameStartTracked = false; // the first square of the new game counts as a new game-start
+    toast("New game. All boards reset.");
+  }
+
+  let toastTimer = null;
+  function toast(html, ms = 3500) {
+    const el = $("#toast");
+    el.innerHTML = html;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), ms);
+  }
+
+  // ------------------------------------------------------- build boards
+  const boardEls = {};   // id -> { root, cells: [[el]] by row/col, ring }
+
+  function buildBoards() {
+    const host = $("#boards");
+    QUIZ.boards.forEach(board => {
+      const root = document.createElement("section");
+      root.className = "board frame";
+      root.dataset.board = board.id;
+
+      const headers = document.createElement("div");
+      headers.className = "col-headers";
+      board.columns.forEach(column => {
+        const h = document.createElement("div");
+        h.className = "col-h display";
+        h.textContent = column.title;
+        headers.appendChild(h);
+      });
+
+      const wrap = document.createElement("div");
+      wrap.className = "grid-wrap";
+      wrap.dataset.src = board.hiddenImage;
+      const img = document.createElement("img");
+      img.className = "hidden-photo";
+      img.alt = "";
+      img.draggable = false;
+      img.addEventListener("error", () => wrap.classList.add("photo-missing"));
+      img.src = board.hiddenImage;
+
+      const tiles = document.createElement("div");
+      tiles.className = "tiles";
+      const cells = [];
+      for (let row = 0; row < ROWS; row++) {
+        cells[row] = [];
+        for (let col = 0; col < COLS; col++) {
+          const data = board.columns[col].cells[row];
+          const el = document.createElement("div");
+          el.className = "cell";
+          el.style.gridRow = row + 1;
+          el.style.gridColumn = col + 1;
+          el.dataset.id = cellId(board.columns[col], data);
+          el.innerHTML = `<div class="tile"><span class="num display outlined">${data.points}</span></div>`;
+          el.addEventListener("click", () => {
+            if (state.view !== "board" || state.help) return;
+            state.cursor[board.id] = { col, row };
+            openQuestion(col, row);
+          });
+          tiles.appendChild(el);
+          cells[row][col] = el;
+        }
+      }
+      const ring = document.createElement("div");
+      ring.className = "cursor-ring";
+      tiles.appendChild(ring);
+
+      wrap.append(img, tiles);
+      root.append(headers, wrap);
+      host.appendChild(root);
+      boardEls[board.id] = { root, cells, ring };
+    });
+  }
+
+  // ------------------------------------------------------- render: board
+  // opts.delays: Map(id -> ms) for staggered lifts
+  // opts.ringDelay: ms before the cursor ring appears (after a lift)
+  function renderBoard(opts = {}) {
+    const delays = opts.delays || new Map();
+    QUIZ.boards.forEach(board => {
+      const { root, cells, ring } = boardEls[board.id];
+      root.hidden = board.id !== state.activeBoard;
+      const answered = state.answered[board.id];
+      const cur = state.cursor[board.id];
+
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const el = cells[row][col];
+          const lifted = answered.has(el.dataset.id) && `${board.id}:${el.dataset.id}` !== opts.hold;
+          if (el.classList.contains("lifted") !== lifted) {
+            el.style.setProperty("--delay", (delays.get(el.dataset.id) || 0) + "ms");
+            el.classList.toggle("lifted", lifted);
+          }
+          el.classList.toggle("is-cursor", row === cur.row && col === cur.col);
+        }
+      }
+
+      const onHole = cells[cur.row][cur.col].classList.contains("lifted");
+      ring.style.gridRow = cur.row + 1;
+      ring.style.gridColumn = cur.col + 1;
+      ring.style.transitionDelay = onHole && opts.ringDelay ? opts.ringDelay + "ms" : "0ms";
+      ring.classList.toggle("show", onHole);
+    });
+
+    document.querySelectorAll(".board-tab").forEach(t => {
+      const id = +t.dataset.board, size = state.answered[id] ? state.answered[id].size : 0;
+      t.setAttribute("aria-selected", id === state.activeBoard);
+      t.classList.toggle("done", size === ROWS * COLS);
+      t.classList.toggle("nudge", id === nudgeBoard);
+      t.querySelector(".bt-bar i").style.setProperty("--p", size / (ROWS * COLS));
+      t.title = `${NAMES[id] || "Board " + id}: ${size} / ${ROWS * COLS} lifted (press ${id})`;
+    });
+    $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
+    $("#end-tip").hidden = liftedTotal() < QUIZ.boards.length * ROWS * COLS;
+  }
+
+  // ---------------------------------------------------- question view
+  const qv = $("#question-view");
+
+  function currentCell() {
+    const c = state.current;
+    const column = boardById(c.board).columns[c.colIdx];
+    return { column, cell: column.cells[c.rowIdx] };
+  }
+
+  const PLAY_SVG = '<svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>';
+
+  function answerHTML(cell) {
+    const long = String(cell.answer).length > 34 ? " long" : "";
+    return `<div class="q-answer">
+      <div class="q-answer-label display">The title</div>
+      <div class="q-answer-text display${long}">${esc(cell.answer)}</div>
+      ${cell.answerNote ? `<div class="q-answer-note">${esc(cell.answerNote)}</div>` : ""}
+    </div>`;
+  }
+
+  function bodyHTML(cell) {
+    const p = cell.display;
+    switch (cell.promptType) {
+      case "charade": {
+        const words = String(cell.answer).trim().split(/\s+/).length;
+        return `<div class="ch" data-phase="peek">
+          <div class="ch-eyes display">Everyone except the actor: eyes closed!</div>
+          <div class="ch-card"><div class="ch-title display">${esc(p)}</div><div class="ch-cover display" aria-hidden="true">???</div></div>
+          <div class="ch-hold display" role="button">Hold to peek</div>
+          <div class="ch-hint">Actor: hold <kbd>Space</kbd>, or press and hold the button. Let go and it hides.</div>
+          <div class="ch-clock">
+            <div class="ch-words display">${words} word${words === 1 ? "" : "s"}</div>
+            <div class="ch-time display outlined">${SECONDS}</div>
+            <div class="ch-bar"><i></i></div>
+            <div class="ch-msg display"></div>
+          </div>
+        </div>`;
+      }
+      case "emoji":
+        return `<div class="q-emoji">${esc(p)}</div>`;
+      case "text": {
+        const short = String(p).length <= 28 && !/[.,?!]/.test(p);
+        return short
+          ? `<div class="q-text display">${esc(p)}</div>`
+          : `<div class="q-text prose">${esc(p)}</div>`;
+      }
+      case "longText":
+        return `<div class="q-long">${esc(p)}</div>`;
+      case "list":
+        return `<ul class="q-list">${p.map(item => `<li class="display">${esc(item)}</li>`).join("")}</ul>`;
+      case "clueChain":
+        return `<ol class="q-clues">${p.map((clue, i) =>
+          `<li data-i="${i}"><span class="n display outlined">${i + 1}</span><span>${esc(clue)}</span></li>`).join("")}</ol>`;
+      case "audio":
+        return `<div class="audio-ui">
+          <div class="play-btn" title="Replay from the start (R)">${PLAY_SVG}</div>
+          <div class="eq">${"<i></i>".repeat(9)}</div>
+          <div class="audio-state display">
+            <span class="playing-label">♪ Playing…</span>
+            <span class="idle-label">Listen</span>
+          </div>
+          <div class="audio-hint"><kbd>R</kbd> replay from the start</div>
+        </div>`;
+      default:
+        return `<div class="q-text prose">${esc(p)}</div>`;
+    }
+  }
+
+  const ACTIONS_HTML = '<div class="q-actions"><div class="q-action display outlined" role="button"></div></div>';
+
+  // Label follows the step: Next clue → Reveal answer → Back to board
+  function actionLabel(cell) {
+    if (state.view === "answer") return "Back to board";
+    if (cell.promptType === "charade") return ch && ch.phase === "act" ? "Show the title" : "Start the clock";
+    if (cell.promptType === "clueChain" && state.clueStep < cell.prompt.length - 1) return "Next clue";
+    return "Reveal answer";
+  }
+
+  function buildQuestion() {
+    const { column, cell } = currentCell();
+    qv.className = "";
+    qv.style.setProperty("--fit", 1);
+
+    if (cell.promptType === "image") {
+      qv.classList.add("image-mode");
+      qv.innerHTML = `<div class="q-image">
+          <div class="q-close" title="Back to board (Backspace)">✕</div>
+          <div class="q-img-wrap">
+            <img class="q-question-img" alt="" draggable="false">
+            ${cell.answerImage ? '<img class="q-answer-img" alt="" draggable="false">' : ""}
+          </div>
+          ${answerHTML(cell)}
+          ${ACTIONS_HTML}
+        </div>`;
+      const load = (img, src) => {
+        img.addEventListener("error", () => {
+          const box = document.createElement("div");
+          box.className = "missing" + (img.classList.contains("q-answer-img") ? " q-answer-img" : "");
+          box.innerHTML = `Image not found<br><code>${esc(src)}</code>`;
+          img.replaceWith(box);
+        });
+        img.src = src;
+      };
+      load($(".q-question-img", qv), cell.prompt);
+      if (cell.answerImage) load($(".q-answer-img", qv), cell.answerImage);
+      return;
+    }
+
+    const steps = cell.promptType === "clueChain" && cell.prompt.length > 1
+      ? `<div class="q-progress">${cell.prompt.map(() => "<i></i>").join("")}</div>` : "";
+
+    qv.innerHTML = `<div class="sunburst"></div>
+      <div class="q-frame frame">
+        <header class="q-head">
+          <div class="q-cat display">${esc(column.title)}</div>
+          <div class="q-pts display outlined">${cell.points}</div>
+          ${steps}
+          <div class="q-close" title="Back to board (Backspace)">✕</div>
+        </header>
+        ${column.instruction ? `<div class="q-instruction">${esc(column.instruction)}</div>` : ""}
+        <div class="q-body type-${cell.promptType}">${bodyHTML(cell)}</div>
+        ${answerHTML(cell)}
+        ${ACTIONS_HTML}
+      </div>`;
+  }
+
+  function renderQuestion(opts = {}) {
+    if (state.view === "board") {
+      qv.hidden = true;
+      return;
+    }
+    qv.hidden = false;
+    const { cell } = currentCell();
+    qv.classList.toggle("show-answer", state.view === "answer");
+    const action = $(".q-action", qv);
+    if (action) action.textContent = actionLabel(cell);
+
+    if (cell.promptType === "clueChain") {
+      qv.querySelectorAll(".q-clues li").forEach(li => {
+        const i = +li.dataset.i;
+        li.hidden = i > state.clueStep;
+        li.classList.toggle("latest", opts.newClue === true && i === state.clueStep);
+      });
+      qv.querySelectorAll(".q-progress i").forEach((dot, i) =>
+        dot.classList.toggle("on", i <= state.clueStep));
+    }
+    fitQuestion();
+  }
+
+  // Shrink type (via --fit) only when content would overflow the frame.
+  // Paragraphs: prefer 60ch at >= 28px; widen the measure before going
+  // below 28px, and only drop to 18px as a last resort on a small screen.
+  function fitQuestion() {
+    const body = $(".q-body", qv);
+    if (qv.hidden || !body) return;
+    const overflowing = () =>
+      body.scrollHeight > body.clientHeight + 1 || body.scrollWidth > body.clientWidth + 1;
+    const tryFit = (measure, floor) => {
+      qv.style.setProperty("--measure", measure + "ch");
+      qv.style.setProperty("--floor", floor + "px");
+      let fit = 1;
+      qv.style.setProperty("--fit", fit);
+      while (fit > 0.3 && overflowing()) {
+        fit -= 0.03;
+        qv.style.setProperty("--fit", fit.toFixed(2));
+      }
+      return !overflowing();
+    };
+    tryFit(60, 28) || tryFit(72, 28) || tryFit(84, 28) || tryFit(84, 18) || tryFit(90, 15);
+  }
+
+  // ------------------------------------------------------------- audio
+  const audio = new Audio();
+  audio.preload = "auto";
+  let audioSrc = "";
+
+  function setPlaying(on) {
+    qv.classList.toggle("audio-playing", on);
+  }
+
+  function stopAudio() {
+    audio.pause();
+    setPlaying(false);
+  }
+
+  function showAudioError(src) {
+    qv.classList.add("audio-error");
+    const ui = $(".audio-state", qv);
+    if (ui) ui.innerHTML = `<div class="missing audio-missing">Audio not found<br><code>${esc(src)}</code></div>`;
+    fitQuestion();
+  }
+
+  // Chrome refused to start playback without a key press or click.
+  function showAudioBlocked() {
+    const ui = $(".audio-state", qv);
+    if (ui) ui.innerHTML = '<span class="idle-label">Press <kbd>R</kbd> to play</span>';
+  }
+
+  // Plays the whole clip; it stops by itself at the end.
+  function playClip() {
+    if (!state.current) return;
+    const { cell } = currentCell();
+    if (cell.promptType !== "audio") return;
+    stopAudio();
+    if (audioSrc !== cell.prompt) {
+      audioSrc = cell.prompt;
+      audio.src = cell.prompt;
+    }
+    audio.currentTime = 0;
+    audio.play().then(() => {
+      setPlaying(true);
+    }).catch(err => {
+      if (err && err.name === "AbortError") return;   // interrupted by another play
+      if (err && err.name === "NotAllowedError") showAudioBlocked();
+      else showAudioError(cell.prompt);
+    });
+  }
+  audio.addEventListener("ended", () => setPlaying(false));
+  audio.addEventListener("error", () => {
+    if (state.current && currentCell().cell.promptType === "audio") showAudioError(audioSrc);
+  });
+
+  // ----------------------------------------------------------- charades
+  // A charade square has two phases before the answer:
+  //   peek: the title is hidden; it shows only while Space (or the button) is held
+  //   act:  the title is hidden for good and a countdown runs
+  const SECONDS = (QUIZ.meta && QUIZ.meta.seconds) || 60;
+  let ch = null;            // { phase, left, timer, paused }
+  let beepCtx = null;
+  const isCharade = () => !!state.current && currentCell().cell.promptType === "charade";
+  const chEl = () => $(".ch", qv);
+
+  function beep(freq, ms, vol) {
+    try {
+      beepCtx = beepCtx || new (window.AudioContext || window.webkitAudioContext)();
+      if (beepCtx.state === "suspended") beepCtx.resume();
+      const o = beepCtx.createOscillator(), g = beepCtx.createGain(), t = beepCtx.currentTime;
+      o.type = "square"; o.frequency.value = freq;
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000);
+      o.connect(g).connect(beepCtx.destination); o.start(t); o.stop(t + ms / 1000 + 0.05);
+    } catch (e) {}
+  }
+
+  function chPeek(on) {
+    const el = chEl();
+    if (!el || !ch || ch.phase !== "peek" || state.view !== "question") { if (el) el.classList.remove("peeking"); return; }
+    if (on && !el.classList.contains("peeking")) track("charade-peek");
+    el.classList.toggle("peeking", on);
+  }
+
+  function chPaint() {
+    const el = chEl();
+    if (!el || !ch) return;
+    el.dataset.phase = ch.phase;
+    el.classList.toggle("low", ch.phase === "act" && ch.left <= 10 && ch.left > 0);
+    el.classList.toggle("over", ch.left === 0);
+    el.classList.toggle("paused", !!ch.paused);
+    $(".ch-time", el).textContent = ch.left;
+    $(".ch-bar i", el).style.setProperty("--p", ch.left / SECONDS);
+    $(".ch-msg", el).textContent = ch.left === 0 ? "Time's up! Other team: one guess for half the points."
+      : ch.paused ? "Paused. Press P to carry on." : "";
+  }
+
+  function chStopTimer() { if (ch && ch.timer) { clearInterval(ch.timer); ch.timer = null; } }
+
+  function chRun() {
+    chStopTimer();
+    ch.paused = false;
+    ch.timer = setInterval(() => {
+      if (!ch) return;
+      ch.left = Math.max(0, ch.left - 1);
+      if (ch.left === 0) { chStopTimer(); beep(220, 900, 0.25); }
+      else if (ch.left <= 5) beep(880, 90, 0.12);
+      chPaint();
+    }, 1000);
+  }
+
+  function chStart() {           // peek -> act, or restart the clock
+    const el = chEl();
+    if (el) el.classList.remove("peeking");
+    ch.phase = "act";
+    ch.left = SECONDS;
+    chPaint();
+    chRun();
+    fitQuestion();
+  }
+
+  function chPause() {
+    if (!ch || ch.phase !== "act" || ch.left === 0 || state.view !== "question") return;
+    if (ch.timer) { chStopTimer(); ch.paused = true; } else chRun();
+    chPaint();
+  }
+
+  function chBackToPeek() {
+    chStopTimer();
+    ch.phase = "peek"; ch.left = SECONDS; ch.paused = false;
+    chPaint();
+    fitQuestion();
+  }
+
+  // ----------------------------------------------------------- actions
+  function openQuestion(colIdx, rowIdx) {
+    const board = boardById(state.activeBoard);
+    const column = board.columns[colIdx];
+    const cell = column.cells[rowIdx];
+    state.current = { board: board.id, col: column.id, points: cell.points, colIdx, rowIdx };
+    if (!gameStartTracked && liftedTotal() === 0) { gameStartTracked = true; track("game-start"); }
+    track("charade-open", { board: board.id, category: column.title, points: cell.points });
+    state.clueStep = 0;
+    state.view = "question";
+    ch = cell.promptType === "charade" ? { phase: "peek", left: SECONDS, timer: null, paused: false } : null;
+    buildQuestion();
+    renderBoard();
+    renderQuestion();
+    if (cell.promptType === "audio") playClip();
+  }
+
+  function advance() {
+    if (state.view === "question") {
+      const { cell } = currentCell();
+      if (cell.promptType === "charade") {
+        if (ch.phase === "peek") { chStart(); renderQuestion(); return; }
+        chStopTimer(); ch.paused = false; chPaint();
+      }
+      if (cell.promptType === "clueChain" && state.clueStep < cell.prompt.length - 1) {
+        state.clueStep++;
+        renderQuestion({ newClue: true });
+        return;
+      }
+      state.view = "answer";
+      renderQuestion();
+    } else if (state.view === "answer") {
+      closeQuestion(true);
+    }
+  }
+
+  function stepBack() {
+    if (state.view === "answer") {
+      state.view = "question";
+      renderQuestion();
+    } else if (state.view === "question" && isCharade() && ch.phase === "act") {
+      chBackToPeek();
+      renderQuestion();
+    } else if (state.view === "question" && state.clueStep > 0) {
+      state.clueStep--;
+      renderQuestion();
+    }
+  }
+
+  function closeQuestion(mark) {
+    stopAudio();
+    chStopTimer();
+    ch = null;
+    const cur = state.current;
+    const { column, cell } = currentCell();
+    const id = cellId(column, cell);
+    state.view = "board";
+    state.current = null;
+    state.clueStep = 0;
+    const lifting = mark && !state.answered[cur.board].has(id);
+    if (lifting) {
+      // Record and save straight away; only the animation waits.
+      state.answered[cur.board].add(id);
+      state.history.push({ board: cur.board, ids: [id] });
+      if (state.answered[cur.board].size === ROWS * COLS) {
+        track("board-finished", { board: cur.board, via: "play" });
+        nudgeNextBoard(cur.board, 1800);
+      }
+    }
+    persist();
+    renderQuestion();
+    renderBoard({ hold: lifting ? `${cur.board}:${id}` : null });
+
+    if (lifting) {
+      // Flush styles with the tile still in place, so the lift animates in view.
+      void document.body.offsetHeight;
+      renderBoard({ ringDelay: 420 });
+    }
+  }
+
+  function liftAll() {
+    const board = boardById(state.activeBoard);
+    const answered = state.answered[board.id];
+    const ids = [];
+    for (let row = 0; row < ROWS; row++) {
+      for (let col = 0; col < COLS; col++) {
+        const id = cellId(board.columns[col], board.columns[col].cells[row]);
+        if (!answered.has(id)) ids.push(id);
+      }
+    }
+    if (!ids.length) return;
+    const delays = new Map(ids.map((id, i) => [id, i * LIFT_STAGGER_MS]));
+    ids.forEach(id => answered.add(id));
+    state.history.push({ board: board.id, ids });
+    track("board-finished", { board: board.id, via: "lift-all", remaining: ids.length });
+    persist();
+    renderBoard({ delays, ringDelay: ids.length * LIFT_STAGGER_MS + 400 });
+    nudgeNextBoard(board.id, ids.length * LIFT_STAGGER_MS + 1800);
+  }
+
+  function undo() {
+    const entry = state.history.pop();
+    if (!entry) return;
+    clearNudge();
+    state.activeBoard = entry.board;
+    entry.ids.forEach(id => state.answered[entry.board].delete(id));
+    persist();
+    renderBoard();
+  }
+
+  // After a board is finished, point the host at the next unfinished one.
+  function nudgeNextBoard(doneId, waitMs) {
+    const ids = QUIZ.boards.map(b => b.id);
+    const start = ids.indexOf(doneId);
+    const next = [...ids.slice(start + 1), ...ids.slice(0, start)]
+      .find(id => state.answered[id].size < ROWS * COLS);
+    if (next == null) return;
+    clearNudge();
+    nudgeTimer = setTimeout(() => {
+      // Skip if the host has moved on, undone a lift or opened a square meanwhile.
+      if (state.view !== "board" || state.activeBoard !== doneId || state.answered[doneId].size < ROWS * COLS) return;
+      nudgeBoard = next;
+      renderBoard();
+      toast(`${NAMES[doneId] || "Board " + doneId} done! Next up: <b>${NAMES[next] || "Board " + next}</b>. Press <kbd>${next}</kbd> or click its tab.`, 6000);
+    }, waitMs);
+  }
+
+  function switchBoard(id) {
+    if (!boardById(id) || id === state.activeBoard) return;
+    if (id === nudgeBoard) nudgeBoard = null;
+    state.activeBoard = id;
+    persist();
+    renderBoard();
+  }
+
+  function moveCursor(dc, dr) {
+    const cur = state.cursor[state.activeBoard];
+    cur.col = clamp(cur.col + dc, 0, COLS - 1);
+    cur.row = clamp(cur.row + dr, 0, ROWS - 1);
+    persist();
+    renderBoard();
+  }
+
+  let confirmOpen = false;
+  function toggleConfirm(open) {
+    confirmOpen = open;
+    $("#confirm").hidden = !open;
+  }
+
+  function toggleHelp(force) {
+    state.help = typeof force === "boolean" ? force : !state.help;
+    $("#help").hidden = !state.help;
+  }
+
+  // ---------------------------------------------------------- keyboard
+  const DIGIT = { Digit1: 1, Digit2: 2, Digit3: 3, Numpad1: 1, Numpad2: 2, Numpad3: 3 };
+
+  document.addEventListener("keydown", e => {
+    if (e.altKey || e.metaKey) return;
+    const key = e.key;
+
+    if (confirmOpen) {
+      e.preventDefault();
+      if (e.repeat) return;
+      if (key === "Enter") { toggleConfirm(false); startNewGame(); }
+      else if (key === "Escape" || key === "Backspace") toggleConfirm(false);
+      return;
+    }
+
+    if (e.code === "KeyH" && !e.ctrlKey) {
+      e.preventDefault();
+      if (!e.repeat) toggleHelp();
+      return;
+    }
+    if (state.help) {
+      if (key === "Escape" || key === "Backspace" || key === "Enter" || key === " ") {
+        e.preventDefault();
+        toggleHelp(false);
+      }
+      return;
+    }
+
+    if (state.view === "board") {
+      if (DIGIT[e.code] && !e.shiftKey) {
+        e.preventDefault();
+        switchBoard(DIGIT[e.code]);
+        return;
+      }
+      if (e.ctrlKey) return;
+      switch (key) {
+        case "ArrowLeft":  e.preventDefault(); moveCursor(-1, 0); return;
+        case "ArrowRight": e.preventDefault(); moveCursor(1, 0); return;
+        case "ArrowUp":    e.preventDefault(); moveCursor(0, -1); return;
+        case "ArrowDown":  e.preventDefault(); moveCursor(0, 1); return;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          if (e.repeat) return;
+          if (key === "Enter" && e.shiftKey) liftAll();
+          else {
+            const cur = state.cursor[state.activeBoard];
+            openQuestion(cur.col, cur.row);
+          }
+          return;
+        case "Backspace":
+          e.preventDefault();
+          return;
+      }
+      if (e.repeat) return;
+      if (e.code === "KeyU") { e.preventDefault(); undo(); }
+      else if (e.code === "KeyS" && !e.shiftKey) { e.preventDefault(); saveBackup(); }
+      else if (e.code === "KeyL" && !e.shiftKey) { e.preventDefault(); fileInput.click(); }
+      else if (e.code === "KeyN" && e.shiftKey) { e.preventDefault(); toggleConfirm(true); }
+      return;
+    }
+
+    // question / answer
+    if (e.ctrlKey) return;
+    if (state.view === "question" && isCharade()) {
+      if (ch.phase === "peek" && key === " ") { e.preventDefault(); chPeek(true); return; }
+      if (ch.phase === "act" && !e.repeat) {
+        if (e.code === "KeyP") { e.preventDefault(); chPause(); return; }
+        if (e.code === "KeyR") { e.preventDefault(); chStart(); return; }
+      }
+    }
+    switch (key) {
+      case " ":
+      case "Enter":
+      case "ArrowRight":
+        e.preventDefault();
+        if (!e.repeat) advance();
+        return;
+      case "ArrowLeft":
+        e.preventDefault();
+        if (!e.repeat) stepBack();
+        return;
+      case "Backspace":
+      case "Escape":
+        e.preventDefault();
+        if (!e.repeat) closeQuestion(false);
+        return;
+    }
+    if (e.code === "KeyR" && !e.repeat) {
+      e.preventDefault();
+      playClip();
+    }
+  });
+
+  document.addEventListener("keyup", e => { if (e.key === " ") chPeek(false); });
+  window.addEventListener("blur", () => chPeek(false));
+  qv.addEventListener("pointerdown", e => {
+    if (!e.target.closest(".ch-hold")) return;
+    e.preventDefault();
+    chPeek(true);
+  });
+  ["pointerup", "pointercancel"].forEach(type => document.addEventListener(type, () => chPeek(false)));
+  qv.addEventListener("contextmenu", e => { if (e.target.closest(".ch-hold")) e.preventDefault(); });
+
+  // ------------------------------------------------------------- mouse
+  qv.addEventListener("click", e => {
+    if (state.help) return;
+    if (e.target.closest(".q-close")) { closeQuestion(false); return; }
+    if (e.target.closest(".play-btn")) { playClip(); return; }
+    if (e.target.closest(".q-action")) advance();
+  });
+  // Keep focus off the end-of-quiz link too, so Space/Enter keep driving the board.
+  $("#end-tip a").addEventListener("mousedown", e => e.preventDefault());
+  document.querySelectorAll(".board-tab").forEach(t => {
+    // Keep focus off the tab, so Space/Enter afterwards still open a square instead of re-clicking it.
+    t.addEventListener("mousedown", e => e.preventDefault());
+    t.addEventListener("click", () => { if (state.view === "board") switchBoard(+t.dataset.board); });
+  });
+  $("#help").addEventListener("click", () => toggleHelp(false));
+  $("#confirm").addEventListener("click", () => toggleConfirm(false));
+
+  window.addEventListener("resize", fitQuestion);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitQuestion);
+
+  // -------------------------------------------------------------- init
+  if (QUIZ.meta) {
+    if (QUIZ.meta.title) $("#title").textContent = QUIZ.meta.title;
+    if (QUIZ.meta.subtitle) $("#kicker").textContent = QUIZ.meta.subtitle;
+    // Keep the SEO <title> from the HTML head; only fall back if it's missing.
+    if (!document.title) document.title = `${QUIZ.meta.title || "Quiz"} · ${QUIZ.meta.subtitle || ""}`;
+  }
+  const restored = loadStoredSession();
+  if (restored) applySession(restored);
+  else assignShuffles();
+
+  buildBoards();
+  renderBoard();
+  persist();
+
+  if (restored && liftedTotal() > 0) {
+    const when = restored.savedAt ? new Date(restored.savedAt)
+      .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
+    toast(`Picked up where you left off${when ? ` (saved ${when})` : ""}: ${liftedTotal()} squares lifted. <kbd>Shift</kbd>+<kbd>N</kbd> for a new game.`, 7000);
+  }
+})();
+</script>
+</body>
+</html>
