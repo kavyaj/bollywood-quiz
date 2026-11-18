@@ -1,0 +1,123 @@
+/* Board intro pop-up: styles for /assets/board-intro.js. Shared by every quiz board.
+   Everything scales from --u (about 1% of the screen), so it reads the same on a laptop and a TV.
+   Colours come from the board's own :root variables, with the same values as fallbacks. */
+
+.bq-intro {
+  --u: max(10.5px, min(1vw, 1.8vh));   /* never smaller than this, so it stays readable on small screens */
+  position: fixed; inset: 0; z-index: 45;
+  display: grid; place-items: center;
+  background: rgba(61, 15, 20, .66);
+}
+.bq-intro[hidden] { display: none; }
+
+/* Maroon frame with chasing bulbs, like the homepage hero */
+.bq-intro__pop {
+  position: relative;
+  width: min(94vw, calc(var(--u) * 44));
+  max-height: 94vh;
+  display: flex; flex-direction: column;
+  padding: calc(var(--u) * 1.9);
+  border-radius: calc(var(--u) * 2.4);
+  background: #58171F;
+  box-shadow: inset 0 0 0 3px #7E2632, 0 30px 70px rgba(0, 0, 0, .45);
+  animation: bq-intro-in .28s cubic-bezier(.2, 1.2, .4, 1) both;
+}
+@keyframes bq-intro-in { from { opacity: 0; transform: scale(.94) translateY(8px); } }
+
+.bq-intro__bulbs { position: absolute; inset: 0; pointer-events: none; }
+.bq-intro__bulb {
+  position: absolute;
+  width: calc(var(--u) * .75); height: calc(var(--u) * .75);
+  margin: calc(var(--u) * -.375) 0 0 calc(var(--u) * -.375);
+  border-radius: 50%;
+  background: #8A5A3C;
+  animation: bq-intro-chase 1.2s steps(1) infinite;
+}
+.bq-intro__bulb.b1 { animation-delay: -.4s; }
+.bq-intro__bulb.b2 { animation-delay: -.8s; }
+@keyframes bq-intro-chase {
+  0%  { background: #FFE9A8; box-shadow: 0 0 6px 2px rgba(255, 220, 130, .9), 0 0 16px 4px rgba(247, 201, 72, .45); }
+  33% { background: #8A5A3C; box-shadow: none; }
+}
+
+.bq-intro__card {
+  position: relative; min-height: 0; overflow: auto;
+  padding: calc(var(--u) * 1.4) calc(var(--u) * 1.55) calc(var(--u) * 1.25);
+  border-radius: calc(var(--u) * 1.25);
+  background: var(--cream, #FAF0E0);
+  color: var(--maroon, #3D0F14);
+}
+.bq-intro__kicker {
+  display: inline-block;
+  padding: calc(var(--u) * .15) calc(var(--u) * .95) 0;
+  border: 2.5px solid var(--maroon, #3D0F14); border-radius: 999px;
+  background: var(--pink, #ED5C88);
+  font-family: var(--display, "Baloo 2", "Arial Rounded MT Bold", sans-serif); font-weight: 800;
+  font-size: calc(var(--u) * .86); line-height: 1.5;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.bq-intro__title {
+  margin: calc(var(--u) * .6) 0 calc(var(--u) * .15);
+  font-family: var(--display, "Baloo 2", "Arial Rounded MT Bold", sans-serif); font-weight: 800;
+  font-size: calc(var(--u) * 2.2); line-height: 1.1;
+}
+.bq-intro__sub { margin: 0 0 calc(var(--u) * .6); font-size: calc(var(--u) * 1.1); line-height: 1.4; color: #6F5058; }
+
+.bq-intro__row {
+  display: grid; grid-template-columns: calc(var(--u) * 13.1) 1fr;
+  gap: calc(var(--u) * 1.1); align-items: center;
+  padding: calc(var(--u) * .55) 0;
+  border-top: 1.5px dashed rgba(61, 15, 20, .22);
+}
+.bq-intro__cat {
+  padding: calc(var(--u) * .25) calc(var(--u) * .5) calc(var(--u) * .08);
+  border: 2px solid var(--maroon, #3D0F14); border-radius: calc(var(--u) * .65);
+  background: var(--green, #1B7A52); color: var(--cream, #FAF0E0);
+  font-family: var(--display, "Baloo 2", "Arial Rounded MT Bold", sans-serif); font-weight: 800;
+  font-size: calc(var(--u) * .94); line-height: 1.5;
+  letter-spacing: .06em; text-transform: uppercase; text-align: center;
+}
+.bq-intro__text { font-size: calc(var(--u) * 1.13); line-height: 1.35; }
+
+.bq-intro__rule {
+  margin: calc(var(--u) * .6) 0 0;
+  padding: calc(var(--u) * .65) calc(var(--u) * .95);
+  border-radius: calc(var(--u) * .8);
+  background: var(--ground, #F8E4C4);
+  font-size: calc(var(--u) * 1.05); line-height: 1.4;
+}
+.bq-intro__rule[hidden] { display: none; }
+
+.bq-intro__act { display: flex; align-items: center; flex-wrap: wrap; gap: calc(var(--u) * 1.1); margin-top: calc(var(--u) * 1.1); }
+.bq-intro__go {
+  appearance: none; cursor: pointer;
+  padding: calc(var(--u) * .45) calc(var(--u) * 1.55) calc(var(--u) * .2);
+  border: 3px solid var(--maroon, #3D0F14); border-radius: calc(var(--u) * 1.1);
+  background: var(--gold, #F7C948); color: var(--maroon, #3D0F14);
+  box-shadow: 0 5px 0 var(--saffron-dk, #E08A12);
+  font-family: var(--display, "Baloo 2", "Arial Rounded MT Bold", sans-serif); font-weight: 800;
+  font-size: calc(var(--u) * 1.33); line-height: 1.4;
+}
+.bq-intro__go:focus-visible { outline: 3px solid var(--maroon, #3D0F14); outline-offset: 3px; }
+.bq-intro__hint { font-size: calc(var(--u) * .98); line-height: 1.35; color: #6F5058; }
+.bq-intro__hint kbd {
+  padding: 0 calc(var(--u) * .4);
+  border: 1.5px solid var(--maroon, #3D0F14); border-radius: calc(var(--u) * .4);
+  background: #fff; font: 700 calc(var(--u) * .86) system-ui, sans-serif;
+}
+
+@media (max-width: 520px) {
+  .bq-intro__row { grid-template-columns: 1fr; gap: 4px; }
+  .bq-intro__cat { justify-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bq-intro__pop { animation: none; }
+  .bq-intro__bulb { animation: none; background: #FFE9A8; box-shadow: 0 0 6px 2px rgba(255, 220, 130, .7); }
+}
+
+/* The "Categories" link in the board header, styled like the "Answer sheet" link next to it */
+.cats-link {
+  appearance: none; background: none; border: 0; padding: 0; cursor: pointer;
+  font: inherit; color: inherit;
+  text-decoration: underline; text-underline-offset: 3px; margin-right: .75rem;
+}

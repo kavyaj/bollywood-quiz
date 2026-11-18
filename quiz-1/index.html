@@ -31,6 +31,7 @@
 <meta name="theme-color" content="#3D0F14">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/board-intro.css">
 <style>
 /* ============================================================
    Design tokens (from the party invite)
@@ -873,6 +874,7 @@ kbd {
     </div>
     <div class="board-status">
       <span class="key-hint"><kbd>H</kbd> keys</span>
+      <button type="button" class="key-hint cats-link" data-board-intro-open>Categories</button>
       <a class="key-hint answers-link" href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="board">Answer sheet</a>
       <span class="readout display" id="readout">0 / 25 lifted</span>
     </div>
@@ -898,6 +900,7 @@ kbd {
           <dt><kbd>S</kbd></dt><dd>Save a backup file to Downloads</dd>
           <dt><kbd>L</kbd></dt><dd>Load a backup file</dd>
           <dt><kbd>Shift</kbd>+<kbd>N</kbd></dt><dd>New game (asks first)</dd>
+          <dt><kbd>C</kbd></dt><dd>What's on this board (the categories)</dd>
           <dt><kbd>H</kbd></dt><dd>Toggle this help</dd>
         </dl>
       </section>
@@ -956,6 +959,9 @@ kbd {
 const QUIZ = {
   "meta": {
     "title": "First Day First Show",
+    "intro": {
+      "sub": "Five categories, 10 to 50 points each. The more points, the harder the question."
+    },
     "subtitle": "Bollywood Quiz",
     "date": "19 September",
     "format": "Individual play on buzzers. Scoring handled on paper, outside the app."
@@ -971,6 +977,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Bare Minimum",
           "instruction": "Guess the film",
+          "blurb": "A minimalist poster. Guess the film.",
           "cells": [
             {
               "points": 10,
@@ -1008,6 +1015,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Emoji Kahani",
           "instruction": "Guess the film",
+          "blurb": "The plot in emoji. Guess the film.",
           "cells": [
             {
               "points": 10,
@@ -1045,6 +1053,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Naam Toh Suna Hoga",
           "instruction": "Name the film",
+          "blurb": "A character's name. Name the film.",
           "cells": [
             {
               "points": 10,
@@ -1082,6 +1091,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Antakshari Ulta",
           "instruction": "Name the song and the film",
+          "blurb": "Listen to the clip. Name the song and the film.",
           "cells": [
             {
               "points": 10,
@@ -1119,6 +1129,7 @@ const QUIZ = {
           "id": "c5",
           "title": "Debut Ho Gaya",
           "instruction": "Which actor debuted in this film? (First lead role)",
+          "blurb": "Which actor had their first lead role in this film?",
           "cells": [
             {
               "points": 10,
@@ -1164,6 +1175,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Corporate Filmy",
           "instruction": "The plot, in jargon. Name the film",
+          "blurb": "The plot, written as office jargon. Name the film.",
           "cells": [
             {
               "points": 10,
@@ -1201,6 +1213,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Lost in Translation",
           "instruction": "The gist in English. Name the SONG (film is a bonus)",
+          "blurb": "A song's gist in plain English. Name the song (the film is a bonus).",
           "cells": [
             {
               "points": 10,
@@ -1243,6 +1256,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Frame Freeze",
           "instruction": "No faces, no text. Name the film",
+          "blurb": "A still with no faces and no text. Name the film.",
           "cells": [
             {
               "points": 10,
@@ -1281,6 +1295,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Scrambled Sitaare",
           "instruction": "Unscramble. Name the actor",
+          "blurb": "Unscramble the letters. Name the actor.",
           "cells": [
             {
               "points": 10,
@@ -1318,6 +1333,7 @@ const QUIZ = {
           "id": "c5",
           "title": "Chori Ka Maal",
           "instruction": "Name the Hollywood film this is based on",
+          "blurb": "A Bollywood film. Name the Hollywood film it's based on.",
           "cells": [
             {
               "points": 10,
@@ -1363,6 +1379,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Joining the Dots",
           "instruction": "What connects these?",
+          "blurb": "What connects these?",
           "cells": [
             {
               "points": 10,
@@ -1421,6 +1438,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Jodi No. 1",
           "instruction": "These two shared the screen exactly once. Which film?",
+          "blurb": "These two shared the screen exactly once. Which film?",
           "cells": [
             {
               "points": 10,
@@ -1458,6 +1476,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Dialogue Flat",
           "instruction": "Read completely deadpan. Name the film",
+          "blurb": "A famous line, read completely deadpan. Name the film.",
           "cells": [
             {
               "points": 10,
@@ -1495,6 +1514,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Box Office Bomb",
           "instruction": "Name the film",
+          "blurb": "Clues appear one at a time. Name the film.",
           "cells": [
             {
               "points": 10,
@@ -1550,6 +1570,7 @@ const QUIZ = {
           "id": "c5",
           "title": "साल क्या था",
           "instruction": "Put these in release order. All three or nothing",
+          "blurb": "Put these films in release order. All three or nothing.",
           "shuffleOnLoad": true,
           "cells": [
             {
@@ -1610,6 +1631,7 @@ const QUIZ = {
 };
 // ===== QUIZ DATA END =====
 </script>
+<script src="/assets/board-intro.js"></script>
 
 <script>
 (() => {
@@ -1796,6 +1818,7 @@ const QUIZ = {
 
   function startNewGame() {
     clearNudge();
+    if (window.BoardIntro) BoardIntro.reset();
     state.activeBoard = 1;
     state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
     state.history = [];
@@ -1919,6 +1942,7 @@ const QUIZ = {
     });
     $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
     $("#end-tip").hidden = liftedTotal() < QUIZ.boards.length * ROWS * COLS;
+    if (window.BoardIntro) BoardIntro.boardShown();
   }
 
   // ---------------------------------------------------- question view
@@ -2388,6 +2412,15 @@ const QUIZ = {
   const restored = loadStoredSession();
   if (restored) applySession(restored);
   else assignShuffles();
+
+  // Category explainer pop-up, shared by every board (/assets/board-intro.js). Set-up notes are at the top of that file.
+  if (window.BoardIntro) BoardIntro.init({
+    quiz: QUIZ,
+    storageKey: STORAGE_KEY + ":intro-seen",
+    getBoardId: () => state.activeBoard,
+    isBoardView: () => state.view === "board" && !state.help && !confirmOpen,
+    hasProgress: id => state.answered[id].size > 0,
+  });
 
   buildBoards();
   renderBoard();

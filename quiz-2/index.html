@@ -31,6 +31,7 @@
 <meta name="theme-color" content="#3D0F14">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/board-intro.css">
 <style>
 /* ============================================================
    Design tokens (from the party invite)
@@ -912,6 +913,7 @@ kbd {
     </div>
     <div class="board-status">
       <span class="key-hint"><kbd>H</kbd> keys</span>
+      <button type="button" class="key-hint cats-link" data-board-intro-open>Categories</button>
       <a class="key-hint answers-link" href="answers/" target="_blank" rel="noopener" data-umami-event="answer-sheet-click" data-umami-event-location="board">Title list</a>
       <span class="readout display" id="readout">0 / 25 lifted</span>
     </div>
@@ -937,6 +939,7 @@ kbd {
           <dt><kbd>S</kbd></dt><dd>Save a backup file to Downloads</dd>
           <dt><kbd>L</kbd></dt><dd>Load a backup file</dd>
           <dt><kbd>Shift</kbd>+<kbd>N</kbd></dt><dd>New game (asks first)</dd>
+          <dt><kbd>C</kbd></dt><dd>What's on this board (the categories)</dd>
           <dt><kbd>H</kbd></dt><dd>Toggle this help</dd>
         </dl>
       </section>
@@ -996,6 +999,10 @@ kbd {
 const QUIZ = {
   "meta": {
     "title": "Housefull",
+    "intro": {
+      "sub": "Five groups of film and song titles, 10 to 50 points each. The category tells you what to look for in the title.",
+      "rule": "Every square: act it out. No talking, no lip-syncing. Hold Space to peek at the title, Enter to start the 60-second clock."
+    },
     "subtitle": "Dumb Charades",
     "format": "Two teams. One actor at a time. Scoring handled on paper, outside the app.",
     "seconds": 60
@@ -1011,6 +1018,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Ek Shabd",
           "instruction": "One-word titles. Act out the film. No talking, no lip-syncing.",
+          "blurb": "One-word titles.",
           "cells": [
             {
               "points": 10,
@@ -1048,6 +1056,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Do Lafz",
           "instruction": "Two-word titles. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Two-word titles.",
           "cells": [
             {
               "points": 10,
@@ -1085,6 +1094,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Lambi Kahani",
           "instruction": "Long titles. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Long titles.",
           "cells": [
             {
               "points": 10,
@@ -1122,6 +1132,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Numbers Game",
           "instruction": "There's a number in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "There's a number in the title.",
           "cells": [
             {
               "points": 10,
@@ -1159,6 +1170,7 @@ const QUIZ = {
           "id": "c5",
           "title": "Purana Classic",
           "instruction": "Made before 1990. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Made before 1990.",
           "cells": [
             {
               "points": 10,
@@ -1204,6 +1216,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Naam Wale",
           "instruction": "There's a name in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "There's a name in the title.",
           "cells": [
             {
               "points": 10,
@@ -1241,6 +1254,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Angrezi Medium",
           "instruction": "Titles in English. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Titles in English.",
           "cells": [
             {
               "points": 10,
@@ -1278,6 +1292,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Rishtey",
           "instruction": "Somebody's relative is in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Somebody's relative is in the title.",
           "cells": [
             {
               "points": 10,
@@ -1315,6 +1330,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Jaanwar",
           "instruction": "There's an animal in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "There's an animal in the title.",
           "cells": [
             {
               "points": 10,
@@ -1352,6 +1368,7 @@ const QUIZ = {
           "id": "c5",
           "title": "Gaana Bajao",
           "instruction": "Act out the song title. Humming is cheating.",
+          "blurb": "Act out the song title. Humming is cheating.",
           "cells": [
             {
               "points": 10,
@@ -1397,6 +1414,7 @@ const QUIZ = {
           "id": "c1",
           "title": "Shaadi Mubarak",
           "instruction": "Wedding films. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Wedding films.",
           "cells": [
             {
               "points": 10,
@@ -1434,6 +1452,7 @@ const QUIZ = {
           "id": "c2",
           "title": "Sheher Sheher",
           "instruction": "There's a place in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "There's a place in the title.",
           "cells": [
             {
               "points": 10,
@@ -1471,6 +1490,7 @@ const QUIZ = {
           "id": "c3",
           "title": "Khaana Peena",
           "instruction": "Food and drink. Act out the film. No talking, no lip-syncing.",
+          "blurb": "Food and drink.",
           "cells": [
             {
               "points": 10,
@@ -1508,6 +1528,7 @@ const QUIZ = {
           "id": "c4",
           "title": "Rang Birangi",
           "instruction": "There's a colour in it. Act out the film. No talking, no lip-syncing.",
+          "blurb": "There's a colour in the title.",
           "cells": [
             {
               "points": 10,
@@ -1545,6 +1566,7 @@ const QUIZ = {
           "id": "c5",
           "title": "Sawaal Jawaab",
           "instruction": "The title is a question. Act out the film. No talking, no lip-syncing.",
+          "blurb": "The title is a question.",
           "cells": [
             {
               "points": 10,
@@ -1584,6 +1606,7 @@ const QUIZ = {
 };
 // ===== QUIZ DATA END =====
 </script>
+<script src="/assets/board-intro.js"></script>
 
 <script>
 (() => {
@@ -1770,6 +1793,7 @@ const QUIZ = {
 
   function startNewGame() {
     clearNudge();
+    if (window.BoardIntro) BoardIntro.reset();
     state.activeBoard = 1;
     state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
     state.history = [];
@@ -1893,6 +1917,7 @@ const QUIZ = {
     });
     $("#readout").textContent = `${state.answered[state.activeBoard].size} / ${ROWS * COLS} lifted`;
     $("#end-tip").hidden = liftedTotal() < QUIZ.boards.length * ROWS * COLS;
+    if (window.BoardIntro) BoardIntro.boardShown();
   }
 
   // ---------------------------------------------------- question view
@@ -2483,6 +2508,15 @@ const QUIZ = {
   const restored = loadStoredSession();
   if (restored) applySession(restored);
   else assignShuffles();
+
+  // Category explainer pop-up, shared by every board (/assets/board-intro.js). Set-up notes are at the top of that file.
+  if (window.BoardIntro) BoardIntro.init({
+    quiz: QUIZ,
+    storageKey: STORAGE_KEY + ":intro-seen",
+    getBoardId: () => state.activeBoard,
+    isBoardView: () => state.view === "board" && !state.help && !confirmOpen,
+    hasProgress: id => state.answered[id].size > 0,
+  });
 
   buildBoards();
   renderBoard();
