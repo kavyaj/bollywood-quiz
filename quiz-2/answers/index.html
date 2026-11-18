@@ -28,6 +28,7 @@ h1 { margin: 8px 0 6px; font-family: "Shrikhand", cursive; font-weight: 400; fon
 .sq.shown::after { content: "\2713"; position: absolute; top: 3px; right: 7px; font-size: .8rem; color: var(--green); }
 
 .hint { margin: 12px 2px 0; font-size: .92rem; color: var(--muted); }
+.clear-ticks { appearance: none; border: 0; padding: 0; background: none; font: inherit; color: var(--rani); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
 .pop { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: rgba(42, 29, 23, .6); }
 .pop[hidden] { display: none; }
@@ -53,7 +54,7 @@ footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line);
     <p class="lede">This page is for the host to keep on their phone. Tap the square the actor chose and show the title to the actor only. Don't project or cast this page to the TV.</p>
     <div class="tabs" role="tablist" aria-label="Boards" id="tabs"></div>
     <div id="boards"></div>
-    <p class="hint">A tick marks a title you've already shown. Tap Hide when the actor has read it.</p>
+    <p class="hint">A tick marks a title you've already shown. <button type="button" class="clear-ticks" id="clear-ticks">Clear ticks</button></p>
     <div class="pop" id="pop" hidden>
       <div class="pop-card" role="dialog" aria-modal="true" aria-labelledby="pop-title">
         <p class="pop-kicker" id="pop-kicker"></p>
@@ -398,6 +399,9 @@ const BOARDS = [
     ttl.textContent = ""; kicker.textContent = "";      // nothing left in the page to peek at
     if (opener) { opener.classList.add("shown"); opener.focus({ preventScroll: true }); opener = null; }
   }
+  document.getElementById("clear-ticks").addEventListener("click", function () {
+    document.querySelectorAll(".sq.shown").forEach(function (sq) { sq.classList.remove("shown"); });
+  });
   hide.addEventListener("click", close);
   pop.addEventListener("click", function (e) { if (e.target === pop) close(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
