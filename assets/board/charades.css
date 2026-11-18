@@ -1,0 +1,40 @@
+/* Styles for the charades plug-in (/assets/board/charades.js). Load after board.css. */
+
+/* ============================================================
+   Charade square: hold to peek, then a 60-second clock
+   ============================================================ */
+.ch { width: 100%; display: flex; flex-direction: column; align-items: center; gap: calc(var(--fit) * 2.6vh); text-align: center; }
+.ch-eyes { font-size: calc(var(--fit) * min(4.2vw, 7.2vh)); line-height: 1.1; text-wrap: balance; }
+.ch-card {
+  position: relative; width: min(74vw, 100%); min-height: calc(var(--fit) * 26vh);
+  display: grid; place-items: center; padding: 2vh 3vw;
+  background: #FFF8EC; border: 4px dashed var(--maroon); border-radius: 22px;
+}
+.ch-title { visibility: hidden; font-size: calc(var(--fit) * min(6vw, 10vh)); line-height: 1.1; text-wrap: balance; }
+.ch-cover { position: absolute; inset: 0; display: grid; place-items: center; font-size: calc(var(--fit) * min(9vw, 15vh)); color: var(--pink); letter-spacing: .2em; }
+.ch.peeking .ch-card { border-style: solid; background: var(--gold); }
+.ch.peeking .ch-title { visibility: visible; }
+.ch.peeking .ch-cover { display: none; }
+.ch-hold {
+  font-size: calc(var(--fit) * min(3vw, 5vh)); line-height: 1.2;
+  background: var(--saffron); border: 4px solid var(--maroon); border-radius: 999px;
+  padding: .35em 1.4em; box-shadow: 0 .14em 0 var(--maroon); cursor: pointer;
+  touch-action: none; -webkit-user-select: none; user-select: none;
+}
+.ch.peeking .ch-hold { transform: translateY(.1em); box-shadow: 0 .04em 0 var(--maroon); background: var(--saffron-dk); }
+.ch-hint { font-size: max(14px, calc(var(--fit) * min(1.7vw, 2.9vh))); font-weight: 600; opacity: .75; }
+.ch-clock { display: none; flex-direction: column; align-items: center; gap: calc(var(--fit) * 2vh); width: 100%; }
+.ch-words { background: var(--green); color: var(--cream); border: 3px solid var(--maroon); border-radius: 999px; padding: .15em 1em; font-size: calc(var(--fit) * min(2.6vw, 4.4vh)); letter-spacing: .06em; }
+.ch-time { font-size: calc(var(--fit) * min(20vw, 34vh)); line-height: 1; font-variant-numeric: tabular-nums; }
+.ch-bar { width: min(60vw, 100%); height: 2.2vh; border: 3px solid var(--maroon); border-radius: 999px; background: #FFF8EC; overflow: hidden; }
+.ch-bar i { display: block; height: 100%; width: calc(var(--p, 1) * 100%); background: var(--pink); transition: width 1s linear; }
+.ch-msg { min-height: 1.3em; font-size: calc(var(--fit) * min(2.6vw, 4.4vh)); line-height: 1.2; color: var(--pink-dark); text-wrap: balance; }
+.ch[data-phase="act"] .ch-eyes, .ch[data-phase="act"] .ch-card, .ch[data-phase="act"] .ch-hold, .ch[data-phase="act"] .ch-hint { display: none; }
+.ch[data-phase="act"] .ch-clock { display: flex; }
+.ch.low .ch-time { color: var(--gold); animation: ch-pulse 1s ease-in-out infinite; }
+.ch.low .ch-bar i { background: var(--pink-dark); }
+.ch.over .ch-time { animation: none; }
+.ch.paused .ch-time { opacity: .45; }
+.show-answer .ch-msg { visibility: hidden; }
+@keyframes ch-pulse { 50% { transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .ch.low .ch-time { animation: none; } .ch-bar i { transition: none; } }

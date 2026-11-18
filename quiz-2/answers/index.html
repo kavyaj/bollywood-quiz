@@ -13,15 +13,32 @@
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 60px; }
 h1 { margin: 8px 0 6px; font-family: "Shrikhand", cursive; font-weight: 400; font-size: 2rem; line-height: 1.1; }
 .lede { margin: 0 0 18px; color: var(--muted); }
-.board { margin: 0 0 12px; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); }
-.board summary { cursor: pointer; padding: 16px 20px; font-family: "Shrikhand", cursive; font-size: 1.3rem; color: var(--terracotta); }
-.cols { padding: 0 20px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
-.col h3 { margin: 10px 0 2px; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.col ol { list-style: none; margin: 0; padding: 0; }
-.col li { display: grid; grid-template-columns: 34px 1fr; gap: 8px; padding: 5px 0; border-top: 1px solid var(--line); font-weight: 600; }
-.col li span { color: var(--rani); font-weight: 800; }
+
+.tabs { display: flex; gap: 6px; margin: 0 0 12px; padding: 5px; background: var(--card); border-radius: 999px; box-shadow: var(--shadow); }
+.tab { flex: 1; appearance: none; border: 0; border-radius: 999px; padding: 8px 6px; background: transparent; color: var(--muted); font: 700 .95rem "Mukta", system-ui, sans-serif; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--rani); color: #fff; }
+
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 14px; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); }
+.grid[hidden] { display: none; }
+.cat { display: flex; align-items: flex-end; justify-content: center; min-height: 2.6em; padding: 0 2px 4px; text-align: center; font-size: .68rem; font-weight: 800; line-height: 1.15; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); overflow-wrap: anywhere; }
+.sq { appearance: none; position: relative; border: 2px solid var(--line); border-radius: 14px; aspect-ratio: 1; padding: 0; background: var(--marigold-soft); color: var(--ink); font: 800 1.35rem "Mukta", system-ui, sans-serif; cursor: pointer; transition: transform .1s; }
+.sq:hover { border-color: var(--marigold); }
+.sq:active { transform: scale(.96); }
+.sq.shown { background: var(--bg); color: var(--muted); border-style: dashed; }
+.sq.shown::after { content: "\2713"; position: absolute; top: 3px; right: 7px; font-size: .8rem; color: var(--green); }
+
+.hint { margin: 12px 2px 0; font-size: .92rem; color: var(--muted); }
+
+.pop { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: rgba(42, 29, 23, .6); }
+.pop[hidden] { display: none; }
+.pop-card { width: min(100%, 420px); padding: 22px 22px 20px; border-radius: 22px; background: var(--card); box-shadow: 0 20px 50px rgba(42, 29, 23, .35); text-align: center; }
+.pop-kicker { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--terracotta); }
+.pop-title { margin: 10px 0 18px; font-family: "Shrikhand", cursive; font-weight: 400; font-size: clamp(1.7rem, 8vw, 2.3rem); line-height: 1.2; overflow-wrap: anywhere; }
+.pop-hide { appearance: none; border: 0; border-radius: 999px; padding: 10px 28px; background: var(--rani); color: #fff; font: 800 1rem "Mukta", system-ui, sans-serif; cursor: pointer; }
+
 footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
-@media (max-width: 560px) { .cols { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .grid { gap: 6px; padding: 10px; } .sq { font-size: 1.15rem; border-radius: 11px; } .cat { font-size: .6rem; letter-spacing: .03em; } }
+@media (prefers-reduced-motion: reduce) { .sq { transition: none; } }
 </style>
 </head>
 <body>
@@ -33,12 +50,21 @@ footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line);
   <main>
     <p class="eyebrow">Housefull · Dumb charades</p>
     <h1>Title list</h1>
-    <p class="lede">Every title on the board, by category and points. Keep it off the TV. Open a board only when you need it, so the actor's the only one who sees the next title.</p>
-    <details class="board"><summary>Board One</summary><div class="cols"><section class="col"><h3>Ek Shabd</h3><ol><li><span>10</span>Border</li><li><span>20</span>Dhoom</li><li><span>30</span>Baazigar</li><li><span>40</span>Swades</li><li><span>50</span>Lootera</li></ol></section><section class="col"><h3>Do Lafz</h3><ol><li><span>10</span>Gully Boy</li><li><span>20</span>Dear Zindagi</li><li><span>30</span>Udta Punjab</li><li><span>40</span>Vicky Donor</li><li><span>50</span>English Vinglish</li></ol></section><section class="col"><h3>Lambi Kahani</h3><ol><li><span>10</span>Kuch Kuch Hota Hai</li><li><span>20</span>Hum Dil De Chuke Sanam</li><li><span>30</span>Dilwale Dulhania Le Jayenge</li><li><span>40</span>Jaane Tu... Ya Jaane Na</li><li><span>50</span>Ajab Prem Ki Ghazab Kahani</li></ol></section><section class="col"><h3>Numbers Game</h3><ol><li><span>10</span>3 Idiots</li><li><span>20</span>Dus</li><li><span>30</span>Satte Pe Satta</li><li><span>40</span>7 Khoon Maaf</li><li><span>50</span>Do Aur Do Paanch</li></ol></section><section class="col"><h3>Purana Classic</h3><ol><li><span>10</span>Mother India</li><li><span>20</span>Bobby</li><li><span>30</span>Amar Akbar Anthony</li><li><span>40</span>Kaagaz Ke Phool</li><li><span>50</span>Chalti Ka Naam Gaadi</li></ol></section></div></details><details class="board"><summary>Board Two</summary><div class="cols"><section class="col"><h3>Naam Wale</h3><ol><li><span>10</span>Bunty Aur Babli</li><li><span>20</span>Karan Arjun</li><li><span>30</span>Jodhaa Akbar</li><li><span>40</span>Bajirao Mastani</li><li><span>50</span>Tanu Weds Manu</li></ol></section><section class="col"><h3>Angrezi Medium</h3><ol><li><span>10</span>No Entry</li><li><span>20</span>Wake Up Sid</li><li><span>30</span>My Name Is Khan</li><li><span>40</span>Luck by Chance</li><li><span>50</span>A Wednesday!</li></ol></section><section class="col"><h3>Rishtey</h3><ol><li><span>10</span>Biwi No.1</li><li><span>20</span>Chachi 420</li><li><span>30</span>Mere Brother Ki Dulhan</li><li><span>40</span>Pati Patni Aur Woh</li><li><span>50</span>Bade Miyan Chote Miyan</li></ol></section><section class="col"><h3>Jaanwar</h3><ol><li><span>10</span>Tiger Zinda Hai</li><li><span>20</span>Sherni</li><li><span>30</span>Bhediya</li><li><span>40</span>Makdee</li><li><span>50</span>Titli</li></ol></section><section class="col"><h3>Gaana Bajao</h3><ol><li><span>10</span>Kala Chashma</li><li><span>20</span>Lungi Dance</li><li><span>30</span>Munni Badnaam Hui</li><li><span>40</span>Mehndi Laga Ke Rakhna</li><li><span>50</span>Ek Ladki Ko Dekha Toh Aisa Laga</li></ol></section></div></details><details class="board"><summary>Board Three</summary><div class="cols"><section class="col"><h3>Shaadi Mubarak</h3><ol><li><span>10</span>Vivah</li><li><span>20</span>Monsoon Wedding</li><li><span>30</span>Veere Di Wedding</li><li><span>40</span>Shaadi Ke Side Effects</li><li><span>50</span>Dulhan Hum Le Jayenge</li></ol></section><section class="col"><h3>Sheher Sheher</h3><ol><li><span>10</span>Bombay</li><li><span>20</span>Namastey London</li><li><span>30</span>Go Goa Gone</li><li><span>40</span>Chandni Chowk to China</li><li><span>50</span>Once Upon a Time in Mumbaai</li></ol></section><section class="col"><h3>Khaana Peena</h3><ol><li><span>10</span>Cocktail</li><li><span>20</span>Cheeni Kum</li><li><span>30</span>Stanley Ka Dabba</li><li><span>40</span>Daawat-e-Ishq</li><li><span>50</span>Luv Shuv Tey Chicken Khurana</li></ol></section><section class="col"><h3>Rang Birangi</h3><ol><li><span>10</span>Black</li><li><span>20</span>Gulaal</li><li><span>30</span>Laal Singh Chaddha</li><li><span>40</span>Kaala Patthar</li><li><span>50</span>The Blue Umbrella</li></ol></section><section class="col"><h3>Sawaal Jawaab</h3><ol><li><span>10</span>Mujhse Shaadi Karogi</li><li><span>20</span>Hum Aapke Hain Koun..!</li><li><span>30</span>What&#x27;s Your Raashee?</li><li><span>40</span>Dil Kya Kare</li><li><span>50</span>Albert Pinto Ko Gussa Kyoon Aata Hai</li></ol></section></div></details>
+    <p class="lede">This page is for the host to keep on their phone. Tap the square the actor chose and show the title to the actor only. Don't project or cast this page to the TV.</p>
+    <div class="tabs" role="tablist" aria-label="Boards" id="tabs"></div>
+    <div id="boards"></div>
+    <p class="hint">A tick marks a title you've already shown. Tap Hide when the actor has read it.</p>
+    <div class="pop" id="pop" hidden>
+      <div class="pop-card" role="dialog" aria-modal="true" aria-labelledby="pop-title">
+        <p class="pop-kicker" id="pop-kicker"></p>
+        <p class="pop-title" id="pop-title"></p>
+        <button type="button" class="pop-hide" id="pop-hide">Hide</button>
+      </div>
+    </div>
   </main>
   <footer>
     <h2>More Bollywood quizzes and games</h2>
-    <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+    <!-- Footer page list: generated from tools/site-pages.json. Edit that file, then run: python tools/site.py sync -->
     <ul>
       <li><a href="/">BollyQuiz home</a></li>
       <li><a href="/quiz-1/">First Day First Show</a></li>
@@ -53,5 +79,331 @@ footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line);
     </ul>
   </footer>
 </div>
+<script>
+// Titles by board, category and points. They go on screen only when a square is opened, and are cleared again when it is hidden.
+const BOARDS = [
+ {
+  "name": "Board One",
+  "cats": [
+   {
+    "name": "Ek Shabd",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Border",
+     "Dhoom",
+     "Baazigar",
+     "Swades",
+     "Lootera"
+    ]
+   },
+   {
+    "name": "Do Lafz",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Gully Boy",
+     "Dear Zindagi",
+     "Udta Punjab",
+     "Vicky Donor",
+     "English Vinglish"
+    ]
+   },
+   {
+    "name": "Lambi Kahani",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Kuch Kuch Hota Hai",
+     "Hum Dil De Chuke Sanam",
+     "Dilwale Dulhania Le Jayenge",
+     "Jaane Tu... Ya Jaane Na",
+     "Ajab Prem Ki Ghazab Kahani"
+    ]
+   },
+   {
+    "name": "Numbers Game",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "3 Idiots",
+     "Dus",
+     "Satte Pe Satta",
+     "7 Khoon Maaf",
+     "Do Aur Do Paanch"
+    ]
+   },
+   {
+    "name": "Purana Classic",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Mother India",
+     "Bobby",
+     "Amar Akbar Anthony",
+     "Kaagaz Ke Phool",
+     "Chalti Ka Naam Gaadi"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Board Two",
+  "cats": [
+   {
+    "name": "Naam Wale",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Bunty Aur Babli",
+     "Karan Arjun",
+     "Jodhaa Akbar",
+     "Bajirao Mastani",
+     "Tanu Weds Manu"
+    ]
+   },
+   {
+    "name": "Angrezi Medium",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "No Entry",
+     "Wake Up Sid",
+     "My Name Is Khan",
+     "Luck by Chance",
+     "A Wednesday!"
+    ]
+   },
+   {
+    "name": "Rishtey",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Biwi No.1",
+     "Chachi 420",
+     "Mere Brother Ki Dulhan",
+     "Pati Patni Aur Woh",
+     "Bade Miyan Chote Miyan"
+    ]
+   },
+   {
+    "name": "Jaanwar",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Tiger Zinda Hai",
+     "Sherni",
+     "Bhediya",
+     "Makdee",
+     "Titli"
+    ]
+   },
+   {
+    "name": "Gaana Bajao",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Kala Chashma",
+     "Lungi Dance",
+     "Munni Badnaam Hui",
+     "Mehndi Laga Ke Rakhna",
+     "Ek Ladki Ko Dekha Toh Aisa Laga"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Board Three",
+  "cats": [
+   {
+    "name": "Shaadi Mubarak",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Vivah",
+     "Monsoon Wedding",
+     "Veere Di Wedding",
+     "Shaadi Ke Side Effects",
+     "Dulhan Hum Le Jayenge"
+    ]
+   },
+   {
+    "name": "Sheher Sheher",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Bombay",
+     "Namastey London",
+     "Go Goa Gone",
+     "Chandni Chowk to China",
+     "Once Upon a Time in Mumbaai"
+    ]
+   },
+   {
+    "name": "Khaana Peena",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Cocktail",
+     "Cheeni Kum",
+     "Stanley Ka Dabba",
+     "Daawat-e-Ishq",
+     "Luv Shuv Tey Chicken Khurana"
+    ]
+   },
+   {
+    "name": "Rang Birangi",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Black",
+     "Gulaal",
+     "Laal Singh Chaddha",
+     "Kaala Patthar",
+     "The Blue Umbrella"
+    ]
+   },
+   {
+    "name": "Sawaal Jawaab",
+    "points": [
+     10,
+     20,
+     30,
+     40,
+     50
+    ],
+    "titles": [
+     "Mujhse Shaadi Karogi",
+     "Hum Aapke Hain Koun..!",
+     "What's Your Raashee?",
+     "Dil Kya Kare",
+     "Albert Pinto Ko Gussa Kyoon Aata Hai"
+    ]
+   }
+  ]
+ }
+];
+
+(function () {
+  "use strict";
+  var tabs = document.getElementById("tabs"), host = document.getElementById("boards");
+  var pop = document.getElementById("pop"), kicker = document.getElementById("pop-kicker"), ttl = document.getElementById("pop-title"), hide = document.getElementById("pop-hide");
+  var grids = [], tabEls = [], opener = null;
+
+  BOARDS.forEach(function (b, bi) {
+    var tab = document.createElement("button");
+    tab.type = "button"; tab.className = "tab"; tab.setAttribute("role", "tab"); tab.textContent = b.name;
+    tab.addEventListener("click", function () { select(bi); });
+    tabs.appendChild(tab); tabEls.push(tab);
+
+    var g = document.createElement("div");
+    g.className = "grid"; g.setAttribute("role", "group"); g.setAttribute("aria-label", b.name);
+    b.cats.forEach(function (c) { var h = document.createElement("div"); h.className = "cat"; h.textContent = c.name; g.appendChild(h); });
+    for (let r = 0; r < 5; r++) {
+      b.cats.forEach(function (c) {
+        var sq = document.createElement("button");
+        sq.type = "button"; sq.className = "sq"; sq.textContent = c.points[r];
+        sq.setAttribute("aria-label", c.name + ", " + c.points[r] + " points");
+        sq.addEventListener("click", function () { open(sq, c.name, c.points[r], c.titles[r]); });
+        g.appendChild(sq);
+      });
+    }
+    host.appendChild(g); grids.push(g);
+  });
+
+  function select(i) {
+    grids.forEach(function (g, k) { g.hidden = k !== i; tabEls[k].setAttribute("aria-selected", k === i ? "true" : "false"); });
+  }
+
+  function open(sq, cat, pts, title) {
+    opener = sq;
+    kicker.textContent = cat + " · " + pts;
+    ttl.textContent = title;
+    pop.hidden = false;
+    hide.focus({ preventScroll: true });
+  }
+  function close() {
+    if (pop.hidden) return;
+    pop.hidden = true;
+    ttl.textContent = ""; kicker.textContent = "";      // nothing left in the page to peek at
+    if (opener) { opener.classList.add("shown"); opener.focus({ preventScroll: true }); opener = null; }
+  }
+  hide.addEventListener("click", close);
+  pop.addEventListener("click", function (e) { if (e.target === pop) close(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+
+  select(0);
+})();
+</script>
 </body>
 </html>

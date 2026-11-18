@@ -12,7 +12,7 @@
 /* Baloo 2 ExtraBold, the same local files the quiz uses */
 @font-face {
   font-family: "QuizDisplay";
-  src: url("assets/fonts/display-latin.woff2") format("woff2");
+  src: url("/assets/fonts/display-latin.woff2") format("woff2");
   font-weight: 800;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -21,7 +21,7 @@
 }
 @font-face {
   font-family: "QuizDisplay";
-  src: url("assets/fonts/display-devanagari.woff2") format("woff2");
+  src: url("/assets/fonts/display-devanagari.woff2") format("woff2");
   font-weight: 800;
   font-display: swap;
   unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC,
@@ -163,7 +163,7 @@ td.q img { display: block; width: 96px; height: 64px; object-fit: cover; border-
 <footer class="site-footer">
   <nav class="more-quizzes" aria-labelledby="more-quizzes-title">
     <h2 id="more-quizzes-title">More Bollywood quizzes and games</h2>
-    <!-- Footer page list: keep identical on every page. New page = add one <li> everywhere. -->
+    <!-- Footer page list: generated from tools/site-pages.json. Edit that file, then run: python tools/site.py sync -->
     <ul>
       <li><a href="/">BollyQuiz home</a></li>
       <li><a href="/quiz-1/">First Day First Show</a></li>

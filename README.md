@@ -194,3 +194,33 @@ This is a non-commercial fan quiz. All films, songs, posters and stills belong t
 
 **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2) by Ek Type, used
 under the SIL Open Font License.
+
+---
+
+## For developers
+
+A static site (plain HTML, CSS and JavaScript, hosted on GitHub Pages). There is no build step.
+Run it locally with any static server, for example `python -m http.server 8770`.
+
+**How the quiz boards are put together.** Everything shared lives in `assets/`, so a fix or feature lands on every quiz:
+
+| Path | What it is |
+| --- | --- |
+| `assets/board/board.css` | All board styles, including the header and the phone layout |
+| `assets/board/board.js` | The game engine (squares, keys, autosave, backups) |
+| `assets/board/board-ui.js` | Builds the header, help screen, new-game prompt and tip line from each quiz's settings |
+| `assets/board/charades.js` / `.css` | A plug-in for charade squares. Other special square types are plug-ins too |
+| `assets/board-intro.js` / `.css` | The first-open category pop-up |
+| `quiz-N/index.html` | One quiz: its SEO tags, its data (`const QUIZ`), its settings (`window.BOARD_CONFIG`) and the script tags |
+
+**Adding a quiz.** Copy `quiz-2/index.html` to `quiz-N/index.html` and follow the notes at the top of `assets/board/board.js`.
+
+**Keeping the site consistent.** The footer list of pages is repeated on every page, as plain HTML so search engines see it.
+The one list lives in `tools/site-pages.json`, and a small script (Python 3, nothing to install) keeps every page in step:
+
+```
+python tools/site.py sync     # rewrite the footer list on every page
+python tools/site.py check    # verify footers, sitemap, and every quiz page's data and settings
+```
+
+New page: add it to `tools/site-pages.json` and `sitemap.xml`, run `sync`, then run `check` before committing.
