@@ -859,3 +859,28 @@ kbd {
   .cats-link { grid-row: 3; grid-column: 1 / 3; justify-self: start; }
   .answers-link { grid-row: 3; grid-column: 2 / 4; justify-self: end; }
 }
+
+/* Finish-line tip pop-up: built by board-ui.js and framed with the category pop-up styles in board-intro.css */
+.bq-tip__pop { width: min(94vw, calc(var(--u) * 52)); outline: none; }
+.bq-tip__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: calc(var(--u) * 2); text-align: center; }
+.bq-tip__main { min-width: 0; }
+/* The QR for people watching on a TV. White tile with a quiet zone of about four modules, which scanners need. */
+.bq-tip__qr { margin: 0; padding-left: calc(var(--u) * 2); border-left: 2px dashed rgba(61, 15, 20, .25); text-align: center; }
+.bq-tip__qrbox { display: inline-block; padding: calc(var(--u) * 1.5); background: #fff; border: 3px solid var(--maroon, #3D0F14); border-radius: calc(var(--u) * 1); color: var(--maroon, #3D0F14); line-height: 0; }
+.bq-tip__qrcode { display: block; width: calc(var(--u) * 11); height: calc(var(--u) * 11); }
+.bq-tip__qr figcaption { margin-top: calc(var(--u) * .7); font-weight: 800; font-size: calc(var(--u) * 1.1); line-height: 1.3; color: var(--maroon, #3D0F14); }
+.bq-tip__qr small { display: block; font-weight: 600; font-size: .85em; opacity: .75; }
+@media (max-width: 700px) {      /* phones: the button does the job, and you can't scan the screen you're holding */
+  .bq-tip__pop { width: min(94vw, calc(var(--u) * 38)); }
+  .bq-tip__card { display: block; }
+  .bq-tip__qr { display: none; }
+}
+.bq-tip .bq-intro__sub { margin: calc(var(--u) * .9) 0 0; font-size: calc(var(--u) * 1.3); line-height: 1.45; color: var(--maroon, #3D0F14); }
+.bq-tip .bq-intro__act { justify-content: center; margin-top: calc(var(--u) * 1.5); }
+.bq-tip__go { display: inline-block; text-decoration: none; }
+.bq-tip__later {
+  appearance: none; background: none; border: 0; padding: calc(var(--u) * .4) calc(var(--u) * .6); cursor: pointer;
+  font: 600 calc(var(--u) * 1.1) var(--sans, system-ui, sans-serif); color: var(--maroon, #3D0F14);
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.bq-tip__later:focus-visible { outline: 3px solid var(--maroon, #3D0F14); outline-offset: 3px; border-radius: 6px; }

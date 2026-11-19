@@ -18,6 +18,7 @@
         appId, storageKey         required
         downloadPrefix, answerLabel   optional (defaults "quiz-session" and "Answer")
         answersLink, tipRef, resetNote, help   the quiz's own wording on the screens; see /assets/board/board-ui.js
+        (tipRef also switches on the tip-jar pop-up shown after each finished board, then paused for 24 hours once dismissed)
    4. The footer list in the help screen: leave it. Add the quiz to tools/site-pages.json and sitemap.xml, then run
       python tools/site.py sync   and   python tools/site.py check
    5. If the quiz uses charade squares, keep the charades.css link and charades.js script; if not, delete them.
@@ -219,6 +220,7 @@
   function startNewGame() {
     clearNudge();
     if (window.BoardIntro) BoardIntro.reset();
+    BoardUI.tip.reset();
     state.activeBoard = 1;
     state.answered = { 1: new Set(), 2: new Set(), 3: new Set() };
     state.history = [];
@@ -621,6 +623,7 @@
         track("board-finished", { board: cur.board, via: "play" });
         nudgeNextBoard(cur.board, 1800);
       }
+      if (state.answered[cur.board].size === ROWS * COLS) BoardUI.tip.schedule(cur.board);   // tip jar pop-up after a finished board
     }
     persist();
     renderQuestion();
@@ -651,6 +654,7 @@
     persist();
     renderBoard({ delays, ringDelay: ids.length * LIFT_STAGGER_MS + 400 });
     nudgeNextBoard(board.id, ids.length * LIFT_STAGGER_MS + 1800);
+    BoardUI.tip.schedule(board.id);
   }
 
   function undo() {
@@ -837,6 +841,14 @@
     getBoardId: () => state.activeBoard,
     isBoardView: () => state.view === "board" && !state.help && !confirmOpen,
     hasProgress: id => state.answered[id].size > 0,
+  });
+
+  BoardUI.tip.init(CFG, {
+    boardName: id => NAMES[id] || "Board " + id,
+    boardDone: id => state.answered[id].size === ROWS * COLS,
+    allDone: () => liftedTotal() === QUIZ.boards.length * ROWS * COLS,
+    idle: () => state.view === "board" && !state.help && !confirmOpen && !document.querySelector(".bq-intro:not(.bq-tip):not([hidden])"),
+    track
   });
 
   buildBoards();

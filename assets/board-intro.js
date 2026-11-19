@@ -77,6 +77,11 @@
   function placeBulbs() {
     var host = q(".bq-intro__bulbs");
     if (!host || root.hidden) return;
+    layoutBulbs(host, pop);
+  }
+
+  /* Lays the bulbs round any pop-up frame (.bq-intro__pop). Also used by the tip pop-up in /assets/board/board-ui.js. */
+  function layoutBulbs(host, pop) {
     host.innerHTML = "";
     var u = Math.max(10.5, Math.min(innerWidth * 0.01, innerHeight * 0.018));   // same scale unit as the CSS (--u)
     var w = pop.offsetWidth, h = pop.offsetHeight;
@@ -124,6 +129,8 @@
   }
 
   var api = {
+    layoutBulbs: layoutBulbs,
+
     /* Call once, before the first renderBoard(). See the set-up notes at the top of this file. */
     init: function (options) {
       cfg = options;
