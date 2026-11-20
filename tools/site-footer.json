@@ -1,0 +1,31 @@
+{
+  "_about": "Words and settings for the site footer. The footer is generated onto every page by tools/site.py (see tools/site_footer.py). The page links come from tools/site-pages.json.",
+
+  "quizzes": { "title": "Play a quiz" },
+  "pages": { "title": "More quizzes and games" },
+
+  "legal": {
+    "title": "Terms and disclaimer",
+    "paragraphs": [
+      "© 2026 Rad Radium Pte. Ltd. Free to play anywhere, including at work.",
+      "Made by Kavya. Films and songs belong to their creators and rights holders.",
+      "Want a branded quiz or commercial use? <a href=\"/custom-quiz/\">Get in touch</a>.",
+      "Read the <a href=\"/terms/\">terms of use</a>."
+    ],
+    "credits": {
+      "minibinder": "Minimalist posters in Bare Minimum are fan art by Mini Binder."
+    }
+  },
+
+  "support": {
+    "title": "Keep BollyQuiz free",
+    "text": "It's free, with no sign-up. A small tip helps me build the next quiz.",
+    "button": "Leave a tip",
+    "url": "https://ko-fi.com/kavyaj",
+    "producthunt": {
+      "href": "https://www.producthunt.com/products/bollyquiz?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-bollyquiz",
+      "image": "https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1306112&theme=light&t=1793948199588",
+      "alt": "BollyQuiz - A Bollywood quiz for your Diwali house party. | Product Hunt"
+    }
+  }
+}

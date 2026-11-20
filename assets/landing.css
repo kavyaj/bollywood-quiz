@@ -110,7 +110,7 @@ h3 { margin: 0 0 4px; font-size: 1.05rem; }
 .cta .small { margin: 10px 0 0; font-size: .9rem; }
 .cta .small a { text-underline-offset: 3px; }
 
-/* about, FAQ, more to play, footer */
+/* about, FAQ, more to play (the footer is /assets/footer.css) */
 .about { margin: 48px 0 0; }
 .about h2 { font-size: 1.35rem; margin-bottom: 6px; }
 .about p { margin: 0 0 10px; color: var(--muted); }
@@ -131,8 +131,6 @@ a.board-card:hover { transform: translateY(-2px); }
 .board-card.soon { background: transparent; box-shadow: none; border: 2px dashed var(--line); }
 .board-card.soon .board-art, .board-card.soon b { opacity: .55; }
 .board-card.soon .board-tag { background: var(--line); color: var(--muted); }
-footer { margin: 48px 0 0; padding: 26px 0 60px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
-footer ul { gap: 8px 16px; }
 
 /* tip jar (light theme), same as the emoji and PPT pages */
 .tipjar { margin: 56px auto 0; max-width: 460px; padding: 32px 28px 26px; border-radius: 24px; background: var(--card); box-shadow: var(--shadow); text-align: center; scroll-margin-top: 20px; }

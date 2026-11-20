@@ -123,7 +123,7 @@ h2 { margin: 0; font-family: "Shrikhand", cursive; font-weight: 400; font-size: 
 .btn { display: inline-block; padding: 11px 20px; border-radius: 999px; background: var(--ink); color: var(--card); font-weight: 600; text-decoration: none; }
 .faqs { margin: 40px 0 0; }
 .faqs h2 { font-size: 1.35rem; margin-bottom: 6px; }
-footer { margin: 48px 0 0; padding: 26px 0 100px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
+.site-footer { --sf-bottom-space: 100px; }   /* room for the floating score pill */
 /* hero illustration motion */
 .kernel { animation: popcorn 2.6s cubic-bezier(.3,.7,.4,1) infinite; transform-box: fill-box; transform-origin: center; }
 .kernel.k2 { animation-delay: .9s; }

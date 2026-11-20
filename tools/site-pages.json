@@ -1,13 +1,14 @@
 [
-  { "href": "/", "label": "BollyQuiz home" },
-  { "href": "/quiz-1/", "label": "First Day First Show" },
-  { "href": "/quiz-2/", "label": "Housefull: dumb charades" },
-  { "href": "/bollywood-quiz-questions/", "label": "50 Bollywood quiz questions" },
-  { "href": "/bollywood-quiz-ppt/", "label": "Bollywood quiz PPT" },
-  { "href": "/bollywood-emoji-quiz/", "label": "Bollywood emoji quiz" },
-  { "href": "/bollywood-dialogues-quiz/", "label": "Bollywood dialogues quiz" },
-  { "href": "/hindi-movie-quiz/", "label": "Hindi movie quiz" },
-  { "href": "/bollywood-dumb-charades/", "label": "Bollywood dumb charades" },
-  { "href": "/diwali-games/", "label": "Diwali games" },
-  { "href": "/holi-games/", "label": "Holi games" }
+  { "href": "/", "label": "BollyQuiz home", "group": "home" },
+  { "href": "/quiz-1/", "label": "First Day First Show", "group": "quiz", "tag": "Quiz 1" },
+  { "href": "/quiz-2/", "label": "Housefull: dumb charades", "group": "quiz", "tag": "Quiz 2" },
+  { "href": "/bollywood-quiz-questions/", "label": "50 Bollywood quiz questions", "group": "page" },
+  { "href": "/bollywood-quiz-ppt/", "label": "Bollywood quiz PPT", "group": "page" },
+  { "href": "/bollywood-emoji-quiz/", "label": "Bollywood emoji quiz", "group": "page" },
+  { "href": "/bollywood-dialogues-quiz/", "label": "Bollywood dialogues quiz", "group": "page" },
+  { "href": "/hindi-movie-quiz/", "label": "Hindi movie quiz", "group": "page" },
+  { "href": "/bollywood-dumb-charades/", "label": "Bollywood dumb charades", "group": "page" },
+  { "href": "/diwali-games/", "label": "Diwali games", "group": "page" },
+  { "href": "/holi-games/", "label": "Holi games", "group": "page" },
+  { "href": "/custom-quiz/", "label": "Custom quizzes for teams", "group": "page" }
 ]

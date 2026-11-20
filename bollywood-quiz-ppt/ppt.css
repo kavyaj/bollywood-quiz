@@ -45,7 +45,6 @@ h2 { margin: 0 0 6px; font-family: "Shrikhand", cursive; font-weight: 400; font-
 .compare tr:last-child td { border-bottom: 0; }
 .compare thead th { background: var(--marigold-soft); font-weight: 700; }
 .compare tbody th { font-weight: 600; color: var(--muted); width: 28%; }
-footer { margin: 56px 0 0; padding: 26px 0 40px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
 /* hero motion: projector flips between a question and its answer */
 .beam { animation: beam 3s ease-in-out infinite; }
 @keyframes beam { 0%, 100% { opacity: .35; } 50% { opacity: .6; } }

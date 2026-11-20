@@ -216,12 +216,29 @@ Run it locally with any static server, for example `python -m http.server 8770`.
 
 **Adding a quiz.** Copy `quiz-2/index.html` to `quiz-N/index.html` and follow the notes at the top of `assets/board/board.js`.
 
-**Keeping the site consistent.** The footer list of pages is repeated on every page, as plain HTML so search engines see it.
-The one list lives in `tools/site-pages.json`, and a small script (Python 3, nothing to install) keeps every page in step:
+**The site footer.** One footer component, two themes (dark for the homepage, light for everything else), generated onto every
+page as plain HTML so search engines see the links. Its four sections are: play a quiz, more quizzes and games, terms and
+disclaimer, and the tip jar with the Product Hunt badge.
+
+| Path | What it is |
+| --- | --- |
+| `tools/site-pages.json` | Every page, and which footer section it belongs to (`quiz`, `page` or `home`) |
+| `tools/site-footer.json` | The footer's words, the Ko-fi link and the Product Hunt badge |
+| `tools/site_footer.py` | Turns those two files into the footer HTML |
+| `assets/footer.css` | The footer's styles and the two themes |
+
+A page opts in by putting two marker comments where the footer goes and loading `/assets/footer.css`:
+
+```html
+<!-- site-footer:start theme=light -->   (theme=dark for a dark page)
+<!-- site-footer:end -->
+```
 
 ```
-python tools/site.py sync     # rewrite the footer list on every page
+python tools/site.py sync     # regenerate the footer on every page (and the help list on the quiz boards)
 python tools/site.py check    # verify footers, sitemap, and every quiz page's data and settings
 ```
 
-New page: add it to `tools/site-pages.json` and `sitemap.xml`, run `sync`, then run `check` before committing.
+New page: add it to `tools/site-pages.json` (group `page`) and `sitemap.xml`, add the marker comments and the stylesheet link,
+run `sync`, then run `check` before committing. Never edit the generated footer by hand. A page with something floating at
+the bottom of the screen can reserve room with `.site-footer { --sf-bottom-space: 100px; }`.

@@ -1,34 +1,51 @@
 #!/usr/bin/env python3
 """BollyQuiz site tool. Plain Python 3, no installs. Run from anywhere:
 
-    python tools/site.py sync    rewrite the footer page list on every page from tools/site-pages.json
+    python tools/site.py sync    rewrite the site footer on every page, and the board help lists, from the files below
     python tools/site.py check   verify the site, exit 1 if anything is wrong (run it before every commit)
 
-WHY: the footer list of pages is repeated on every page, as plain HTML so search engines see the links without
-running JavaScript. This tool keeps all those copies identical from one list, so adding a page is one edit.
+WHY: the footer is repeated on every page as plain HTML, so search engines see its links without running JavaScript.
+This tool generates every copy from one source, so a change is one edit and the pages can't drift apart.
 
-NEW PAGE:  1. add it to tools/site-pages.json   2. add it to sitemap.xml   3. python tools/site.py sync
-           4. python tools/site.py check
+  tools/site-pages.json    the pages and which footer section each belongs to (quiz, page or home)
+  tools/site-footer.json   the footer's words, the tip jar link and the Product Hunt badge
+  tools/site_footer.py     turns those into the footer HTML (dark or light theme)
+  assets/footer.css        its styles
+
+A page opts in with a marker comment where the footer goes, and loads /assets/footer.css:
+    <!-- site-footer:start theme=light -->     (theme=dark for the dark pages; credit=minibinder adds that credit line)
+    <!-- site-footer:end -->
+The quiz boards have no footer. Their Host keys help card holds a folded list of the pages (marked "Footer page list") and
+two copyright lines instead.
+
+NEW PAGE:  1. add it to tools/site-pages.json (group "page")   2. add it to sitemap.xml
+           3. put the footer marker comments in the page and link /assets/footer.css   4. python tools/site.py sync
+           5. python tools/site.py check
 
 WHAT check LOOKS AT
-  - every footer list matches site-pages.json, with aria-current on the page itself
+  - every footer and board help list matches the source files, with aria-current on the page itself
   - every listed page exists and is in sitemap.xml
-  - every public page (indexable, with a canonical link) is in the footer list (except /terms/ and /custom-quiz/, which every
-    footer links from its copyright line) and in sitemap.xml
-  - every page with the footer list, and every quiz board, also has the copyright line with the Terms link
+  - every public page (indexable, with a canonical link) is in sitemap.xml and in site-pages.json (except /terms/, which every
+    footer links to), and every public page except the quiz boards has the footer and its stylesheet
+  - every quiz board also has the copyright line with the Terms link
   - every quiz page (/quiz-N/) has valid data (3 boards of 5 x 5, a blurb on each category, hidden images that exist),
     its own settings (appId and storageKey not shared with another quiz) and the shared scripts in the right order
 """
 import io, json, re, sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import site_footer
+
 ROOT = Path(__file__).resolve().parent.parent
 PAGES_FILE = ROOT / "tools" / "site-pages.json"
 SITE = "https://bollyquiz.com"
 COMMENT = "<!-- Footer page list: generated from tools/site-pages.json. Edit that file, then run: python tools/site.py sync -->"
-# Pages linked from every footer's copyright line instead of from the page list
-NOT_IN_LIST = {"/terms/", "/custom-quiz/"}
-NOTICE_LINK = '<a href="/terms/">Terms</a>'
+# Pages linked from every footer's terms paragraph instead of from the page list
+NOT_IN_LIST = {"/terms/"}
+NOTICE_LINK = 'href="/terms/"'
+FOOTER_RE = re.compile(r"<!-- site-footer:start([^>]*?)-->\n(.*?)<!-- site-footer:end -->", re.S)
+FOOTER_NOTE = "<!-- Footer: generated from tools/site-footer.json and tools/site-pages.json by tools/site.py. Edit those, then run: python tools/site.py sync -->"
 LIST_RE = re.compile(r"^([ \t]*)<!-- Footer page list[^\n]*-->\n[ \t]*<ul>\n.*?\n[ \t]*</ul>", re.S | re.M)
 
 read = lambda p: io.open(p, encoding="utf-8", newline="").read()
@@ -63,22 +80,33 @@ def render_list(indent, current):
     return "%s%s\n%s<ul>\n%s\n%s</ul>" % (indent, COMMENT, indent, "\n".join(items), indent)
 
 
+def footer_attrs(marker):
+    return dict(re.findall(r"(\w+)=(\w+)", marker))
+
+
+def render_footer(marker, path):
+    a = footer_attrs(marker)
+    html = site_footer.render(a.get("theme", "light"), url_of(path), pages(), credit=a.get("credit"))
+    return "<!-- site-footer:start%s-->\n%s\n%s\n<!-- site-footer:end -->" % (marker, FOOTER_NOTE, html)
+
+
 def synced(text, path):
-    return LIST_RE.sub(lambda m: render_list(m.group(1), url_of(path)), text)
+    text = LIST_RE.sub(lambda m: render_list(m.group(1), url_of(path)), text)
+    return FOOTER_RE.sub(lambda m: render_footer(m.group(1), path), text)
 
 
 def sync():
     changed = 0
     for f in html_files():
         s = read(f)
-        if not LIST_RE.search(s):
+        if not (LIST_RE.search(s) or FOOTER_RE.search(s)):
             continue
         n = synced(s, f)
         if n != s:
             write(f, n)
             changed += 1
             print("updated", f.relative_to(ROOT).as_posix())
-    print("footer lists in sync (%d page%s changed)" % (changed, "" if changed == 1 else "s"))
+    print("footers and lists in sync (%d page%s changed)" % (changed, "" if changed == 1 else "s"))
 
 
 # ---------------------------------------------------------------------------- check
@@ -139,8 +167,22 @@ def check():
 
     for f in html_files():
         s = read(f)
-        if LIST_RE.search(s) and synced(s, f) != s:
-            errors.append("%s: footer list is out of date. Run: python tools/site.py sync" % f.relative_to(ROOT).as_posix())
+        try:
+            stale = (LIST_RE.search(s) or FOOTER_RE.search(s)) and synced(s, f) != s
+        except (ValueError, KeyError) as e:       # a bad theme or credit name in the marker comment
+            errors.append("%s: can't build the footer (%s)" % (f.relative_to(ROOT).as_posix(), e))
+            stale = False
+        if stale:
+            errors.append("%s: footer is out of date. Run: python tools/site.py sync" % f.relative_to(ROOT).as_posix())
+        m = FOOTER_RE.search(s)
+        if m:
+            theme = footer_attrs(m.group(1)).get("theme")
+            if theme not in site_footer.THEMES:
+                errors.append("%s: footer marker needs theme=dark or theme=light" % f.relative_to(ROOT).as_posix())
+            if '/assets/footer.css' not in s:
+                errors.append("%s: link /assets/footer.css (the footer's styles)" % f.relative_to(ROOT).as_posix())
+            if s.count("<footer") != 1:
+                errors.append("%s: expected only the generated <footer>, found %d" % (f.relative_to(ROOT).as_posix(), s.count("<footer")))
 
     for p in listed:
         if not file_of(p["href"]).exists():
@@ -157,8 +199,10 @@ def check():
         if public and "<loc>%s%s</loc>" % (SITE, url_of(f)) not in sitemap:
             errors.append("sitemap.xml: %s is missing" % url_of(f))
         is_quiz = re.fullmatch(r"quiz-\d+/index\.html", f.relative_to(ROOT).as_posix())
+        if public and not is_quiz and not FOOTER_RE.search(s):
+            errors.append("%s is a public page without the site footer (add the site-footer marker comments)" % url_of(f))
         if (LIST_RE.search(s) or is_quiz) and NOTICE_LINK not in s:
-            errors.append("%s: the footer needs the copyright line with the Terms link (see NOTICE_LINK in tools/site.py)" % f.relative_to(ROOT).as_posix())
+            errors.append("%s: the help card needs the copyright line with the Terms link (see NOTICE_LINK in tools/site.py)" % f.relative_to(ROOT).as_posix())
 
     quiz_cfgs = {}
     for f in html_files():
