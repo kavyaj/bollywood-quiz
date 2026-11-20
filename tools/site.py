@@ -14,8 +14,8 @@ WHAT check LOOKS AT
   - every footer list matches site-pages.json, with aria-current on the page itself
   - every listed page exists and is in sitemap.xml
   - every public page (indexable, with a canonical link) is in the footer list
-  - every quiz page (/quiz-N/) has valid data (3 boards of 5 x 5, a blurb on each category), its own settings
-    (appId and storageKey not shared with another quiz) and the shared scripts in the right order
+  - every quiz page (/quiz-N/) has valid data (3 boards of 5 x 5, a blurb on each category, hidden images that exist),
+    its own settings (appId and storageKey not shared with another quiz) and the shared scripts in the right order
 """
 import io, json, re, sys
 from pathlib import Path
@@ -112,9 +112,15 @@ def check_quiz(path, errors):
     cfg = re.search(r'appId: "([^"]+)",\s*storageKey: "([^"]+)"', s)
     if not cfg:
         errors.append("%s: window.BOARD_CONFIG needs appId and storageKey" % name)
-    order = [s.find(t) for t in ('/assets/board-intro.js"', '/assets/board/board-ui.js"', '/assets/board/board.js"')]
+    needs_tip = not re.search(r"tipPopup:\s*false", s)     # the tip jar pop-up is on for every quiz unless it opts out
+    wanted = ['/assets/board-intro.js"', '/assets/board/board-ui.js"'] + (['/assets/board/tip-popup.js"'] if needs_tip else []) + ['/assets/board/board.js"']
+    order = [s.find(t) for t in wanted]
     if -1 in order or order != sorted(order):
-        errors.append("%s: scripts must load in this order: board-intro.js, board-ui.js, board.js" % name)
+        errors.append("%s: scripts must load in this order: board-intro.js, board-ui.js%s, board.js" % (name, ", tip-popup.js" if needs_tip else ""))
+    for b in boards:                                          # each board's hidden photo or reveal card must exist
+        img = b.get("hiddenImage")
+        if img and not (path.parent / img).exists():
+            errors.append("%s: board %s hiddenImage %s doesn't exist" % (name, b.get("id"), img))
     if any(t["promptType"] == "charade" for b in boards for c in b.get("columns", []) for t in c.get("cells", [])):
         if s.find("/assets/board/charades.js") == -1 or s.find("/assets/board/charades.js") > s.find("/assets/board/board.js"):
             errors.append("%s: charade squares need /assets/board/charades.js loaded before board.js" % name)

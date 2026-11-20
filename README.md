@@ -210,6 +210,7 @@ Run it locally with any static server, for example `python -m http.server 8770`.
 | `assets/board/board.js` | The game engine (squares, keys, autosave, backups) |
 | `assets/board/board-ui.js` | Builds the header, help screen, new-game prompt and tip line from each quiz's settings |
 | `assets/board/charades.js` / `.css` | A plug-in for charade squares. Other special square types are plug-ins too |
+| `assets/board/tip-popup.js` | The tip jar pop-up (with a QR code) shown after each finished board. On for every quiz automatically; `tools/make-tip-qr.py` regenerates the QR |
 | `assets/board-intro.js` / `.css` | The first-open category pop-up |
 | `quiz-N/index.html` | One quiz: its SEO tags, its data (`const QUIZ`), its settings (`window.BOARD_CONFIG`) and the script tags |
 
