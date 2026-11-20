@@ -8,6 +8,7 @@
   { "href": "/bollywood-dialogues-quiz/", "label": "Bollywood dialogues quiz", "group": "page" },
   { "href": "/hindi-movie-quiz/", "label": "Hindi movie quiz", "group": "page" },
   { "href": "/bollywood-dumb-charades/", "label": "Bollywood dumb charades", "group": "page" },
+  { "href": "/sangeet-games/", "label": "Sangeet games", "group": "page" },
   { "href": "/diwali-games/", "label": "Diwali games", "group": "page" },
   { "href": "/holi-games/", "label": "Holi games", "group": "page" },
   { "href": "/custom-quiz/", "label": "Custom quizzes for teams", "group": "page" }

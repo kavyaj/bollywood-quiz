@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bollyquiz.com/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-20</lastmod>
   </url>
   <url>
     <loc>https://bollyquiz.com/quiz-1/</loc>
@@ -30,7 +30,7 @@
   </url>
   <url>
     <loc>https://bollyquiz.com/bollywood-dumb-charades/</loc>
-    <lastmod>2026-11-19</lastmod>
+    <lastmod>2026-11-20</lastmod>
   </url>
   <url>
     <loc>https://bollyquiz.com/diwali-games/</loc>
@@ -50,6 +50,10 @@
   </url>
   <url>
     <loc>https://bollyquiz.com/terms/</loc>
+    <lastmod>2026-11-20</lastmod>
+  </url>
+  <url>
+    <loc>https://bollyquiz.com/sangeet-games/</loc>
     <lastmod>2026-11-20</lastmod>
   </url>
 </urlset>
