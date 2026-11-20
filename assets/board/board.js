@@ -20,7 +20,8 @@
         downloadPrefix, answerLabel   optional (defaults "quiz-session" and "Answer")
         answersLink, tipRef, resetNote, help   the quiz's own wording on the screens; see /assets/board/board-ui.js
         tipRef (optional; defaults to appId), tipPopup (false turns the tip pop-up off, or an object to reword it): see /assets/board/tip-popup.js
-   4. The footer list in the help screen: leave it. Add the quiz to tools/site-pages.json and sitemap.xml, then run
+   4. The help screen shell (#help) holds #help-content, a folded list of the other quizzes and the two copyright lines:
+      leave them. Add the quiz to tools/site-pages.json and sitemap.xml, then run
       python tools/site.py sync   and   python tools/site.py check
    5. If the quiz uses charade squares, keep the charades.css link and charades.js script; if not, delete them.
    The scripts must load in this order, at the end of the body: board-intro.js, [plug-ins], board-ui.js, tip-popup.js, board.js.
@@ -736,6 +737,8 @@
       return;
     }
     if (state.help) {
+      // Enter or Space on the folded "more quizzes" heading opens or closes it, like on any <details>
+      if ((key === "Enter" || key === " ") && e.target.closest && e.target.closest(".help-more")) return;
       if (key === "Escape" || key === "Backspace" || key === "Enter" || key === " ") {
         e.preventDefault();
         toggleHelp(false);
@@ -819,7 +822,7 @@
     t.addEventListener("mousedown", e => e.preventDefault());
     t.addEventListener("click", () => { if (state.view === "board") switchBoard(+t.dataset.board); });
   });
-  $("#help").addEventListener("click", () => toggleHelp(false));
+  $("#help").addEventListener("click", e => { if (!e.target.closest(".help-more")) toggleHelp(false); });   // a click on the folded quiz list is not "dismiss"
   $("#confirm").addEventListener("click", () => toggleConfirm(false));
 
   window.addEventListener("resize", fitQuestion);

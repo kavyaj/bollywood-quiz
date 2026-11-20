@@ -8,7 +8,9 @@
      help          { sections: [...], notes: [...] }          what is specific to this quiz's help screen:
                      sections: [{ title: "Question", keys: [["<kbd>Space</kbd>", "Next clue"], ...] }, ...]
                      notes:    ["<b>How a turn goes:</b> ...", ...]   paragraphs under the key lists (HTML)
-   The Board section of the help screen is the same for every quiz and lives here.
+   The Board section of the help screen is the same for every quiz and lives here. The page's static #help shell holds
+   #help-content (filled from here), a folded <details> list of the other quizzes (static, for search engines) and the
+   two copyright lines.
 
    The tip jar pop-up shown after each finished board lives in /assets/board/tip-popup.js. */
 (function () {

@@ -1,0 +1,7 @@
+/* Terms page: styles for this page only. */
+.terms { max-width: 640px; padding: 22px 0 0; }
+.terms h1 { margin-bottom: 10px; }
+.terms h2 { margin: 34px 0 8px; font-size: 1.3rem; }
+.terms p { margin: 0 0 10px; color: var(--muted); }
+.terms p.lede { color: var(--ink); font-size: 1.1rem; }
+.terms a { color: var(--ink); text-underline-offset: 3px; }

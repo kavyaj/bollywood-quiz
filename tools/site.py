@@ -13,7 +13,9 @@ NEW PAGE:  1. add it to tools/site-pages.json   2. add it to sitemap.xml   3. py
 WHAT check LOOKS AT
   - every footer list matches site-pages.json, with aria-current on the page itself
   - every listed page exists and is in sitemap.xml
-  - every public page (indexable, with a canonical link) is in the footer list
+  - every public page (indexable, with a canonical link) is in the footer list (except /terms/ and /custom-quiz/, which every
+    footer links from its copyright line) and in sitemap.xml
+  - every page with the footer list, and every quiz board, also has the copyright line with the Terms link
   - every quiz page (/quiz-N/) has valid data (3 boards of 5 x 5, a blurb on each category, hidden images that exist),
     its own settings (appId and storageKey not shared with another quiz) and the shared scripts in the right order
 """
@@ -24,6 +26,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES_FILE = ROOT / "tools" / "site-pages.json"
 SITE = "https://bollyquiz.com"
 COMMENT = "<!-- Footer page list: generated from tools/site-pages.json. Edit that file, then run: python tools/site.py sync -->"
+# Pages linked from every footer's copyright line instead of from the page list
+NOT_IN_LIST = {"/terms/", "/custom-quiz/"}
+NOTICE_LINK = '<a href="/terms/">Terms</a>'
 LIST_RE = re.compile(r"^([ \t]*)<!-- Footer page list[^\n]*-->\n[ \t]*<ul>\n.*?\n[ \t]*</ul>", re.S | re.M)
 
 read = lambda p: io.open(p, encoding="utf-8", newline="").read()
@@ -146,8 +151,14 @@ def check():
     hrefs = {p["href"] for p in listed}
     for f in html_files():
         s = read(f)
-        if "rel=\"canonical\"" in s and 'content="noindex' not in s and url_of(f) not in hrefs and f.name == "index.html":
+        public = "rel=\"canonical\"" in s and 'content="noindex' not in s and f.name == "index.html"
+        if public and url_of(f) not in hrefs and url_of(f) not in NOT_IN_LIST:
             errors.append("%s is a public page but isn't in tools/site-pages.json" % url_of(f))
+        if public and "<loc>%s%s</loc>" % (SITE, url_of(f)) not in sitemap:
+            errors.append("sitemap.xml: %s is missing" % url_of(f))
+        is_quiz = re.fullmatch(r"quiz-\d+/index\.html", f.relative_to(ROOT).as_posix())
+        if (LIST_RE.search(s) or is_quiz) and NOTICE_LINK not in s:
+            errors.append("%s: the footer needs the copyright line with the Terms link (see NOTICE_LINK in tools/site.py)" % f.relative_to(ROOT).as_posix())
 
     quiz_cfgs = {}
     for f in html_files():

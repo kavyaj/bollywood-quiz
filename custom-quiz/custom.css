@@ -1,0 +1,7 @@
+/* Custom quiz page: styles for this page only. */
+.example-label { margin: 18px 0 0; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.chips-static { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips-static li { padding: 7px 15px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow); font-weight: 600; font-size: .95rem; }
+.steps-4 { grid-template-columns: repeat(2, 1fr); }
+.after { margin: 18px 0 0 !important; }
+@media (max-width: 620px) { .steps-4 { grid-template-columns: 1fr; } }

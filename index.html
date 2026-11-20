@@ -121,6 +121,14 @@
             "@type": "Answer",
             "text": "Yes. Housefull is a Bollywood dumb charades board with 75 film and song titles. The actor holds a key to peek at the title, then gets 60 seconds to act it out."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get a custom quiz for my company?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. I make custom boards for office parties, offsites and brand events, with your in-jokes and your logo on the board. Playing the free boards at work needs no permission."
+          }
         }
       ]
     }
@@ -582,6 +590,8 @@ section { padding: clamp(4.5rem, 9vw, 7rem) 0; }
 footer { background: var(--maroon); color: rgba(250,240,224,.75); padding: 2.75rem 0; font-size: .95rem; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem 2rem; }
 footer p { margin: 0; max-width: 62ch; }
+footer .footer-legal { display: grid; gap: .5rem; max-width: 62ch; }
+footer .footer-legal p { max-width: none; }
 footer img { width: 130px; height: auto; }
 footer .wrap.footer-top { align-items: flex-end; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(250,240,224,.15); }
 .more-quizzes h2 { font: 800 .85rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin: 0 0 .9rem; }
@@ -1110,6 +1120,10 @@ kbd {
           <summary>Is there a dumb charades game?</summary>
           <p>Yes. Housefull is a Bollywood dumb charades board with 75 film and song titles. The actor holds a key to peek at the title, then gets 60 seconds to act it out.</p>
         </details>
+        <details>
+          <summary>Can I get a custom quiz for my company?</summary>
+          <p>Yes. I make <a href="/custom-quiz/">custom boards</a> for office parties, offsites and brand events, with your in-jokes and your logo on the board. Playing the free boards at work needs no permission.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -1154,7 +1168,11 @@ kbd {
   </div>
   <div class="wrap">
     <img src="assets/logo.svg" alt="BollyQuiz" width="680" height="142">
-    <p>A non-commercial fan quiz. All films, songs, posters and stills belong to their creators and rights holders. Minimalist posters in Bare Minimum are fan art by Mini Binder. Made by Kavya.</p>
+    <div class="footer-legal">
+      <p>© 2026 Rad Radium Pte. Ltd. Free to play anywhere, including at work. Want a branded quiz or commercial use? <a href="/custom-quiz/">Get in touch</a>.</p>
+      <p>Made by Kavya. Films and songs belong to their creators and rights holders. <a href="/terms/">Terms</a> · <a href="#tip-jar">Tip jar</a></p>
+      <p>Minimalist posters in Bare Minimum are fan art by Mini Binder.</p>
+    </div>
     <a class="ph-badge" href="https://www.producthunt.com/products/bollyquiz?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-bollyquiz" target="_blank" rel="noopener noreferrer" data-umami-event="outbound-click" data-umami-event-target="producthunt"><img alt="BollyQuiz - A Bollywood quiz for your Diwali house party. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1306112&amp;theme=light&amp;t=1793948199588"></a>
   </div>
 </footer>
