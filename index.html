@@ -36,12 +36,44 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "Organization",
+      "@id": "https://bollyquiz.com/#organization",
+      "name": "BollyQuiz",
+      "legalName": "Rad Radium Pte. Ltd.",
+      "url": "https://bollyquiz.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://bollyquiz.com/#logo",
+        "url": "https://bollyquiz.com/assets/apple-touch-icon.png",
+        "contentUrl": "https://bollyquiz.com/assets/apple-touch-icon.png",
+        "width": 180,
+        "height": 180,
+        "caption": "BollyQuiz"
+      },
+      "image": "https://bollyquiz.com/assets/og-image.jpg",
+      "description": "BollyQuiz makes free Jeopardy-style Bollywood quizzes and party games for game night, plus custom quiz boards for sangeets, teams and events.",
+      "founder": {
+        "@type": "Person",
+        "name": "Kavya Jahagirdar"
+      },
+      "sameAs": [
+        "https://www.producthunt.com/products/bollyquiz"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://tally.so/r/QoRLP8",
+        "availableLanguage": "English"
+      }
+    },
+    {
       "@type": "WebSite",
       "@id": "https://bollyquiz.com/#website",
       "name": "BollyQuiz",
       "url": "https://bollyquiz.com/",
       "description": "Free Jeopardy-style Bollywood quizzes for game night.",
-      "inLanguage": "en"
+      "inLanguage": "en",
+      "publisher": { "@id": "https://bollyquiz.com/#organization" }
     },
     {
       "@type": "Game",
@@ -52,7 +84,8 @@
       "genre": "Trivia",
       "isAccessibleForFree": true,
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://bollyquiz.com/#website" }
+      "isPartOf": { "@id": "https://bollyquiz.com/#website" },
+      "publisher": { "@id": "https://bollyquiz.com/#organization" }
     },
     {
       "@type": "FAQPage",

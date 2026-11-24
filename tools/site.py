@@ -48,8 +48,16 @@ FOOTER_RE = re.compile(r"<!-- site-footer:start([^>]*?)-->\n(.*?)<!-- site-foote
 FOOTER_NOTE = "<!-- Footer: generated from tools/site-footer.json and tools/site-pages.json by tools/site.py. Edit those, then run: python tools/site.py sync -->"
 LIST_RE = re.compile(r"^([ \t]*)<!-- Footer page list[^\n]*-->\n[ \t]*<ul>\n.*?\n[ \t]*</ul>", re.S | re.M)
 
-read = lambda p: io.open(p, encoding="utf-8", newline="").read()
-write = lambda p, s: io.open(p, "w", encoding="utf-8", newline="").write(s)
+def read(p):
+    """Read a file with LF line endings. Windows checkouts can be CRLF (git's autocrlf), and every regex here expects \\n."""
+    return io.open(p, encoding="utf-8", newline="").read().replace("\r\n", "\n")
+
+
+def write(p, s):
+    """Write a file back using the line ending it already has (CRLF stays CRLF), so sync never leaves mixed endings."""
+    with io.open(p, "rb") as f:
+        crlf = b"\r\n" in f.read()
+    io.open(p, "w", encoding="utf-8", newline="").write(s.replace("\n", "\r\n") if crlf else s)
 
 
 def html_files():
