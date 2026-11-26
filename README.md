@@ -1,4 +1,8 @@
-# Are You Desi Enough? — A Bollywood Quiz
+# BollyQuiz: free Bollywood quiz games for game night
+
+**Are You Desi Enough?** is the site's headline. The quizzes themselves are *First Day First Show* (Quiz 1, below) and *Housefull* (Quiz 2, Bollywood dumb charades). A third, *Paisa Vasool*, is coming soon.
+
+Everything below, up to "For developers", describes Quiz 1.
 
 A Jeopardy-style Bollywood quiz for a room full of friends. One host runs it on
 a laptop or TV, and everyone else shouts, buzzes and argues.
@@ -194,6 +198,25 @@ This is a non-commercial fan quiz. All films, songs, posters and stills belong t
 
 **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2) by Ek Type, used
 under the SIL Open Font License.
+
+---
+
+## The site's pages
+
+The homepage and the two quizzes (`/quiz-1/`, `/quiz-2/`) are the product. The other pages are search landing pages, each with a
+playable mini quiz or game and a link back to the homepage quizzes. `tools/site-pages.json` is the full list.
+
+| Page | What it is |
+| --- | --- |
+| `/bollywood-quiz-questions/` | 50 questions in 5 rounds, tap to reveal, with a printable answer key |
+| `/bollywood-quiz-ppt/` | Why skip the PPT: how to run the board on a projector |
+| `/bollywood-emoji-quiz/`, `/bollywood-dialogues-quiz/` | 30-question playable quizzes in three levels |
+| `/hindi-movie-quiz/` | Warm-up questions about Indian cinema |
+| `/bollywood-dumb-charades/` | 100 film names, a random picker and a timer |
+| `/diwali-games/`, `/holi-games/`, `/sangeet-games/` | Occasion pages |
+| `/custom-quiz/`, `/terms/` | Custom boards for teams; terms of use |
+
+Questions on a landing page must not repeat a question or answer from the quiz boards, so reading a page never spoils a board.
 
 ---
 
