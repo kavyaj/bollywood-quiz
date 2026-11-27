@@ -1,0 +1,102 @@
+/* Ticket quiz: the card, its buttons and the one-at-a-time flow, shared by the song, emoji, dialogues and 50-questions pages.
+   Needs the colour variables from /assets/light-pages.css. Load it AFTER the page's own stylesheet. Markup contract: ./README.md.
+   The clue is the hero. The stub is paper-quiet, "Show answer" is an outline until it's wanted, and "Next" is the only filled button. */
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; --stub: #F3E8D2; --perf: #CDBB9C; }
+.cards .card {
+  position: relative; display: grid; grid-template-columns: 84px 1fr; overflow: hidden; border-radius: 24px;
+  background: var(--card); box-shadow: 0 2px 0 var(--line), 0 18px 40px rgba(42,29,23,.10);
+}
+.cards .card.right { box-shadow: 0 0 0 3px var(--green), 0 18px 40px rgba(42,29,23,.10); }
+.cards .card.wrong { box-shadow: 0 0 0 3px var(--coral-soft), 0 18px 40px rgba(42,29,23,.10); }
+.cards .card.shake { animation: tq-shake .35s ease; }
+@keyframes tq-shake { 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+
+/* the stub: number, word and "of N". Decorative, so it is aria-hidden in the markup and a .sr heading carries the same text */
+.cards .stub {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 16px 4px;
+  background: var(--stub); border-right: 3px dashed var(--perf); color: var(--terracotta);
+}
+.cards .stub::before, .cards .stub::after { content: ""; position: absolute; right: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg, #F6EFE2); }
+.cards .stub::before { top: -12px; } .cards .stub::after { bottom: -12px; }
+.cards .stub small { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.cards .stub b { font-family: "Shrikhand", cursive; font-weight: 400; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cards .stub span { font-size: .8rem; font-weight: 700; color: var(--muted); }
+.tbody { display: flex; flex-direction: column; gap: 14px; padding: 26px 28px 24px; min-width: 0; min-height: 320px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* the question */
+.fmt { margin: 0; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.cards .line { margin: 0; flex: 1; display: flex; align-items: center; }
+.cards .line .clue { margin: 0; font-size: clamp(1.6rem, 5.4vw, 2.3rem); font-weight: 800; line-height: 1.15; text-wrap: balance; color: var(--ink); }
+.cards .line .clue.long { font-size: clamp(1.3rem, 4.4vw, 1.75rem); line-height: 1.22; }
+.cards .line .clue.emo { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-weight: 400; font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1.25; letter-spacing: .08em; word-break: keep-all; overflow-wrap: anywhere; }
+.cards .mean { margin: -4px 0 0; color: var(--muted); font-size: .95rem; font-style: italic; }
+
+/* actions: hint (link) and show answer (outline) */
+.tbody button { font: inherit; }
+.cards .acts { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: center; gap: 14px; margin: 0; }
+.cards .show {
+  display: inline-flex; align-items: center; padding: 8px 18px; border: 1.5px solid var(--perf); border-radius: 999px;
+  background: transparent; color: var(--ink); font-weight: 700; font-size: .95rem; cursor: pointer; transition: border-color .15s;
+}
+.cards .show:hover { border-color: var(--ink); }
+.cards .hint-btn { padding: 4px 0; border: 0; background: none; font-weight: 600; font-size: .92rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cards .hint-btn:hover { color: var(--ink); }
+.cards .hint-btn[aria-expanded="true"], .cards .hint-btn[hidden], .cards .show[hidden] { display: none; }
+.cards .hint { margin: 0; padding: 8px 12px; border-radius: 12px; background: var(--marigold-soft); font-size: .95rem; font-weight: 500; }
+.cards .hint::before { content: "Hint: "; font-weight: 700; color: var(--terracotta); }
+.cards .hint:not([hidden]), .cards .ans:not([hidden]) { animation: tq-pop .3s cubic-bezier(.2,1.4,.4,1) both; }
+@keyframes tq-pop { from { opacity: 0; transform: scale(.96) translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* the answer: one green panel, then Got it / Missed it */
+.cards .ans { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.cards .ans .a, .cards .ans .why { padding: 0 16px; background: #DDF0E4; }
+.cards .ans .a { margin: 0; padding-top: 12px; border-radius: 14px 14px 0 0; font-family: inherit; font-size: 1.5rem; font-weight: 800; line-height: 1.2; color: var(--ink); }
+.cards .ans .a::before { content: "The answer"; display: block; margin-bottom: 2px; font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); }
+.cards .ans .why { margin: -12px 0 0; padding-bottom: 12px; border-radius: 0 0 14px 14px; color: var(--muted); font-size: .95rem; }
+.cards .ans .a:not(:has(+ .why)) { border-radius: 14px; padding-bottom: 12px; }
+.cards .mark { display: flex; gap: 10px; }
+.cards .mark-q { display: none; }
+.cards .mark button {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; border-radius: 12px; cursor: pointer;
+  font-weight: 700; font-size: 1rem; border: 2px solid var(--line); background: transparent; color: var(--ink);
+  transition: transform .15s;
+}
+.cards .mark button svg { width: 16px; height: 16px; }
+.cards .mark button:active { transform: scale(.96); }
+.cards .mark .yes { background: var(--green); border-color: var(--green); color: #fff; }
+.cards .mark button[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
+.cards .mark .no[aria-pressed="true"] { background: var(--coral-soft); color: var(--coral); border-color: var(--coral-soft); }
+.next-ticket {
+  align-self: flex-end; border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer;
+  background: var(--rani); color: #fff; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 0 #a8305c;
+  transition: transform .15s, box-shadow .15s;
+}
+.next-ticket:active { transform: translateY(3px); box-shadow: 0 1px 0 #a8305c; }
+.next-ticket[hidden] { display: none; }
+.cards button:focus-visible, .next-ticket:focus-visible, .prog-tick:focus-visible { outline: 3px solid var(--rani); outline-offset: 2px; }
+
+/* one ticket at a time: songs.js-style classes added by ticket-quiz.js. Without JavaScript every ticket shows. */
+.panel.one .card:not(.current) { display: none; }
+.panel.one .card.current { animation: tq-slide .28s ease both; }
+@keyframes tq-slide { from { opacity: 0; transform: translateX(14px); } }
+.panel.one:not(.finished) .round-end { display: none; }
+.panel.one.finished .cards { display: none; }
+.prog { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; }
+.prog-tick { flex: 1; height: 22px; padding: 8px 0; border: 0; background: none; cursor: pointer; }
+.prog-tick::before { content: ""; display: block; height: 6px; border-radius: 999px; background: var(--line); transition: background .2s; }
+.prog-tick.now::before { background: var(--ink); }
+.prog-tick.right::before { background: var(--green); }
+.prog-tick.wrong::before { background: var(--terracotta); }
+.prog-count { margin-left: 6px; font-size: .85rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+@media (max-width: 620px) {
+  .cards .card { grid-template-columns: 1fr; border-radius: 20px; }
+  .cards .stub { flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 18px; border-right: 0; border-bottom: 3px dashed var(--perf); }
+  .cards .stub::before, .cards .stub::after { display: none; }
+  .cards .stub b { font-size: 1.6rem; }
+  .tbody { padding: 20px 18px 18px; min-height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) { .panel.one .card.current, .cards .hint, .cards .ans { animation: none !important; } }
+/* printing shows every ticket, never just the current one */
+@media print { .panel.one .card:not(.current) { display: grid !important; } .panel.one.finished .cards { display: block !important; } .prog, .next-ticket { display: none !important; } }

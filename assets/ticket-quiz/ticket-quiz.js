@@ -1,12 +1,28 @@
-/* Bollywood song quiz: level tabs, hint/answer/score and share. Same engine as /bollywood-emoji-quiz/emoji.js. The tip jar is /assets/tipjar.js. */
+/* Ticket quiz engine, shared by the song, emoji, dialogues and 50-questions pages.
+   It adds behaviour to cards that are already in the page's HTML, so every question and answer stays readable without JavaScript.
+   Cards, tabs and the score pill follow the markup contract in ./README.md. A page sets window.TICKET_QUIZ before loading this file:
+     name      what the quiz is called in share text, e.g. "Bollywood song quiz"
+     pageUrl   canonical URL used by the Share button
+     noun      "song", "movie"... used on the Next button ("Next song")
+     verdicts  [[minScore, message], ...], best first, shown when a level is finished
+     oneAtATime  false to show every card at once (default true: one ticket at a time) */
 (() => {
-  const PAGE_URL = "https://bollyquiz.com/bollywood-song-quiz/";
+  const cfg = Object.assign({
+    name: "Bollywood quiz",
+    pageUrl: location.origin + location.pathname,
+    noun: "question",
+    oneAtATime: true,
+    verdicts: [[9, "Full marks!"], [6, "Proper filmy."], [3, "Not bad."], [0, "Time for a rewatch."]]
+  }, window.TICKET_QUIZ || {});
+
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const tabs = [...document.querySelectorAll(".tab")];
   const panels = [...document.querySelectorAll(".panel")];
-  const marks = {};
+  const marks = {};                               // question number -> 1 (got it) or 0 (missed it)
+  const total = document.querySelectorAll(".card").length;
   const pill = document.getElementById("pill");
   const star = document.getElementById("star");
+  const flow = {};                                // panel id -> { i, cards, strip }
 
   /* ---------- level tabs ---------- */
   function select(id, focus) {
@@ -42,7 +58,7 @@
     const hint = card.querySelector(".hint");
     const show = card.querySelector(".show");
     const ans = card.querySelector(".ans");
-    hintBtn.addEventListener("click", () => {
+    if (hintBtn && hint) hintBtn.addEventListener("click", () => {
       hint.hidden = false;
       hintBtn.setAttribute("aria-expanded", "true");
       show.focus({ preventScroll: true });
@@ -50,7 +66,7 @@
     show.addEventListener("click", () => {
       ans.hidden = false;
       show.hidden = true;
-      hintBtn.hidden = true;
+      if (hintBtn) hintBtn.hidden = true;
       show.setAttribute("aria-expanded", "true");
       ans.querySelector(".yes").focus({ preventScroll: true });
     });
@@ -68,23 +84,22 @@
   });
 
   /* ---------- one ticket at a time ----------
-     Every question and answer stays in the page's HTML. This only adds a class to each level and shows one card at a time,
-     so crawlers and readers without JavaScript still get the full list. */
-  const flow = {};
-  panels.forEach(p => {
+     Only adds classes and a progress strip. Every card stays in the DOM, so crawlers see the full list. */
+  if (cfg.oneAtATime) panels.forEach(p => {
     const cards = [...p.querySelectorAll(".card")];
     const strip = document.createElement("div");
     strip.className = "prog";
     p.querySelector(".cards").before(strip);
-    const f = flow[p.id] = { i: 0, cards, strip };
+    flow[p.id] = { i: 0, cards, strip };
     cards.forEach((c, k) => {
+      const last = k === cards.length - 1;
       const nb = document.createElement("button");
       nb.type = "button";
-      nb.className = "next-song";
+      nb.className = "next-ticket";
       nb.hidden = true;
-      nb.textContent = k === cards.length - 1 ? "See my score" : "Next song";
+      nb.textContent = last ? "See my score" : "Next " + cfg.noun;
       nb.addEventListener("click", () => {
-        if (k === cards.length - 1) {
+        if (last) {
           p.classList.add("finished");
           drawProgress(p.id);
           p.querySelector(".round-end").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
@@ -93,30 +108,27 @@
         }
       });
       c.querySelector(".tbody").append(nb);
-      c.querySelectorAll(".mark button").forEach(b => b.addEventListener("click", () => {
-        nb.hidden = false;
-        drawProgress(p.id);
-      }));
+      c.querySelectorAll(".mark button").forEach(b => b.addEventListener("click", () => { nb.hidden = false; drawProgress(p.id); }));
     });
     p.classList.add("one");
     goTo(p.id, 0, false);
   });
 
   function drawProgress(id) {
-    const f = flow[id];
+    const f = flow[id], p = f.strip.parentElement, done = p.classList.contains("finished");
     f.strip.innerHTML = "";
     f.cards.forEach((c, k) => {
       const v = marks[c.dataset.q];
       const t = document.createElement("button");
       t.type = "button";
-      t.className = "prog-tick" + (k === f.i && !f.strip.parentElement.classList.contains("finished") ? " now" : "") + (v === 1 ? " right" : v === 0 ? " wrong" : "");
-      t.setAttribute("aria-label", `Go to song ${k + 1}` + (v === 1 ? ", got it" : v === 0 ? ", missed it" : ""));
-      t.addEventListener("click", () => { f.strip.parentElement.classList.remove("finished"); goTo(id, k, true); });
+      t.className = "prog-tick" + (k === f.i && !done ? " now" : "") + (v === 1 ? " right" : v === 0 ? " wrong" : "");
+      t.setAttribute("aria-label", `Go to ${cfg.noun} ${k + 1}` + (v === 1 ? ", got it" : v === 0 ? ", missed it" : ""));
+      t.addEventListener("click", () => { p.classList.remove("finished"); goTo(id, k, true); });
       f.strip.append(t);
     });
     const n = document.createElement("span");
     n.className = "prog-count";
-    n.textContent = f.strip.parentElement.classList.contains("finished") ? "Done" : `${f.i + 1} of ${f.cards.length}`;
+    n.textContent = done ? "Done" : `${f.i + 1} of ${f.cards.length}`;
     f.strip.append(n);
   }
 
@@ -133,11 +145,16 @@
     }
   }
 
+  /* ---------- score, level summary ---------- */
   const scores = {};
+  function verdict(got) {
+    for (const [min, msg] of cfg.verdicts) if (got >= min) return msg;
+    return "";
+  }
   function update() {
     const vals = Object.values(marks);
     document.getElementById("right").textContent = vals.filter(v => v === 1).length;
-    document.getElementById("played").textContent = vals.length + "/20 played";
+    document.getElementById("played").textContent = `${vals.length}/${total} played`;
     pill.classList.toggle("on", vals.length > 0);
     panels.forEach(p => {
       const qs = [...p.querySelectorAll(".card")].map(c => c.dataset.q);
@@ -146,33 +163,29 @@
       const count = document.querySelector(`[data-count="${p.id}"]`);
       const summary = p.querySelector(".round-score");
       const share = p.querySelector(".share-wrap");
-      count.textContent = done.length ? `${got}/${qs.length}` : "";
+      if (count) count.textContent = done.length ? `${got}/${qs.length}` : "";
       if (done.length === qs.length) {
-        const msg = got >= 9 ? "Antakshari champion!" : got >= 6 ? "Proper filmy." : got >= 3 ? "Not bad. Your uncle would be proud." : "Time for a Bollywood playlist.";
         summary.classList.add("done");
-        summary.textContent = `${got}/${qs.length}. ${msg}`;
+        summary.textContent = `${got}/${qs.length}. ${verdict(got)}`;
         scores[p.id] = got;
-        const justFinished = share.hidden;
-        share.hidden = false;
-        // The first time a level is finished, bring the score and Share button to the middle of the screen,
-        // so the floating score pill (bottom of the screen, with its Start over button) can't sit on top of them.
-        if (justFinished) share.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+        if (share) share.hidden = false;
       } else {
         summary.classList.remove("done");
         summary.textContent = done.length ? `${done.length} of ${qs.length} done` : "";
-        share.hidden = true;
+        if (share) share.hidden = true;
       }
     });
   }
 
-  /* ---------- share score ---------- */
+  /* ---------- share ---------- */
   document.querySelectorAll(".share").forEach(btn => btn.addEventListener("click", async () => {
     const level = btn.dataset.level, name = btn.dataset.name;
-    const text = `I got ${scores[level]}/10 on the Bollywood song quiz (${name} level). Can you beat me?`;
-    const url = PAGE_URL + "#" + level;
+    const size = flow[level] ? flow[level].cards.length : 10;
+    const text = `I got ${scores[level]}/${size} on the ${cfg.name} (${name} level). Can you beat me?`;
+    const url = cfg.pageUrl + "#" + level;
     const note = btn.parentElement.querySelector(".copied");
     if (navigator.share && matchMedia("(pointer: coarse)").matches) {
-      try { await navigator.share({ title: "Bollywood song quiz", text, url }); } catch (e) { /* cancelled */ }
+      try { await navigator.share({ title: cfg.name, text, url }); } catch (e) { /* cancelled */ }
       return;
     }
     const full = text + " " + url;
@@ -189,7 +202,7 @@
   }));
 
   function bump() {
-    if (reduce) return;
+    if (reduce || !star) return;
     star.classList.remove("bump"); void star.getBoundingClientRect(); star.classList.add("bump");
   }
 
@@ -214,24 +227,27 @@
     }
   }
 
-  /* ---------- start over ---------- */
+  /* ---------- start over, print ---------- */
   document.getElementById("reset").addEventListener("click", () => {
     for (const k in marks) delete marks[k];
     document.querySelectorAll(".card").forEach(c => {
       c.classList.remove("right", "wrong");
       c.querySelector(".ans").hidden = true;
-      c.querySelector(".hint").hidden = true;
-      const h = c.querySelector(".hint-btn"); h.hidden = false; h.setAttribute("aria-expanded", "false");
+      const hint = c.querySelector(".hint"); if (hint) hint.hidden = true;
+      const h = c.querySelector(".hint-btn"); if (h) { h.hidden = false; h.setAttribute("aria-expanded", "false"); }
       const s = c.querySelector(".show"); s.hidden = false; s.setAttribute("aria-expanded", "false");
       c.querySelectorAll(".mark button").forEach(b => b.setAttribute("aria-pressed", "false"));
     });
     panels.forEach(p => {
+      if (!flow[p.id]) return;
       p.classList.remove("finished");
-      flow[p.id].cards.forEach(c => { c.querySelector(".next-song").hidden = true; });
+      flow[p.id].cards.forEach(c => { c.querySelector(".next-ticket").hidden = true; });
       goTo(p.id, 0, false);
     });
     update();
     select(panels[0].id);
     document.querySelector(".tabs").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   });
+  const print = document.getElementById("print");
+  if (print) print.addEventListener("click", () => window.print());
 })();

@@ -22,43 +22,6 @@
 .panel:not([hidden]) { animation: rise .35s ease both; }
 .panel-head { margin-bottom: 14px; }
 .blurb { margin: 2px 0 0; color: var(--muted); }
-.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.card {
-    position: relative;
-    padding: 18px 20px;
-    background: var(--card); border-radius: 18px; box-shadow: var(--shadow);
-    border: 2px solid transparent;
-    transition: border-color .25s, background .25s;
-  }
-.card.right { border-color: var(--green); }
-.card.wrong { border-color: var(--coral-soft); }
-.qn { margin: 0 0 2px; font-size: .78rem; font-weight: 700; color: var(--terracotta); letter-spacing: .06em; }
-.show {
-    border: 0; border-radius: 999px; padding: 9px 18px;
-    background: var(--ink); color: var(--card);
-    font-weight: 600; font-size: .95rem; cursor: pointer;
-    transition: transform .15s;
-  }
-.show:hover { transform: translateY(-1px); }
-.ans:not([hidden]) { animation: pop .35s cubic-bezier(.2,1.4,.4,1) both; }
-.a { margin: 0 0 12px; font-family: "Shrikhand", cursive; font-size: 1.35rem; line-height: 1.2; color: var(--terracotta); }
-.mark { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.mark-q { font-size: .92rem; color: var(--muted); margin-right: 4px; }
-.mark button {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: 999px; cursor: pointer;
-    font-weight: 600; font-size: .95rem;
-    border: 2px solid var(--line); background: var(--card); color: var(--ink);
-    transition: background .2s, border-color .2s, color .2s, transform .15s;
-  }
-.mark button svg { width: 16px; height: 16px; }
-.mark button:active { transform: scale(.94); }
-.yes:hover { border-color: var(--green); }
-.no:hover { border-color: var(--coral); }
-.yes[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
-.no[aria-pressed="true"] { background: var(--coral-soft); border-color: var(--coral-soft); color: var(--coral); }
-.card.shake { animation: shake .35s ease; }
-@keyframes shake { 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
 .round-end { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 0 8px; text-align: center; }
 .round-score { margin: 0; min-height: 1.4em; font-weight: 600; }
 .round-score.done { font-family: "Shrikhand", cursive; font-weight: 400; font-size: 1.4rem; color: var(--green); animation: pop .4s cubic-bezier(.2,1.4,.4,1); }
@@ -81,32 +44,15 @@
 @keyframes bump { 40% { transform: scale(1.35) rotate(-8deg); } }
 .confetti { position: fixed; z-index: 30; width: 8px; height: 12px; border-radius: 2px; pointer-events: none; }
 @media (max-width: 620px) {
-  .tabs { margin-left: -8px; margin-right: -8px; }
-  .tab { font-size: .8rem; padding: 9px 2px 7px; }
-  .score-pill { left: 50%; right: auto; bottom: 14px; gap: 8px; padding: 8px 10px 8px 10px; font-size: .88rem; transform: translate(-50%, 120%); }
-  .score-pill.on { transform: translate(-50%, 0); }
+.tabs { margin-left: -8px; margin-right: -8px; }
+.tab { font-size: .8rem; padding: 9px 2px 7px; }
+.score-pill { left: 50%; right: auto; bottom: 14px; gap: 8px; padding: 8px 10px 8px 10px; font-size: .88rem; transform: translate(-50%, 120%); }
+.score-pill.on { transform: translate(-50%, 0); }
 }
 .tabs { grid-template-columns: repeat(2, 1fr); }
 .tab-emo { font-size: 1.45rem; line-height: 1.2; }
 .tab[aria-selected="true"] .tab-emo { display: inline-block; animation: wiggle .5s ease; }
 .start { margin-top: 2px; }
-.cards { grid-template-columns: 1fr 1fr; }
-.card { display: flex; flex-direction: column; }
-.card:hover .emo { animation: bounce .5s ease; }
-.acts { display: flex; gap: 8px; flex-wrap: wrap; }
-.hint-btn {
-    border: 2px solid var(--line); border-radius: 999px; padding: 7px 16px;
-    background: var(--card); color: var(--ink); font-weight: 600; font-size: .95rem; cursor: pointer;
-    transition: border-color .2s;
-  }
-.hint-btn:hover { border-color: var(--marigold); }
-.hint-btn[aria-expanded="true"] { display: none; }
-.hint { margin: 10px 0 0; padding: 8px 12px; border-radius: 12px; background: var(--marigold-soft); font-size: .95rem; font-weight: 500; }
-.hint::before { content: "Hint: "; font-weight: 700; color: var(--terracotta); }
-.hint:not([hidden]) { animation: pop .3s cubic-bezier(.2,1.4,.4,1) both; }
-.ans { margin-top: 10px; }
-.a { margin-bottom: 4px; font-size: 1.25rem; }
-.why { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
 .share-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .share {
     display: inline-flex; align-items: center; gap: 8px;
@@ -118,53 +64,11 @@
 .share:hover { transform: translateY(-1px); }
 .share:active { transform: translateY(3px); box-shadow: 0 1px 0 #a8305c; }
 .copied { margin: 0; min-height: 1.3em; font-size: .9rem; color: var(--green); font-weight: 600; }
-@media (max-width: 620px) {
-  .cards { grid-template-columns: 1fr; }
-}
-.mark-q { flex-basis: 100%; margin: 0 0 2px; }
-.mark button { padding: 7px 14px; }
-.acts { gap: 18px; align-items: center; }
-.card .show, .card .hint-btn {
-    padding: 4px 0; border: 0; border-radius: 4px; background: none; box-shadow: none;
-    color: var(--rani); font-weight: 700; font-size: 1rem; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 6px;
-    transition: gap .15s, color .15s;
-  }
-.card .hint-btn { color: var(--muted); }
-.card .show::after { content: "\2192"; }
-.card .show:hover { transform: none; gap: 10px; }
-.card .hint-btn:hover { color: var(--ink); border-color: transparent; }
-.card .hint-btn[aria-expanded="true"], .card .hint-btn[hidden], .card .show[hidden] { display: none; }
-
 /* dialogue cards */
 .tabs { grid-template-columns: repeat(2, 1fr); }
 .tab-emo { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 1.45rem; line-height: 1.2; }
 .tab[aria-selected="true"] .tab-emo { display: inline-block; animation: wiggle .5s ease; }
 .start { margin-top: 2px; }
-.card { display: flex; flex-direction: column; }
-.line { margin: 2px 0 6px; }
-.line p { margin: 0; font-size: 1.3rem; line-height: 1.4; font-weight: 600; text-wrap: pretty; }
-.mean { margin: 0 0 14px; color: var(--muted); font-size: .95rem; font-style: italic; }
-.line + .acts { margin-top: 8px; }
-.acts { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.card .show, .card .hint-btn {
-  padding: 4px 0; border: 0; border-radius: 4px; background: none; box-shadow: none;
-  color: var(--rani); font-weight: 700; font-size: 1rem; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 6px; transition: gap .15s, color .15s;
-}
-.card .hint-btn { color: var(--muted); }
-.card .show::after { content: "\2192"; }
-.card .show:hover { transform: none; gap: 10px; }
-.card .hint-btn:hover { color: var(--ink); }
-.card .hint-btn[aria-expanded="true"], .card .hint-btn[hidden], .card .show[hidden] { display: none; }
-.hint { margin: 10px 0 0; padding: 8px 12px; border-radius: 12px; background: var(--marigold-soft); font-size: .95rem; font-weight: 500; }
-.hint::before { content: "Hint: "; font-weight: 700; color: var(--terracotta); }
-.hint:not([hidden]) { animation: pop .3s cubic-bezier(.2,1.4,.4,1) both; }
-.ans { margin-top: 10px; }
-.a { margin: 0 0 4px; font-size: 1.25rem; font-weight: 700; }
-.why { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
-.mark-q { flex-basis: 100%; margin: 0 0 2px; }
-.mark button { padding: 7px 14px; }
 .share-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .share { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border: 0; border-radius: 999px; cursor: pointer; background: var(--rani); color: #fff; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 0 #a8305c; transition: transform .15s, box-shadow .15s; }
 .share svg { width: 18px; height: 18px; }
@@ -172,85 +76,4 @@
 .share:active { transform: translateY(3px); box-shadow: 0 1px 0 #a8305c; }
 .copied { margin: 0; min-height: 1.3em; font-size: .9rem; color: var(--green); font-weight: 600; }
 .after { margin: 16px 0 0 !important; }
-@media (max-width: 620px) { .line p { font-size: 1.15rem; } }
-
-.site-footer { --sf-bottom-space: 100px; }   /* room for the floating score pill */
-
-/* ---------- ticket cards: one big ticket at a time ----------
-   The clue is the hero. The stub is paper-quiet, "Show answer" is an outline until it's wanted, and "Next song" is the only filled button.
-   Without JavaScript every ticket shows in a list (see the <noscript> rule in the page). With it, .panel.one shows one ticket at a time. */
-.cards { grid-template-columns: 1fr; gap: 16px; --stub: #F3E8D2; --perf: #CDBB9C; }
-.cards .card {
-  display: grid; grid-template-columns: 84px 1fr; padding: 0; overflow: hidden; border-radius: 24px;
-  border: 0; box-shadow: 0 2px 0 var(--line), 0 18px 40px rgba(42,29,23,.10);
-}
-.cards .card.right { box-shadow: 0 0 0 3px var(--green), 0 18px 40px rgba(42,29,23,.10); }
-.cards .card.wrong { box-shadow: 0 0 0 3px var(--coral-soft), 0 18px 40px rgba(42,29,23,.10); }
-.cards .stub {
-  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 16px 4px;
-  background: var(--stub); border-right: 3px dashed var(--perf); color: var(--terracotta);
-}
-.cards .stub::before, .cards .stub::after { content: ""; position: absolute; right: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg, #F6EFE2); }
-.cards .stub::before { top: -12px; } .cards .stub::after { bottom: -12px; }
-.cards .stub small { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.cards .stub b { font-family: "Shrikhand", cursive; font-weight: 400; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
-.cards .stub span { font-size: .8rem; font-weight: 700; color: var(--muted); }
-.tbody { display: flex; flex-direction: column; gap: 14px; padding: 26px 28px 24px; min-width: 0; min-height: 320px; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.fmt { margin: 0; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.cards .line { margin: 0; flex: 1; display: flex; align-items: center; }
-.cards .line p.clue { margin: 0; font-size: clamp(1.6rem, 5.4vw, 2.3rem); font-weight: 800; line-height: 1.15; text-wrap: balance; color: var(--ink); }
-.cards .line p.clue.long { font-size: clamp(1.3rem, 4.4vw, 1.75rem); line-height: 1.22; }
-.tbody .acts { margin: 0; gap: 14px; flex-direction: row-reverse; justify-content: space-between; }
-.tbody .card .show, .cards .show {
-  padding: 8px 18px; border: 1.5px solid var(--perf); border-radius: 999px; background: transparent; color: var(--ink);
-  font-weight: 700; font-size: .95rem; transition: border-color .15s, background .15s;
-}
-.cards .show::after { content: none; }
-.cards .show:hover { border-color: var(--ink); gap: 6px; }
-.cards .hint-btn { padding: 4px 0; font-weight: 600; font-size: .92rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-.cards .hint { margin: 0; }
-.cards .ans { margin: 0; display: flex; flex-direction: column; gap: 12px; }
-.cards .ans .a { margin: 0; font-family: inherit; font-size: 1.5rem; font-weight: 800; line-height: 1.2; color: var(--ink); }
-.cards .ans .a::before { content: "The song"; display: block; margin-bottom: 2px; font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); }
-.cards .ans .why { margin: 0; color: var(--muted); }
-.cards .ans .a, .cards .ans .why { padding-left: 16px; padding-right: 16px; background: #DDF0E4; }
-.cards .ans .a { padding-top: 12px; border-radius: 14px 14px 0 0; }
-.cards .ans .why { padding-bottom: 12px; border-radius: 0 0 14px 14px; margin-top: -12px; }
-.cards .mark { gap: 10px; }
-.cards .mark-q { display: none; }
-.cards .mark button { flex: 1; justify-content: center; padding: 10px; border-radius: 12px; font-size: 1rem; }
-.cards .mark .yes { background: var(--green); border-color: var(--green); color: #fff; }
-.cards .mark .no { background: transparent; }
-.cards .mark button[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
-.cards .mark .no[aria-pressed="true"] { background: var(--coral-soft); color: var(--coral); border-color: var(--coral-soft); }
-.next-song {
-  align-self: flex-end; border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer;
-  background: var(--rani); color: #fff; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 0 #a8305c;
-  transition: transform .15s, box-shadow .15s;
-}
-.next-song:active { transform: translateY(3px); box-shadow: 0 1px 0 #a8305c; }
-.next-song[hidden] { display: none; }
-
-/* one at a time (added by songs.js) */
-.panel.one .card:not(.current) { display: none; }
-.panel.one .card.current { animation: slide-in .28s ease both; }
-@keyframes slide-in { from { opacity: 0; transform: translateX(14px); } }
-.panel.one:not(.finished) .round-end { display: none; }
-.panel.one.finished .cards { display: none; }
-.prog { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; }
-.prog-tick { flex: 1; height: 22px; padding: 8px 0; border: 0; background: none; cursor: pointer; }
-.prog-tick::before { content: ""; display: block; height: 6px; border-radius: 999px; background: var(--line); transition: background .2s; }
-.prog-tick.now::before { background: var(--ink); }
-.prog-tick.right::before { background: var(--green); }
-.prog-tick.wrong::before { background: var(--terracotta); }
-.prog-count { margin-left: 6px; font-size: .85rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.prog-tick:focus-visible, .next-song:focus-visible, .cards button:focus-visible { outline: 3px solid var(--rani); outline-offset: 2px; }
-@media (max-width: 620px) {
-  .cards .card { grid-template-columns: 1fr; border-radius: 20px; }
-  .cards .stub { flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 18px; border-right: 0; border-bottom: 3px dashed var(--perf); }
-  .cards .stub::before, .cards .stub::after { display: none; }
-  .cards .stub b { font-size: 1.6rem; }
-  .tbody { padding: 20px 18px 18px; min-height: 280px; }
-}
-@media (prefers-reduced-motion: reduce) { .panel.one .card.current { animation: none; } }
+.site-footer { --sf-bottom-space: 100px; }

@@ -99,6 +99,7 @@
 <link rel="stylesheet" href="/assets/landing.css">
 <link rel="stylesheet" href="/assets/testimonial.css">
 <link rel="stylesheet" href="/bollywood-song-quiz/songs.css">
+<link rel="stylesheet" href="/assets/ticket-quiz/ticket-quiz.css">
 <link rel="stylesheet" href="/assets/footer.css">
 <noscript><style>.ans[hidden]{display:flex!important}.hint[hidden],.panel[hidden]{display:block!important}.show,.hint-btn,.tabs,.mark,.score-pill{display:none!important}</style></noscript>
 </head>
@@ -790,7 +791,13 @@
   <button type="button" class="reset" id="reset">Start over</button>
 </div>
 
-<script src="/bollywood-song-quiz/songs.js"></script>
+<script>window.TICKET_QUIZ = {
+  name: "Bollywood song quiz",
+  pageUrl: "https://bollyquiz.com/bollywood-song-quiz/",
+  noun: "song",
+  verdicts: [[9, "Antakshari champion!"], [6, "Proper filmy."], [3, "Not bad. Your uncle would be proud."], [0, "Time for a Bollywood playlist."]]
+};</script>
+<script src="/assets/ticket-quiz/ticket-quiz.js"></script>
 <script src="/assets/tipjar.js"></script>
 </body>
 </html>
