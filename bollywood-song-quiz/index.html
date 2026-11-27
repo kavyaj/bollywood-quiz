@@ -100,6 +100,7 @@
 <link rel="stylesheet" href="/assets/testimonial.css">
 <link rel="stylesheet" href="/bollywood-song-quiz/songs.css">
 <link rel="stylesheet" href="/assets/footer.css">
+<noscript><style>.ans[hidden]{display:flex!important}.hint[hidden],.panel[hidden]{display:block!important}.show,.hint-btn,.tabs,.mark,.score-pill{display:none!important}</style></noscript>
 </head>
 <body>
 <div class="wrap">
@@ -161,14 +162,16 @@
       </div>
       <ol class="cards">
         <li class="card" data-q="1">
-          <p class="qn">Song 1</p>
-          <blockquote class="line"><p>Beloved, water gun.</p></blockquote>
-          <p class="mean">The title in plain English. Hint: it&#x27;s a Holi song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>1</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 1</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">Beloved, water gun.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h1">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a1">Show answer</button>
           </div>
-          <p class="hint" id="h1" hidden>From 2013, Ranbir Kapoor and Deepika Padukone</p>
+          <p class="hint" id="h1" hidden>A Holi song from 2013, with Ranbir Kapoor and Deepika Padukone</p>
           <div class="ans" id="a1" hidden>
             <p class="a">Balam Pichkari</p>
             <p class="why">Yeh Jawaani Hai Deewani (2013), sung by Vishal Dadlani and Shalmali Kholgade. It plays at every Holi party.</p>
@@ -178,11 +181,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="2">
-          <p class="qn">Song 2</p>
-          <blockquote class="line"><p>My shoes are Japanese.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>2</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 2</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">My shoes are Japanese.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h2">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a2">Show answer</button>
@@ -197,11 +203,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="3">
-          <p class="qn">Song 3</p>
-          <blockquote class="line"><p>Raveena Tandon in a yellow sari, dancing in the rain with Akshay Kumar.</p></blockquote>
-          <p class="mean">The scene. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>3</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 3</p>
+          <p class="fmt">The scene</p>
+          <blockquote class="line"><p class="clue long">Raveena Tandon in a yellow sari, dancing in the rain with Akshay Kumar.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h3">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a3">Show answer</button>
@@ -216,11 +225,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="4">
-          <p class="qn">Song 4</p>
-          <blockquote class="line"><p>Dostana (2008): the Priyanka Chopra number set in Miami.</p></blockquote>
-          <p class="mean">Film and year. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>4</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 4</p>
+          <p class="fmt">Film and year</p>
+          <blockquote class="line"><p class="clue long">Dostana (2008): the Priyanka Chopra number set in Miami.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h4">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a4">Show answer</button>
@@ -235,11 +247,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="5">
-          <p class="qn">Song 5</p>
-          <blockquote class="line"><p>Veil, veil.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>5</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 5</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">Veil, veil.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h5">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a5">Show answer</button>
@@ -254,11 +269,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="6">
-          <p class="qn">Song 6</p>
-          <blockquote class="line"><p>My heart goes thump-thump.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>6</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 6</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">My heart goes thump-thump.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h6">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a6">Show answer</button>
@@ -273,11 +291,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="7">
-          <p class="qn">Song 7</p>
-          <blockquote class="line"><p>The first intoxication.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>7</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 7</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">The first intoxication.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h7">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a7">Show answer</button>
@@ -292,11 +313,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="8">
-          <p class="qn">Song 8</p>
-          <blockquote class="line"><p>Someone like you.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>8</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 8</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">Someone like you.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h8">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a8">Show answer</button>
@@ -311,11 +335,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="9">
-          <p class="qn">Song 9</p>
-          <blockquote class="line"><p>Agneepath (2012): Katrina Kaif&#x27;s big dance number.</p></blockquote>
-          <p class="mean">Film and year. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>9</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 9</p>
+          <p class="fmt">Film and year</p>
+          <blockquote class="line"><p class="clue long">Agneepath (2012): Katrina Kaif&#x27;s big dance number.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h9">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a9">Show answer</button>
@@ -330,11 +357,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="10">
-          <p class="qn">Song 10</p>
-          <blockquote class="line"><p>Mithun Chakraborty in a glittering disco outfit, a spinning mirror ball behind him.</p></blockquote>
-          <p class="mean">The scene. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>10</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 10</p>
+          <p class="fmt">The scene</p>
+          <blockquote class="line"><p class="clue long">Mithun Chakraborty in a glittering disco outfit, a spinning mirror ball behind him.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h10">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a10">Show answer</button>
@@ -348,6 +378,7 @@
               <button type="button" class="yes" data-v="1" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Got it</button>
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
+          </div>
           </div>
         </li>
       </ol>
@@ -367,9 +398,11 @@
       </div>
       <ol class="cards">
         <li class="card" data-q="11">
-          <p class="qn">Song 1</p>
-          <blockquote class="line"><p>I am a vagabond.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>1</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 1</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">I am a vagabond.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h11">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a11">Show answer</button>
@@ -384,11 +417,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="12">
-          <p class="qn">Song 2</p>
-          <blockquote class="line"><p>Embrace me.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>2</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 2</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">Embrace me.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h12">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a12">Show answer</button>
@@ -403,11 +439,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="13">
-          <p class="qn">Song 3</p>
-          <blockquote class="line"><p>Helen in a smoky club, dancing to R.D. Burman&#x27;s wildest beat.</p></blockquote>
-          <p class="mean">The scene. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>3</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 3</p>
+          <p class="fmt">The scene</p>
+          <blockquote class="line"><p class="clue long">Helen in a smoky club, dancing to R.D. Burman&#x27;s wildest beat.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h13">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a13">Show answer</button>
@@ -422,11 +461,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="14">
-          <p class="qn">Song 4</p>
-          <blockquote class="line"><p>Zeenat Aman and a group of hippies in Kathmandu.</p></blockquote>
-          <p class="mean">The scene. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>4</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 4</p>
+          <p class="fmt">The scene</p>
+          <blockquote class="line"><p class="clue long">Zeenat Aman and a group of hippies in Kathmandu.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h14">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a14">Show answer</button>
@@ -441,11 +483,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="15">
-          <p class="qn">Song 5</p>
-          <blockquote class="line"><p>My name is Chin Chin Chu.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>5</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 5</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">My name is Chin Chin Chu.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h15">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a15">Show answer</button>
@@ -460,11 +505,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="16">
-          <p class="qn">Song 6</p>
-          <blockquote class="line"><p>Sanjay Dutt and Madhuri Dixit&#x27;s 1990 hit, remade in 2017 with Varun Dhawan and Alia Bhatt.</p></blockquote>
-          <p class="mean">Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>6</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 6</p>
+          <p class="fmt">Name the song</p>
+          <blockquote class="line"><p class="clue long">Sanjay Dutt and Madhuri Dixit&#x27;s 1990 hit, remade in 2017 with Varun Dhawan and Alia Bhatt.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h16">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a16">Show answer</button>
@@ -479,11 +527,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="17">
-          <p class="qn">Song 7</p>
-          <blockquote class="line"><p>Rhythm meets rhythm.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>7</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 7</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">Rhythm meets rhythm.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h17">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a17">Show answer</button>
@@ -498,11 +549,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="18">
-          <p class="qn">Song 8</p>
-          <blockquote class="line"><p>What can one say?</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>8</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 8</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">What can one say?</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h18">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a18">Show answer</button>
@@ -517,11 +571,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="19">
-          <p class="qn">Song 9</p>
-          <blockquote class="line"><p>To live for one moment.</p></blockquote>
-          <p class="mean">The title in plain English.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>9</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 9</p>
+          <p class="fmt">The title in English</p>
+          <blockquote class="line"><p class="clue">To live for one moment.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h19">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a19">Show answer</button>
@@ -536,11 +593,14 @@
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
           </div>
+          </div>
         </li>
         <li class="card" data-q="20">
-          <p class="qn">Song 10</p>
-          <blockquote class="line"><p>Khalnayak (1993): Madhuri Dixit&#x27;s chart-topping number.</p></blockquote>
-          <p class="mean">Film and year. Name the song.</p>
+          <div class="stub" aria-hidden="true"><small>Song</small><b>10</b><span>of 10</span></div>
+          <div class="tbody">
+          <p class="qn sr">Song 10</p>
+          <p class="fmt">Film and year</p>
+          <blockquote class="line"><p class="clue long">Khalnayak (1993): Madhuri Dixit&#x27;s chart-topping number.</p></blockquote>
           <div class="acts">
             <button type="button" class="hint-btn" aria-expanded="false" aria-controls="h20">Hint</button>
             <button type="button" class="show" aria-expanded="false" aria-controls="a20">Show answer</button>
@@ -554,6 +614,7 @@
               <button type="button" class="yes" data-v="1" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Got it</button>
               <button type="button" class="no" data-v="0" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Missed it</button>
             </div>
+          </div>
           </div>
         </li>
       </ol>
