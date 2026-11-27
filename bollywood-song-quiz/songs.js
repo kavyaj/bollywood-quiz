@@ -67,6 +67,72 @@
     }));
   });
 
+  /* ---------- one ticket at a time ----------
+     Every question and answer stays in the page's HTML. This only adds a class to each level and shows one card at a time,
+     so crawlers and readers without JavaScript still get the full list. */
+  const flow = {};
+  panels.forEach(p => {
+    const cards = [...p.querySelectorAll(".card")];
+    const strip = document.createElement("div");
+    strip.className = "prog";
+    p.querySelector(".cards").before(strip);
+    const f = flow[p.id] = { i: 0, cards, strip };
+    cards.forEach((c, k) => {
+      const nb = document.createElement("button");
+      nb.type = "button";
+      nb.className = "next-song";
+      nb.hidden = true;
+      nb.textContent = k === cards.length - 1 ? "See my score" : "Next song";
+      nb.addEventListener("click", () => {
+        if (k === cards.length - 1) {
+          p.classList.add("finished");
+          drawProgress(p.id);
+          p.querySelector(".round-end").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+        } else {
+          goTo(p.id, k + 1, true);
+        }
+      });
+      c.querySelector(".tbody").append(nb);
+      c.querySelectorAll(".mark button").forEach(b => b.addEventListener("click", () => {
+        nb.hidden = false;
+        drawProgress(p.id);
+      }));
+    });
+    p.classList.add("one");
+    goTo(p.id, 0, false);
+  });
+
+  function drawProgress(id) {
+    const f = flow[id];
+    f.strip.innerHTML = "";
+    f.cards.forEach((c, k) => {
+      const v = marks[c.dataset.q];
+      const t = document.createElement("button");
+      t.type = "button";
+      t.className = "prog-tick" + (k === f.i && !f.strip.parentElement.classList.contains("finished") ? " now" : "") + (v === 1 ? " right" : v === 0 ? " wrong" : "");
+      t.setAttribute("aria-label", `Go to song ${k + 1}` + (v === 1 ? ", got it" : v === 0 ? ", missed it" : ""));
+      t.addEventListener("click", () => { f.strip.parentElement.classList.remove("finished"); goTo(id, k, true); });
+      f.strip.append(t);
+    });
+    const n = document.createElement("span");
+    n.className = "prog-count";
+    n.textContent = f.strip.parentElement.classList.contains("finished") ? "Done" : `${f.i + 1} of ${f.cards.length}`;
+    f.strip.append(n);
+  }
+
+  function goTo(id, k, focus) {
+    const f = flow[id];
+    f.i = k;
+    f.cards.forEach((c, j) => c.classList.toggle("current", j === k));
+    drawProgress(id);
+    if (focus) {
+      const c = f.cards[k];
+      const target = c.querySelector(".show:not([hidden])") || c.querySelector(".mark .yes");
+      if (target) target.focus({ preventScroll: true });
+      c.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+    }
+  }
+
   const scores = {};
   function update() {
     const vals = Object.values(marks);
@@ -158,6 +224,11 @@
       const h = c.querySelector(".hint-btn"); h.hidden = false; h.setAttribute("aria-expanded", "false");
       const s = c.querySelector(".show"); s.hidden = false; s.setAttribute("aria-expanded", "false");
       c.querySelectorAll(".mark button").forEach(b => b.setAttribute("aria-pressed", "false"));
+    });
+    panels.forEach(p => {
+      p.classList.remove("finished");
+      flow[p.id].cards.forEach(c => { c.querySelector(".next-song").hidden = true; });
+      goTo(p.id, 0, false);
     });
     update();
     select(panels[0].id);
