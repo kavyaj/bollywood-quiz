@@ -175,3 +175,82 @@
 @media (max-width: 620px) { .line p { font-size: 1.15rem; } }
 
 .site-footer { --sf-bottom-space: 100px; }   /* room for the floating score pill */
+
+/* ---------- ticket cards: one big ticket at a time ----------
+   The clue is the hero. The stub is paper-quiet, "Show answer" is an outline until it's wanted, and "Next song" is the only filled button.
+   Without JavaScript every ticket shows in a list (see the <noscript> rule in the page). With it, .panel.one shows one ticket at a time. */
+.cards { grid-template-columns: 1fr; gap: 16px; --stub: #F3E8D2; --perf: #CDBB9C; }
+.cards .card {
+  display: grid; grid-template-columns: 84px 1fr; padding: 0; overflow: hidden; border-radius: 24px;
+  border: 0; box-shadow: 0 2px 0 var(--line), 0 18px 40px rgba(42,29,23,.10);
+}
+.cards .card.right { box-shadow: 0 0 0 3px var(--green), 0 18px 40px rgba(42,29,23,.10); }
+.cards .card.wrong { box-shadow: 0 0 0 3px var(--coral-soft), 0 18px 40px rgba(42,29,23,.10); }
+.cards .stub {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 16px 4px;
+  background: var(--stub); border-right: 3px dashed var(--perf); color: var(--terracotta);
+}
+.cards .stub::before, .cards .stub::after { content: ""; position: absolute; right: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg, #F6EFE2); }
+.cards .stub::before { top: -12px; } .cards .stub::after { bottom: -12px; }
+.cards .stub small { font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.cards .stub b { font-family: "Shrikhand", cursive; font-weight: 400; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cards .stub span { font-size: .8rem; font-weight: 700; color: var(--muted); }
+.tbody { display: flex; flex-direction: column; gap: 14px; padding: 26px 28px 24px; min-width: 0; min-height: 320px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.fmt { margin: 0; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.cards .line { margin: 0; flex: 1; display: flex; align-items: center; }
+.cards .line p.clue { margin: 0; font-size: clamp(1.6rem, 5.4vw, 2.3rem); font-weight: 800; line-height: 1.15; text-wrap: balance; color: var(--ink); }
+.cards .line p.clue.long { font-size: clamp(1.3rem, 4.4vw, 1.75rem); line-height: 1.22; }
+.tbody .acts { margin: 0; gap: 14px; flex-direction: row-reverse; justify-content: space-between; }
+.tbody .card .show, .cards .show {
+  padding: 8px 18px; border: 1.5px solid var(--perf); border-radius: 999px; background: transparent; color: var(--ink);
+  font-weight: 700; font-size: .95rem; transition: border-color .15s, background .15s;
+}
+.cards .show::after { content: none; }
+.cards .show:hover { border-color: var(--ink); gap: 6px; }
+.cards .hint-btn { padding: 4px 0; font-weight: 600; font-size: .92rem; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.cards .hint { margin: 0; }
+.cards .ans { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.cards .ans .a { margin: 0; font-family: inherit; font-size: 1.5rem; font-weight: 800; line-height: 1.2; color: var(--ink); }
+.cards .ans .a::before { content: "The song"; display: block; margin-bottom: 2px; font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); }
+.cards .ans .why { margin: 0; color: var(--muted); }
+.cards .ans .a, .cards .ans .why { padding-left: 16px; padding-right: 16px; background: #DDF0E4; }
+.cards .ans .a { padding-top: 12px; border-radius: 14px 14px 0 0; }
+.cards .ans .why { padding-bottom: 12px; border-radius: 0 0 14px 14px; margin-top: -12px; }
+.cards .mark { gap: 10px; }
+.cards .mark-q { display: none; }
+.cards .mark button { flex: 1; justify-content: center; padding: 10px; border-radius: 12px; font-size: 1rem; }
+.cards .mark .yes { background: var(--green); border-color: var(--green); color: #fff; }
+.cards .mark .no { background: transparent; }
+.cards .mark button[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
+.cards .mark .no[aria-pressed="true"] { background: var(--coral-soft); color: var(--coral); border-color: var(--coral-soft); }
+.next-song {
+  align-self: flex-end; border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer;
+  background: var(--rani); color: #fff; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 0 #a8305c;
+  transition: transform .15s, box-shadow .15s;
+}
+.next-song:active { transform: translateY(3px); box-shadow: 0 1px 0 #a8305c; }
+.next-song[hidden] { display: none; }
+
+/* one at a time (added by songs.js) */
+.panel.one .card:not(.current) { display: none; }
+.panel.one .card.current { animation: slide-in .28s ease both; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(14px); } }
+.panel.one:not(.finished) .round-end { display: none; }
+.panel.one.finished .cards { display: none; }
+.prog { display: flex; align-items: center; gap: 6px; margin: 0 0 14px; }
+.prog-tick { flex: 1; height: 22px; padding: 8px 0; border: 0; background: none; cursor: pointer; }
+.prog-tick::before { content: ""; display: block; height: 6px; border-radius: 999px; background: var(--line); transition: background .2s; }
+.prog-tick.now::before { background: var(--ink); }
+.prog-tick.right::before { background: var(--green); }
+.prog-tick.wrong::before { background: var(--terracotta); }
+.prog-count { margin-left: 6px; font-size: .85rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.prog-tick:focus-visible, .next-song:focus-visible, .cards button:focus-visible { outline: 3px solid var(--rani); outline-offset: 2px; }
+@media (max-width: 620px) {
+  .cards .card { grid-template-columns: 1fr; border-radius: 20px; }
+  .cards .stub { flex-direction: row; justify-content: flex-start; gap: 10px; padding: 10px 18px; border-right: 0; border-bottom: 3px dashed var(--perf); }
+  .cards .stub::before, .cards .stub::after { display: none; }
+  .cards .stub b { font-size: 1.6rem; }
+  .tbody { padding: 20px 18px 18px; min-height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) { .panel.one .card.current { animation: none; } }
